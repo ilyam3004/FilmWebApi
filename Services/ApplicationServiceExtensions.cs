@@ -31,6 +31,7 @@ namespace FirstWebApi.Authentification
             //Singletons
             services.AddSingleton<IAmazonDynamoDB>(client);
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IWatchListRepository, WatchListRepository>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
             //SwaggerConfiguration
