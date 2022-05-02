@@ -1,11 +1,9 @@
-﻿using System;
-using System.Text;
-using Amazon;
+﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
-using FirstWebApi.Authentification;
 using FirstWebApi.DataAccess;
+using FirstWebApi.TmdbAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -34,6 +32,9 @@ namespace FirstWebApi.Authentification
             services.AddSingleton<IWatchListRepository, WatchListRepository>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
+            //TMDBClient
+            services.AddHttpClient<ITMDBHttpClient, TMDBHttpClient>();
+            services.AddControllers().AddNewtonsoftJson();
             //SwaggerConfiguration
             services.AddSwaggerGen(c =>
             {

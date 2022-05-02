@@ -19,17 +19,19 @@ namespace FirstWebApi.Controllers
 
         [Authorize]
         [HttpPost("addmovie")]
-        public async Task<ActionResult<Movie>> AddMovie(string login, string title)
-            => await _watchListRepository.Add(new Movie
+        public async Task<ActionResult<Movie>> AddMovie(string title)
+        {
+            return await _watchListRepository.Add(new Movie
             {
-                Login = login.ToLower(),
+                Login = User.Identity.Name,
                 Title = title,
                 id = _watchListRepository.GetLastId() + 1
             });
+        }
 
         [Authorize]
         [HttpGet]
-        public List<Movie> Watchlist(string login)
-            => _watchListRepository.GetWatchList(login);
+        public List<Movie> Watchlist()
+            => _watchListRepository.GetWatchList(User.Identity.Name);
     }
 }

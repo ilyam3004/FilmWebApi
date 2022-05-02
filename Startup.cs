@@ -29,48 +29,7 @@ namespace FirstWebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddMvc();
-            // services.AddControllers();
-            //
-            // //DynamoDB Access
-            // var credentials = new BasicAWSCredentials("AKIAQ37NQIFXARODGHUO", "waWrgVcURHAf+CSzmv1xpBLjbj4ezVQkzk4Xhscr");
-            // var config = new AmazonDynamoDBConfig()
-            // {
-            //     RegionEndpoint = RegionEndpoint.USEast1
-            // };    
-            // var client = new AmazonDynamoDBClient(credentials, config);
-            //
-            // //Singletons
-            // services.AddSingleton<IAmazonDynamoDB>(client);
-            // services.AddSingleton<IUserRepository, UserRepository>();
-            // services.AddSingleton<ITokenService, TokenService>();
-            // services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
-            //
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //     .AddJwtBearer(options =>
-            //     {
-            //         options.TokenValidationParameters = new()
-            //         {
-            //             ValidateIssuerSigningKey = true,
-            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
-            //             ValidateIssuer = false,
-            //             ValidateAudience = false
-            //         };
-            //     });
-            //
-            // //SwaggerConfiguration
-            // services.AddSwaggerGen(c =>
-            // {
-            //     c.SwaggerDoc("v1", new OpenApiInfo
-            //     {
-            //         Title = "dynamodb_sample", 
-            //         Version = "v1",
-            //         Description = "TestApi"
-            //     });
-            // });
-            // services.AddControllersWithViews();
-            services.AddApplicationServices(_config);
-
+            services.AddApplicationServices(_config); 
             services.AddCors();
             services.AddIdentityServices(_config);
         }

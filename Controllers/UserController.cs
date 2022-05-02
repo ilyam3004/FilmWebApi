@@ -43,11 +43,10 @@ namespace FirstWebApi.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) 
                     return Unauthorized("Invalid Password");
             }
-
             return new UserDto()
             {
-                Login = user.Login,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                Login = user.Login
             };
         }
     }
