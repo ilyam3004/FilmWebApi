@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using FirstWebApi.TmdbAccess;
-using Microsoft.AspNetCore.Authorization;
+﻿using FirstWebApi.TmdbAccess;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -17,14 +15,28 @@ namespace FirstWebApi.Controllers
             _tmdbHttpClient = tmdbHttpClient;
         }
         
-        [Authorize]
-        [HttpGet("gettopmovies")]
-        public async Task<JObject> TopMovies()
-            => _tmdbHttpClient.GetTopMovies();
+        [HttpGet("top_rated")]
+        public JObject TopMovies()
+            => _tmdbHttpClient.GetPopularMovies();
 
-        [Authorize]
         [HttpGet("search")]
-        public async Task<JObject> Search(string title)
+        public JObject Search(string title)
             => _tmdbHttpClient.SearchMovie(title);
+
+        [HttpGet("trending/day")]
+        public JObject DayTrendingMovies()
+            => _tmdbHttpClient.GetDayTrending();
+        
+        [HttpGet("trending/week")]
+        public JObject WeekTrendingMovies()
+            => _tmdbHttpClient.GetWeekTrending();
+        
+        // [HttpGet("upcoming")]
+        // public JObject GetUpComing()
+        //      => _tmdbHttpClient.GetUpComing();
+        
+        [HttpGet("upcoming")]
+        public JObject Latest()
+            => _tmdbHttpClient.GetLatest();
     }
 }

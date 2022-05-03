@@ -1,4 +1,4 @@
-﻿namespace FirstWebApi.Authentification
+﻿namespace FirstWebApi.Services
 {
     public interface ITokenService
     {

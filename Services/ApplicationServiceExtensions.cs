@@ -2,14 +2,14 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
-using FirstWebApi.DataAccess;
+using FirstWebApi.DataBaseAccess;
 using FirstWebApi.TmdbAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 
-namespace FirstWebApi.Authentification
+namespace FirstWebApi.Services
 {
     public static class ApplicationServiceExtensions
     {

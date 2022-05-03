@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FirstWebApi.DataAccess;
+using FirstWebApi.DataBaseAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace FirstWebApi.Controllers
 {
@@ -19,19 +20,24 @@ namespace FirstWebApi.Controllers
 
         [Authorize]
         [HttpPost("addmovie")]
-        public async Task<ActionResult<Movie>> AddMovie(string title)
+        public async Task<ActionResult<DBMovie>> AddMovie(int id)
         {
-            return await _watchListRepository.Add(new Movie
+            return await _watchListRepository.Add(new DBMovie
             {
                 Login = User.Identity.Name,
-                Title = title,
+                TmdbId = id,
                 id = _watchListRepository.GetLastId() + 1
             });
         }
 
         [Authorize]
         [HttpGet]
-        public List<Movie> Watchlist()
+        public JObject Watchlist()
             => _watchListRepository.GetWatchList(User.Identity.Name);
+
+        [Authorize]
+        [HttpDelete("delete")]
+        public async Task DeleteMovie(int id)
+            => _watchListRepository.Delete(id);
     }
 }

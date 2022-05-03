@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FirstWebApi.Authentification;
 
-namespace FirstWebApi.DataAccess
+namespace FirstWebApi.DataBaseAccess
 {
     public interface IUserRepository
     {

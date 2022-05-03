@@ -8,7 +8,12 @@ namespace FirstWebApi.TmdbAccess
 {
     public interface ITMDBHttpClient
     {
-        JObject GetTopMovies();
+        JObject GetPopularMovies();
         JObject SearchMovie(string title);
+        JObject GetDayTrending();
+        JObject GetWeekTrending();
+        JObject GetUpComing();
+        JObject GetLatest();
+        string GetById(int id);
     }
 }

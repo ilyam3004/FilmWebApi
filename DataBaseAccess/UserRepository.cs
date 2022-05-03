@@ -3,9 +3,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using FirstWebApi.Services;
 using FirstWebApi.Authentification;
 
-namespace FirstWebApi.DataAccess
+namespace FirstWebApi.DataBaseAccess
 {
     public class UserRepository : IUserRepository
     {

@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FirstWebApi.Authentification
+namespace FirstWebApi.Services
 {
     public class TokenService : ITokenService
     {
@@ -37,4 +37,4 @@ namespace FirstWebApi.Authentification
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
             => new (Encoding.ASCII.GetBytes(KEY));
     }
-}//https://localhost:5001/api/search?title=avengers
+}

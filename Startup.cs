@@ -1,20 +1,10 @@
 using System;
-using System.Text;
-using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.Runtime;
-using FirstWebApi.Authentification;
-using FirstWebApi.DataAccess;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FirstWebApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 namespace FirstWebApi
 {
