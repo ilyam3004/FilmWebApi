@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,8 +24,7 @@ namespace FirstWebApi.TmdbAccess
             => MoviesJson(_client
                 .GetAsync($"search/movie?api_key={API_KEY}&query={title}")
                 .Result.Content.ReadAsStringAsync().Result);
-        //https://api.themoviedb.org/3/movie/50410?api_key=7f15e76697d018b192edceb6f098447b
-        [HttpGet]
+
         public string GetById(int id)
         {
             return _client
@@ -52,11 +50,11 @@ namespace FirstWebApi.TmdbAccess
                 .GetAsync($"trending/movie/week?api_key={API_KEY}")
                 .Result.Content.ReadAsStringAsync().Result);
 
-        [HttpGet]
-        public JObject GetLatest()
-            => MoviesJson(_client
-                .GetAsync($"movie/latest?api_key={API_KEY}&language=en-US")
-                .Result.Content.ReadAsStringAsync().Result);
+        
+        // public JObject GetLatest()
+        //     => MoviesJson(_client
+        //         .GetAsync($"movie/latest?api_key={API_KEY}&language=en-US")
+        //         .Result.Content.ReadAsStringAsync().Result);
 
         [HttpGet]
         public JObject GetUpComing()

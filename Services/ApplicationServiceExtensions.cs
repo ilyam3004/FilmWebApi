@@ -34,6 +34,7 @@ namespace FirstWebApi.Services
             services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
             //TMDBClient
             services.AddHttpClient<ITMDBHttpClient, TMDBHttpClient>();
+            //JsonSetup
             services.AddControllers().AddNewtonsoftJson();
             //SwaggerConfiguration
             services.AddSwaggerGen(c =>

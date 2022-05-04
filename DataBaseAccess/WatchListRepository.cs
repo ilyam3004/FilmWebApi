@@ -12,8 +12,9 @@ namespace FirstWebApi.DataBaseAccess
     {
         private readonly IDynamoDBContext _dbContext;
         private readonly ITMDBHttpClient _tmdbHttpClient;
-        public WatchListRepository(IDynamoDBContext dbContext)
+        public WatchListRepository(IDynamoDBContext dbContext, ITMDBHttpClient tmdbHttpClient)
         {
+            _tmdbHttpClient = tmdbHttpClient;
             _dbContext = dbContext;
         }
         public async Task<DBMovie> Add(DBMovie movie)
@@ -36,14 +37,17 @@ namespace FirstWebApi.DataBaseAccess
             else
                 return null;
 
-            List<Movie> movieList = new();
+            MovieList movieList = new MovieList();
+            movieList.Results = new List<Movie>();
+            // ------------- testing ----------- 
             foreach (var item in accountWatchilst)
             {
                 string tempResponse = _tmdbHttpClient.GetById(item.TmdbId);
-                movieList.Add(JsonConvert.DeserializeObject<Movie>(tempResponse));
+                if(tempResponse != null)
+                    movieList.Results.Add(JsonConvert.DeserializeObject<Movie>(tempResponse));
             }
-            string response = JsonConvert.SerializeObject(movieList);
-            return JObject.Parse(response);
+            // ------------- testing ----------- 
+            return JObject.Parse(JsonConvert.SerializeObject(movieList));
         }
         public async Task Delete(int id)
         {

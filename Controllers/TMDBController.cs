@@ -31,12 +31,12 @@ namespace FirstWebApi.Controllers
         public JObject WeekTrendingMovies()
             => _tmdbHttpClient.GetWeekTrending();
         
-        // [HttpGet("upcoming")]
-        // public JObject GetUpComing()
-        //      => _tmdbHttpClient.GetUpComing();
-        
         [HttpGet("upcoming")]
-        public JObject Latest()
-            => _tmdbHttpClient.GetLatest();
+        public JObject UpComing()
+             => _tmdbHttpClient.GetUpComing();
+        
+        // [HttpGet("latest")]
+        // public JObject Latest()
+        //     => _tmdbHttpClient.GetLatest();
     }
 }
