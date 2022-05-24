@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
 using FilmWebApi.DataBaseAccess;
+using FilmWebApi.Secret;
 using FilmWebApi.TmdbAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ namespace FilmWebApi.Services
             services.AddControllers();
             
             //DynamoDB Access
-            var credentials = new BasicAWSCredentials("AKIAQ37NQIFXARODGHUO", "waWrgVcURHAf+CSzmv1xpBLjbj4ezVQkzk4Xhscr");
+            var credentials = new BasicAWSCredentials(Constants.ACCESS_KEY, Constants.SECRET_KEY);
             var dynamoDbConfig = new AmazonDynamoDBConfig()
             {
                 RegionEndpoint = RegionEndpoint.USEast1
