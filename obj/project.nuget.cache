@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "B3cqEKSGUg4pLzBqGk3M2KG2qYPOOgr518RbQ694UmOq+qM0R5q4+7gthiOrTS9fKbOIjgBto2x4mRmcYy4RJg==",
+  "dgSpecHash": "CprQAWybd2a02+hLTnkVxeUx3Rp1rkWNyGzKOayr0Hfif3Vbwef0BELSbZKXCBm3YcLCMY1f1tFoyGg+OpGu6w==",
   "success": true,
-  "projectFilePath": "D:\\Learning\\Projects\\FirstWebApi\\FirstWebApi.csproj",
+  "projectFilePath": "D:\\Learning\\Projects\\FilmWebApi\\FilmWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ilyam\\.nuget\\packages\\awssdk.core\\3.7.10.11\\awssdk.core.3.7.10.11.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\awssdk.dynamodbv2\\3.7.3.26\\awssdk.dynamodbv2.3.7.3.26.nupkg.sha512",

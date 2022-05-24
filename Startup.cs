@@ -1,12 +1,12 @@
 using System;
-using FirstWebApi.Services;
+using FilmWebApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FirstWebApi
+namespace FilmWebApi
 {
     public class Startup
     {
@@ -25,6 +25,7 @@ namespace FirstWebApi
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseSwagger();
             app.UseSwaggerUI( c=>
             {

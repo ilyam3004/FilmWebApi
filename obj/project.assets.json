@@ -800,11 +800,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\FirstWebApi\\FirstWebApi.csproj",
-      "projectName": "FirstWebApi",
-      "projectPath": "D:\\Learning\\Projects\\FirstWebApi\\FirstWebApi.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\FilmWebApi\\FilmWebApi.csproj",
+      "projectName": "FilmWebApi",
+      "projectPath": "D:\\Learning\\Projects\\FilmWebApi\\FilmWebApi.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\FirstWebApi\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\FilmWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"

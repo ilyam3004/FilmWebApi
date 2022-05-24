@@ -2,14 +2,14 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Runtime;
-using FirstWebApi.DataBaseAccess;
-using FirstWebApi.TmdbAccess;
+using FilmWebApi.DataBaseAccess;
+using FilmWebApi.TmdbAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 
-namespace FirstWebApi.Services
+namespace FilmWebApi.Services
 {
     public static class ApplicationServiceExtensions
     {

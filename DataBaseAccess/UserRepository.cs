@@ -3,10 +3,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using FirstWebApi.Services;
-using FirstWebApi.Authentification;
+using FilmWebApi.Authentification;
+using FilmWebApi.Services;
 
-namespace FirstWebApi.DataBaseAccess
+namespace FilmWebApi.DataBaseAccess
 {
     public class UserRepository : IUserRepository
     {

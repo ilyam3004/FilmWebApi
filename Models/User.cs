@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 
-namespace FirstWebApi
+namespace FilmWebApi
 {
     [DynamoDBTable("User")]
     public class User

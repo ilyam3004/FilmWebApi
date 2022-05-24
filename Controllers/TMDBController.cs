@@ -1,8 +1,8 @@
-﻿using FirstWebApi.TmdbAccess;
+﻿using FilmWebApi.TmdbAccess;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace FirstWebApi.Controllers
+namespace FilmWebApi.Controllers
 {
     [ApiController]
     [Route("api/")]
@@ -35,8 +35,5 @@ namespace FirstWebApi.Controllers
         public JObject UpComing()
              => _tmdbHttpClient.GetUpComing();
         
-        // [HttpGet("latest")]
-        // public JObject Latest()
-        //     => _tmdbHttpClient.GetLatest();
     }
 }

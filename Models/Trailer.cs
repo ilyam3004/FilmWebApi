@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace FirstWebApi
+namespace FilmWebApi
 {
     public class Trailer
     {

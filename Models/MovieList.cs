@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace FirstWebApi
+namespace FilmWebApi
 {
     public class MovieList
     {

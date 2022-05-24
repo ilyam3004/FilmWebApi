@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using System.Linq;
-using FirstWebApi.TmdbAccess;
+using FilmWebApi.TmdbAccess;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace FirstWebApi.DataBaseAccess
+namespace FilmWebApi.DataBaseAccess
 {
     public class WatchListRepository : IWatchListRepository
     {
@@ -39,14 +39,12 @@ namespace FirstWebApi.DataBaseAccess
 
             MovieList movieList = new MovieList();
             movieList.Results = new List<Movie>();
-            // ------------- testing ----------- 
             foreach (var item in accountWatchilst)
             {
-                string tempResponse = _tmdbHttpClient.GetById(item.TmdbId);
-                if(tempResponse != null)
-                    movieList.Results.Add(JsonConvert.DeserializeObject<Movie>(tempResponse));
+                Movie watchlistMovie = _tmdbHttpClient.GetById(item.TmdbId);
+                if(watchlistMovie != null)
+                    movieList.Results.Add(watchlistMovie);
             }
-            // ------------- testing ----------- 
             return JObject.Parse(JsonConvert.SerializeObject(movieList));
         }
         public async Task Delete(int id)
@@ -58,7 +56,7 @@ namespace FirstWebApi.DataBaseAccess
                 foreach (var item in allWatchLists)
                 {
                     if (item.TmdbId == id)
-                        _dbContext.DeleteAsync(item);
+                        await _dbContext.DeleteAsync(item);
                 }
             }
         }

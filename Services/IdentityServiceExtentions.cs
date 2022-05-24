@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FirstWebApi.Services
+namespace FilmWebApi.Services
 {
     public static class IdentityServiceExtentions
     {

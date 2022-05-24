@@ -5,12 +5,12 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FirstWebApi.Services
+namespace FilmWebApi.Services
 {
     public class TokenService : ITokenService
     {
         private const string KEY = "mysupersecret_secretkey!123";
-        private const int LIFETIME = 5; 
+        private const int LIFETIME = 365; 
         
         public string CreateToken(User user)
         {
@@ -18,7 +18,7 @@ namespace FirstWebApi.Services
             var jwt = new JwtSecurityToken(
                 notBefore: DateTime.UtcNow,
                 claims: identity.Claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(LIFETIME)),
+                expires: DateTime.UtcNow.Add(TimeSpan.FromDays(LIFETIME)),
                 signingCredentials: new SigningCredentials(GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);

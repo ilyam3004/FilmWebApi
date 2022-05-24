@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace FirstWebApi
+namespace FilmWebApi
 {
     public class Movie
     {
@@ -43,7 +43,6 @@ namespace FirstWebApi
 
         [JsonProperty("vote_count")]
         public int VoteCount { get; set; }
-        
         public List<Trailer> trailers { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using FirstWebApi.DataBaseAccess;
 using System.Threading.Tasks;
-using FirstWebApi.Authentification;
+using FilmWebApi.Authentification;
+using FilmWebApi.DataBaseAccess;
+using FilmWebApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using FirstWebApi.Services;
 
-namespace FirstWebApi.Controllers
+namespace FilmWebApi.Controllers
 {
     [ApiController]
     [Route("api/")]
@@ -35,7 +35,7 @@ namespace FirstWebApi.Controllers
             var user = await _userRepository.GetUser(loginUser.Login);
             if (user == null)
                 return Unauthorized("Invalid Login");
-            
+
             var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginUser.Password));
 

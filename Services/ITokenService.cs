@@ -1,4 +1,4 @@
-﻿namespace FirstWebApi.Services
+﻿namespace FilmWebApi.Services
 {
     public interface ITokenService
     {

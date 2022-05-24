@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace FirstWebApi.DataBaseAccess
+namespace FilmWebApi.DataBaseAccess
 {
     public interface IWatchListRepository
     {

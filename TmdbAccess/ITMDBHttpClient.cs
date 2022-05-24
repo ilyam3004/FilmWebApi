@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace FirstWebApi.TmdbAccess
+namespace FilmWebApi.TmdbAccess
 {
     public interface ITMDBHttpClient
     {
@@ -10,6 +10,6 @@ namespace FirstWebApi.TmdbAccess
         JObject GetWeekTrending();
         JObject GetUpComing();
         //JObject GetLatest();
-        string GetById(int id);
+        Movie GetById(int id);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FirstWebApi.Authentification
+﻿namespace FilmWebApi.Authentification
 {
     public class RegisterUser
     {

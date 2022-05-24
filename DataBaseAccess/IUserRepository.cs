@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using FirstWebApi.Authentification;
+using FilmWebApi.Authentification;
 
-namespace FirstWebApi.DataBaseAccess
+namespace FilmWebApi.DataBaseAccess
 {
     public interface IUserRepository
     {

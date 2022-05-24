@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 
-namespace FirstWebApi.TmdbAccess
+namespace FilmWebApi.TmdbAccess
 {
     public class TMDBHttpClient : ITMDBHttpClient
     {
@@ -25,12 +25,17 @@ namespace FirstWebApi.TmdbAccess
                 .GetAsync($"search/movie?api_key={API_KEY}&query={title}")
                 .Result.Content.ReadAsStringAsync().Result);
 
-        public string GetById(int id)
+        public Movie GetById(int id)
         {
-            return _client
+            string response =  _client
                 .GetAsync($"movie/{id}?api_key={API_KEY}")
                 .Result.Content.ReadAsStringAsync().Result;
+            Movie movie = JsonConvert.DeserializeObject<Movie>(response);
+            movie.PosterPath = $"https://image.tmdb.org/t/p/original{movie.PosterPath}";
+            movie.BackdropPath = $"https://image.tmdb.org/t/p/original{movie.BackdropPath}";
+            return movie;
         }
+
 
         [HttpGet]
         public JObject GetPopularMovies()
@@ -50,11 +55,6 @@ namespace FirstWebApi.TmdbAccess
                 .GetAsync($"trending/movie/week?api_key={API_KEY}")
                 .Result.Content.ReadAsStringAsync().Result);
 
-        
-        // public JObject GetLatest()
-        //     => MoviesJson(_client
-        //         .GetAsync($"movie/latest?api_key={API_KEY}&language=en-US")
-        //         .Result.Content.ReadAsStringAsync().Result);
 
         [HttpGet]
         public JObject GetUpComing()

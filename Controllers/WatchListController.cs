@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using FirstWebApi.DataBaseAccess;
+using FilmWebApi.DataBaseAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace FirstWebApi.Controllers
+namespace FilmWebApi.Controllers
 {
     [ApiController]
     [Route("api/watchlist")]
@@ -37,6 +37,6 @@ namespace FirstWebApi.Controllers
         [Authorize]
         [HttpDelete("delete")]
         public async Task DeleteMovie(int id)
-            => _watchListRepository.Delete(id);
+            => await _watchListRepository.Delete(id);
     }
 }
