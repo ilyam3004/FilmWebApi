@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FilmWebApi.Secret;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FilmWebApi.Services
 {
     public class TokenService : ITokenService
     {
-        private const string KEY = "mysupersecret_secretkey!123";
         private const int LIFETIME = 365; 
         
         public string CreateToken(User user)
@@ -35,6 +35,6 @@ namespace FilmWebApi.Services
             return claimsIdentity;
         }
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
-            => new (Encoding.ASCII.GetBytes(KEY));
+            => new (Encoding.ASCII.GetBytes(Constants.TOKEN_KEY));
     }
 }
