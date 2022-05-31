@@ -27,17 +27,17 @@ namespace FilmWebApi.Controllers
                 return await _userRepository.AddUser(registerUser);
             return BadRequest("User with the same login is already exists");
         }
-        
+
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>>Login(LoginUser loginUser)
+        public async Task<ActionResult<UserDto>> Login(LoginUser loginUser)
         {
             var user = await _userRepository.GetUser(loginUser.Login);
             if (user == null)
-                return Unauthorized("Invalid Login"); 
-            
-            if(!BC.Verify(loginUser.Password.ToString(), user.PasswordHash))
+                return Unauthorized("Invalid Login");
+
+            if (!BC.Verify(loginUser.Password.ToString(), user.PasswordHash))
                 return Unauthorized("Invalid Password");
-            
+
             return new UserDto()
             {
                 Token = _tokenService.CreateToken(user),
