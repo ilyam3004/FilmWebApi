@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using BC = BCrypt.Net.BCrypt;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
@@ -24,13 +23,10 @@ namespace FilmWebApi.DataBaseAccess
         
         public async Task<UserDto> AddUser(RegisterUser registerUser)
         {
-            var hmac = new HMACSHA512();
-            
             var user = new User
             {
                 Login = registerUser.Login.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUser.Password)),
-                PasswordSalt = hmac.Key
+                PasswordHash = BC.HashPassword(registerUser.Password)
             };
             
             await _dbContext.SaveAsync(user);

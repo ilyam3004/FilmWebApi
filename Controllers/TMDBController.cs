@@ -1,5 +1,6 @@
 ﻿using FilmWebApi.TmdbAccess;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace FilmWebApi.Controllers
@@ -26,7 +27,12 @@ namespace FilmWebApi.Controllers
         [HttpGet("trending/day")]
         public JObject DayTrendingMovies()
             => _tmdbHttpClient.GetDayTrending();
+
+        [HttpGet("movie")]
+        public JObject GetById(int id)
+            => JObject.Parse(JsonConvert.SerializeObject(_tmdbHttpClient.GetById(id)));
         
+
         [HttpGet("trending/week")]
         public JObject WeekTrendingMovies()
             => _tmdbHttpClient.GetWeekTrending();
@@ -34,6 +40,9 @@ namespace FilmWebApi.Controllers
         [HttpGet("upcoming")]
         public JObject UpComing()
              => _tmdbHttpClient.GetUpComing();
+        [HttpGet("popular")]
+        public JObject PopularMovies()
+            => _tmdbHttpClient.GetPopularMovies();
         
     }
 }

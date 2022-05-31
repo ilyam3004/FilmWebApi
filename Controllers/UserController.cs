@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using BC = BCrypt.Net.BCrypt;
 using System.Threading.Tasks;
 using FilmWebApi.Authentification;
 using FilmWebApi.DataBaseAccess;
@@ -34,16 +33,11 @@ namespace FilmWebApi.Controllers
         {
             var user = await _userRepository.GetUser(loginUser.Login);
             if (user == null)
-                return Unauthorized("Invalid Login");
-
-            var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginUser.Password));
-
-            for(int i = 0; i < computedHash.Length;i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i]) 
-                    return Unauthorized("Invalid Password");
-            }
+                return Unauthorized("Invalid Login"); 
+            
+            if(!BC.Verify(loginUser.Password.ToString(), user.PasswordHash))
+                return Unauthorized("Invalid Password");
+            
             return new UserDto()
             {
                 Token = _tokenService.CreateToken(user),

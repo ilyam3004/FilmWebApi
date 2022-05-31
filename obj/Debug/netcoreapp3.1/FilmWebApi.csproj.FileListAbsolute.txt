@@ -37,3 +37,4 @@ D:\Learning\Projects\FilmWebApi\obj\Debug\netcoreapp3.1\staticwebassets\FilmWebA
 D:\Learning\Projects\FilmWebApi\obj\Debug\netcoreapp3.1\FilmWebApi.dll
 D:\Learning\Projects\FilmWebApi\obj\Debug\netcoreapp3.1\FilmWebApi.pdb
 D:\Learning\Projects\FilmWebApi\obj\Debug\netcoreapp3.1\FilmWebApi.genruntimeconfig.cache
+D:\Learning\Projects\FilmWebApi\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll

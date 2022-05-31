@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "CprQAWybd2a02+hLTnkVxeUx3Rp1rkWNyGzKOayr0Hfif3Vbwef0BELSbZKXCBm3YcLCMY1f1tFoyGg+OpGu6w==",
+  "dgSpecHash": "PMchmEy7sU6h4KC6s6ClND7o3O6Oiat7slpbHP2hgRVG2jiRRfWet9ewJ5ml5DWcansUZVbcPp+pMpFqhM6Zew==",
   "success": true,
   "projectFilePath": "D:\\Learning\\Projects\\FilmWebApi\\FilmWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ilyam\\.nuget\\packages\\awssdk.core\\3.7.10.11\\awssdk.core.3.7.10.11.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\awssdk.dynamodbv2\\3.7.3.26\\awssdk.dynamodbv2.3.7.3.26.nupkg.sha512",
+    "C:\\Users\\ilyam\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.24\\microsoft.aspnetcore.authentication.jwtbearer.3.1.24.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.24\\microsoft.aspnetcore.jsonpatch.3.1.24.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.24\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.24.nupkg.sha512",

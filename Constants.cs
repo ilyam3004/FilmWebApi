@@ -1,4 +1,4 @@
-﻿namespace FilmWebApi.Secret
+﻿namespace FilmWebApi
 {
     public struct Constants
     {

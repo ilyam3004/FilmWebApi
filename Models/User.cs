@@ -8,8 +8,6 @@ namespace FilmWebApi
         [DynamoDBHashKey]
         public string Login { get; set; }
         [DynamoDBProperty]
-        public byte[] PasswordHash { get; set; }
-        [DynamoDBProperty]
-        public byte[] PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
     }
 }
