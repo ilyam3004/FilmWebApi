@@ -5,7 +5,6 @@ namespace FilmWebApi
 {
     public class Movie
     {
-        //Movie Model
         [JsonProperty("adult")]
         public bool Adult { get; set; }
 
