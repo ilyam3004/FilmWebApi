@@ -5,6 +5,7 @@ namespace FilmWebApi
 {
     public class Movie
     {
+        //test-comment for TeamCity
         [JsonProperty("adult")]
         public bool Adult { get; set; }
 
