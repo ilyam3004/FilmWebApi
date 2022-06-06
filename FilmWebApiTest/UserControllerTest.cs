@@ -87,7 +87,7 @@ namespace FilmWebApiTest
             var result = await response.Content.ReadAsStringAsync();
             
             //Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
