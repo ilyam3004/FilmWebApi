@@ -24,7 +24,7 @@ namespace FilmWebApiTest
             var response = _client.GetAsync("/api/top_rated").Result;
             var result = await response.Content.ReadAsStringAsync();
             //Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             Assert.IsType<MovieList>(JsonConvert.DeserializeObject<MovieList>(result));
             Assert.NotEmpty(JsonConvert.DeserializeObject<MovieList>(result)!.Results);
         }
