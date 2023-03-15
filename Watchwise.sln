@@ -11,6 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchlistService", "WatchlistService\WatchlistService.csproj", "{D51B8380-F01E-4F0C-A580-673A14180837}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F46CA56C-95EA-4C4F-9A28-705FD0E94325}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService", "src\MovieService\MovieService.csproj", "{24E7D466-B3C0-42AE-8999-B59897C4BFC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService", "src\RecommendationService\RecommendationService.csproj", "{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\UserService\UserService.csproj", "{D0050417-BBCA-45FA-8D22-777A2902486D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchlistService", "src\WatchlistService\WatchlistService.csproj", "{9274D58E-5A9D-40B2-ADDE-73CF675B3001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +46,27 @@ Global
 		{D51B8380-F01E-4F0C-A580-673A14180837}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51B8380-F01E-4F0C-A580-673A14180837}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51B8380-F01E-4F0C-A580-673A14180837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24E7D466-B3C0-42AE-8999-B59897C4BFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24E7D466-B3C0-42AE-8999-B59897C4BFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24E7D466-B3C0-42AE-8999-B59897C4BFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24E7D466-B3C0-42AE-8999-B59897C4BFC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0050417-BBCA-45FA-8D22-777A2902486D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0050417-BBCA-45FA-8D22-777A2902486D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0050417-BBCA-45FA-8D22-777A2902486D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0050417-BBCA-45FA-8D22-777A2902486D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9274D58E-5A9D-40B2-ADDE-73CF675B3001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9274D58E-5A9D-40B2-ADDE-73CF675B3001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9274D58E-5A9D-40B2-ADDE-73CF675B3001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9274D58E-5A9D-40B2-ADDE-73CF675B3001}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24E7D466-B3C0-42AE-8999-B59897C4BFC1} = {F46CA56C-95EA-4C4F-9A28-705FD0E94325}
+		{A1829E8E-43E1-4AB2-8F4F-755EEC0C9C91} = {F46CA56C-95EA-4C4F-9A28-705FD0E94325}
+		{D0050417-BBCA-45FA-8D22-777A2902486D} = {F46CA56C-95EA-4C4F-9A28-705FD0E94325}
+		{9274D58E-5A9D-40B2-ADDE-73CF675B3001} = {F46CA56C-95EA-4C4F-9A28-705FD0E94325}
 	EndGlobalSection
 EndGlobal
