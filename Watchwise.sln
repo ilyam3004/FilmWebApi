@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieService", "MovieService\MovieService.csproj", "{0E1F936A-9213-4DDE-9895-4BB718406A50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecommendationService", "RecommendationService\RecommendationService.csproj", "{EDE9F892-9F7F-4C9A-AD9B-F8DF06DF1FF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{FB76528A-D435-44BC-91D2-453EC4DE6446}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchlistService", "WatchlistService\WatchlistService.csproj", "{D51B8380-F01E-4F0C-A580-673A14180837}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E1F936A-9213-4DDE-9895-4BB718406A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E1F936A-9213-4DDE-9895-4BB718406A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E1F936A-9213-4DDE-9895-4BB718406A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E1F936A-9213-4DDE-9895-4BB718406A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE9F892-9F7F-4C9A-AD9B-F8DF06DF1FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE9F892-9F7F-4C9A-AD9B-F8DF06DF1FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE9F892-9F7F-4C9A-AD9B-F8DF06DF1FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE9F892-9F7F-4C9A-AD9B-F8DF06DF1FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB76528A-D435-44BC-91D2-453EC4DE6446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB76528A-D435-44BC-91D2-453EC4DE6446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB76528A-D435-44BC-91D2-453EC4DE6446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB76528A-D435-44BC-91D2-453EC4DE6446}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D51B8380-F01E-4F0C-A580-673A14180837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D51B8380-F01E-4F0C-A580-673A14180837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D51B8380-F01E-4F0C-A580-673A14180837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D51B8380-F01E-4F0C-A580-673A14180837}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
