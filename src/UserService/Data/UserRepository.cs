@@ -11,7 +11,7 @@ public class UserRepository : IUserRepository
     {
         _dbContext = dbContext;
     }
-    public void AddUser(User user)
+    public async Task AddUser(User user)
     {
         if(user is null)
         {
@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
         }
 
         _dbContext.Users.Add(user);
-        _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<User> GetUser(string login)

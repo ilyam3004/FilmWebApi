@@ -6,6 +6,6 @@ public interface IUserRepository
 {
     bool SaveChanges();
     Task<User> GetUser(string login);
-    void AddUser(User user);
+    Task AddUser(User user);
     bool UserExists(string login);
 }

@@ -6,7 +6,7 @@ public class User
 {
     [Key]
     [Required]
-    public string UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
     [Required]
     public string Login { get; set; } = null!;
