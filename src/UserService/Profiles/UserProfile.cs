@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using UserService.Dtos;
+﻿using UserService.Dtos.Requests;
 using UserService.Models;
+using AutoMapper;
 
 namespace UserService.Profiles;
 
@@ -8,7 +8,7 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserRegisterDto, User>();
+        CreateMap<RegisterRequest, User>();
     }
 }
 

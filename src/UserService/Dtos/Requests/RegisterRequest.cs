@@ -1,6 +1,6 @@
-namespace UserService.Dtos;
+namespace UserService.Dtos.Requests;
 
-public class UserRegisterDto
+public class RegisterRequest
 {
     public string Login { get; set; } = null!;
     public string Password { get; set; } = null!;

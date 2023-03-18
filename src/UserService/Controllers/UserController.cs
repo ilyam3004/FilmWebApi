@@ -1,8 +1,9 @@
+using UserService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Models;
 using UserService.Data;
-using UserService.Dtos;
 using AutoMapper;
+using UserService.Services;
 
 namespace UserService.Controllers;
 
@@ -10,26 +11,29 @@ namespace UserService.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
     
     public UserController(
-        IUserRepository userRepository, 
+        IUserService userService,
         IMapper mapper)
     {
-        _userRepository = userRepository;
+        _userService = userService;
         _mapper = mapper;
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserRegisterDto request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        if (request.Password != request.ConfirmPassword)
-        {
-            return BadRequest("Passwords do not match");
-        }
+        var result = _userService.Register(request);
 
-        await _userRepository.AddUser(_mapper.Map<User>(request));
+        return Ok(request);
+    }
+    
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        var result = _userService.Login(request);
 
         return Ok(request);
     }
