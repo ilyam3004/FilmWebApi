@@ -1,8 +1,12 @@
+using UserService.Dtos.Requests;
+using Microsoft.AspNetCore.Mvc;
+using UserService.Dtos.Responses;
 using UserService.Controllers;
-using UserService.Data;
+using UserService.Services;
+using LanguageExt.Common;
+using AutoFixture;
 using AutoMapper;
 using Moq;
-using UserService.Dtos.Requests;
 
 namespace UserServiceTests.Controllers;
 
@@ -10,25 +14,30 @@ public class UserControllerTests
 {
     private readonly UserController _sut;
     private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
-    private readonly Mock<IUserRepository> _userRepositoryMock = new Mock<IUserRepository>();
+    private readonly Mock<IUserService> _userServiceMock = new Mock<IUserService>();
+    private readonly Fixture _fixture;
 
     public UserControllerTests()
     {
-        _sut = new UserController(_userRepositoryMock.Object, _mapperMock.Object);
+        _sut = new UserController(_userServiceMock.Object, _mapperMock.Object);
+        _fixture = new Fixture();
     }
 
     [Fact]
-    public async Task Controller_ShouldReturnError_WhenPasswordsAreNotEqual()
+    public async Task Controller_ShouldReturnvalidatio()
     {
-        var request = new RegisterRequest
-        {
-            Login = "ilyamelnichuk3004@gmail.com",
-            Password = "pass",
-            ConfirmPassword = "pass1"
-        };
+        //Arrange
+        var request = _fixture.Create<RegisterRequest>();
+        var response = _fixture.Create<RegisterResponse>();
+        
+        _userServiceMock.Setup(
+                u => u.Register(request))
+            .ReturnsAsync(new Result<RegisterResponse>(response));
 
-
-        await Assert.ThrowsAsync<InvalidDataException>
-                (() => _sut.Register(request));
+        //Act
+        var result = await _sut.Register(request);
+        
+        //Assert
+        Assert.Equal(200, ((OkObjectResult)result).StatusCode);
     }
 }

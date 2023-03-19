@@ -1,15 +1,13 @@
 using UserService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Models;
-using UserService.Data;
-using AutoMapper;
 using UserService.Services;
+using AutoMapper;
 
 namespace UserService.Controllers;
 
-[Route("users")]
 [ApiController]
-public class UserController : ControllerBase
+[Route("users")]
+public class UserController : ApiController
 {
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
@@ -25,15 +23,15 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var result = _userService.Register(request);
+        var result = await _userService.Register(request);
 
-        return Ok(request);
+        return result.Match<IActionResult>(Ok, Problem);
     }
-    
+
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var result = _userService.Login(request);
+        var result = await _userService.Login(request);
 
         return Ok(request);
     }

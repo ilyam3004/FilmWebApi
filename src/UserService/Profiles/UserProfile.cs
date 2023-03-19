@@ -1,4 +1,5 @@
-﻿using UserService.Dtos.Requests;
+﻿using UserService.Dtos.Responses;
+using UserService.Dtos.Requests;
 using UserService.Models;
 using AutoMapper;
 
@@ -8,7 +9,11 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<RegisterRequest, User>();
+        CreateMap<RegisterRequest, User>()
+            .AfterMap(((src, dest) => 
+                dest.UserId = Guid.NewGuid()));
+        
+        CreateMap<User, RegisterResponse>();
     }
 }
 
