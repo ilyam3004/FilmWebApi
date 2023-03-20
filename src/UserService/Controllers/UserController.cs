@@ -1,7 +1,7 @@
 using UserService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Services;
 using AutoMapper;
+using UserService.Common.Services;
 
 namespace UserService.Controllers;
 
@@ -9,21 +9,21 @@ namespace UserService.Controllers;
 [Route("users")]
 public class UserController : ApiController
 {
-    private readonly IUserService _userService;
+    private readonly IAccountService _accountService;
     private readonly IMapper _mapper;
     
     public UserController(
-        IUserService userService,
+        IAccountService accountService,
         IMapper mapper)
     {
-        _userService = userService;
+        _accountService = accountService;
         _mapper = mapper;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var result = await _userService.Register(request);
+        var result = await _accountService.Register(request);
 
         return result.Match<IActionResult>(Ok, Problem);
     }
@@ -31,8 +31,8 @@ public class UserController : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var result = await _userService.Login(request);
+        var result = await _accountService.Login(request);
 
-        return Ok(request);
+        return result.Match<IActionResult>(Ok, Problem);
     }
 }

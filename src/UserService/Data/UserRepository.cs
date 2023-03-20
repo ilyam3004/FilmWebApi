@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 
 namespace UserService.Data;
@@ -16,6 +17,13 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<User> GetUserByLogin(string login)
+    {
+        return (await _dbContext
+            .Users
+            .FirstOrDefaultAsync(u => u.Login == login))!;
+    }
+    
     public bool UserExists(string login)
     {
         return _dbContext.Users.Any(u => u.Login == login);

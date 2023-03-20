@@ -1,8 +1,9 @@
+using UserService.Common.Exceptions;
 using UserService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Dtos.Responses;
+using UserService.Common.Services;
 using UserService.Controllers;
-using UserService.Services;
 using LanguageExt.Common;
 using AutoFixture;
 using AutoMapper;
@@ -14,7 +15,7 @@ public class UserControllerTests
 {
     private readonly UserController _sut;
     private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
-    private readonly Mock<IUserService> _userServiceMock = new Mock<IUserService>();
+    private readonly Mock<AccountService> _userServiceMock = new Mock<AccountService>();
     private readonly Fixture _fixture;
 
     public UserControllerTests()
@@ -24,20 +25,38 @@ public class UserControllerTests
     }
 
     [Fact]
-    public async Task Controller_ShouldReturnvalidatio()
+    public async Task Controller_ShouldReturnOkResponse()
     {
         //Arrange
         var request = _fixture.Create<RegisterRequest>();
-        var response = _fixture.Create<RegisterResponse>();
+        var response = _fixture.Create<UserResponse>();
         
         _userServiceMock.Setup(
                 u => u.Register(request))
-            .ReturnsAsync(new Result<RegisterResponse>(response));
+            .ReturnsAsync(new Result<UserResponse>(response));
 
         //Act
         var result = await _sut.Register(request);
         
         //Assert
-        Assert.Equal(200, ((OkObjectResult)result).StatusCode);
+        Assert.Equal(200, ((ObjectResult)result).StatusCode);
+    }
+
+    [Fact]
+    public async Task Controller_ShouldReturnConflictResponse_WhenEmailAlreadyExists()
+    {
+        //Arrange
+        var request = _fixture.Create<RegisterRequest>();
+        var exception = new DuplicateEmailException("Email already exists");
+        
+        _userServiceMock.Setup(
+                u => u.Register(request))
+            .ReturnsAsync(new Result<UserResponse>(exception));
+        
+        //Act
+        var result = await _sut.Register(request);
+
+        //Assert
+        Assert.Equal(409, ((ObjectResult)result).StatusCode);
     }
 }

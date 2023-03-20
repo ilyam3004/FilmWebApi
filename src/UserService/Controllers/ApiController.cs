@@ -13,8 +13,9 @@ public class ApiController : ControllerBase
         return ex switch
         {
             ValidationException => ValidationProblem(ex),
-            DuplicateEmailException => Problem(ex.Message, 
-                statusCode: StatusCodes.Status409Conflict),
+            DuplicateEmailException => Problem(ex.Message, statusCode: StatusCodes.Status409Conflict),
+            InvalidCredentialsException => Problem(ex.Message,
+                statusCode: StatusCodes.Status401Unauthorized),
             _ => StatusCode(500, "Internal Server Error")
         };
     }
