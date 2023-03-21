@@ -1,7 +1,7 @@
+using UserService.Common.Services;
 using UserService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using UserService.Common.Services;
 
 namespace UserService.Controllers;
 
