@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 {
     var assembly = Assembly.GetExecutingAssembly();
-    Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
+    
     builder.Services.AddDbContext<AppDbContext>(
         options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
@@ -33,11 +33,8 @@ var builder = WebApplication.CreateBuilder(args);
 }
 
 var app = builder.Build();
-
 {
-    app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
-    DbInitializer.PrepeareDatabase(app);
     app.Run();
 }
