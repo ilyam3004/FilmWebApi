@@ -1,0 +1,38 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  watchlist-service:
+    image: docker.io/ilya3004/watchlist-service
+    depends_on:
+      - "watchlist-service-db"
+    container_name: watchlist-service-services
+    ports:
+      - "8080:80"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
+      - DatabaseSettings__DatabaseName=WatchlistDB
+      - DatabaseSettings__CollectionName=Watchlists
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  watchlist-service-db:
+    container_name: mongo_db
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - dev
+
+volumes:
+  mongodb_data:

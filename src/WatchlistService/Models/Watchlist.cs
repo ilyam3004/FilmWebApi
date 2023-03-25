@@ -7,10 +7,10 @@ namespace WatchlistService.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string WatchlistId { get; set; }
+        public string WatchlistId { get; set; } = null!;
 
         [BsonElement("Name")]
-        public string Name { get; set; } = null!;
+        public string WatchlistName { get; set; } = null!;
 
         [BsonElement("UserId")]
         public string UserId { get; set; } = null!;

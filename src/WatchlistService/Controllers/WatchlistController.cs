@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+using WatchlistService.Data.Repositories;
 using WatchlistService.Dtos.Requests;
+using Microsoft.AspNetCore.Mvc;
 using WatchlistService.Models;
-using WatchlistService.Services;
+using MongoDB.Bson;
 
 namespace WatchlistService.Controllers;
 
@@ -10,11 +10,10 @@ namespace WatchlistService.Controllers;
 [ApiController]
 public class WatchlistController : ControllerBase
 {
-    private readonly WatchlistsService _watchlistsService;
-
-    public WatchlistController(WatchlistsService watchlistsService)
+    private readonly IWatchListRepository _watchListRepository;
+    public WatchlistController(IWatchListRepository watchListRepository)
     {
-        _watchlistsService = watchlistsService;
+        _watchListRepository = watchListRepository;
     }
 
     [HttpPost("create")]
@@ -23,11 +22,11 @@ public class WatchlistController : ControllerBase
         var watchlist = new Watchlist
         {
             WatchlistId = ObjectId.GenerateNewId().ToString(),
-            Name = request.Name,
-            UserId = request.UserId.ToString()
+            WatchlistName = request.WatchlistName,
+            UserId = request.Token
         };
 
-        await _watchlistsService.Create(watchlist);
+        await _watchListRepository.CreateWatchListAsync(watchlist);
 
         return Ok(watchlist);
     }
@@ -35,8 +34,9 @@ public class WatchlistController : ControllerBase
     [HttpGet("{watchlistId}")]
     public async Task<IActionResult> Get(string watchlistId)
     {
-        var watchlist = await _watchlistsService.GetWatchlist(watchlistId);
-
+        var watchlist = await _watchListRepository
+            .GetWatchListsAsync(watchlistId);
+        
         return Ok(watchlist);
     }
 }

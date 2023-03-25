@@ -10,6 +10,7 @@ public class WatchlistsService
     public WatchlistsService(IConfiguration config)
     {
         var client = new MongoClient(config.GetConnectionString("DefaultConnection"));
+        Console.WriteLine(config.GetConnectionString("DefaultConnection"));
         var database = client.GetDatabase("WatchlistDB");
         _watchlists = database.GetCollection<Watchlist>("Watchlists");
     }

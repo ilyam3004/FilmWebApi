@@ -4,4 +4,3 @@ obj/
 appsettings.json
 .idea/
 Watchwise.sln.DotSettings.user
-docker-compose.yml

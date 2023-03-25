@@ -1,0 +1,45 @@
+version: '3.4'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  user-service:
+    image: docker.io/ilya3004/user-service
+    depends_on:
+      - "user-service-db"
+    container_name: user-service-services
+    ports:
+      - "8080:80"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
+      - JwtSettings__Secret=super-secret-key
+      - JwtSettings__ExpiryMinutes=60
+      - JwtSettings__Issuer=Watchwise
+      - JwtSettings__Audience=Watchwise
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  user-service-db:
+    image: postgres:latest
+    container_name: user-service-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=ilya3004
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=userdb
+    restart: always
+    volumes:
+      - app_data:/var/lib/postgresql/data
+      - ./dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dev
+
+volumes:
+  app_data:
