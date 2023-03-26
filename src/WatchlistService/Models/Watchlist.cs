@@ -1,5 +1,5 @@
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace WatchlistService.Models
 {
@@ -7,12 +7,15 @@ namespace WatchlistService.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string WatchlistId { get; set; } = null!;
+        public string Id { get; set; } = null!;
 
-        [BsonElement("Name")]
-        public string WatchlistName { get; set; } = null!;
+        [BsonElement("name")]
+        public string Name { get; set; } = null!;
 
-        [BsonElement("UserId")]
+        [BsonElement("user_id")]
         public string UserId { get; set; } = null!;
+        
+        [BsonElement("movies_id")]
+        public List<int> MoviesId { get; set; } = null!;
     }
 }

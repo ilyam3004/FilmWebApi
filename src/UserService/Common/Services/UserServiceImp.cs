@@ -10,14 +10,14 @@ using UserService.Models;
 
 namespace UserService.Common.Services;
 
-public class AccountService : IAccountService
+public class UserServiceImp : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<RegisterRequest> _validator;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IMapper _mapper;
 
-    public AccountService(
+    public UserServiceImp(
         IUserRepository userRepository,
         IMapper mapper, 
         IValidator<RegisterRequest> validator, 

@@ -15,7 +15,7 @@ public class UserControllerTests
 {
     private readonly UserController _sut;
     private readonly Mock<IMapper> _mapperMock = new Mock<IMapper>();
-    private readonly Mock<AccountService> _userServiceMock = new Mock<AccountService>();
+    private readonly Mock<UserServiceImp> _userServiceMock = new Mock<UserServiceImp>();
     private readonly Fixture _fixture;
 
     public UserControllerTests()

@@ -1,9 +1,10 @@
-﻿using UserService.Dtos.Requests;
-using FluentValidation;
+﻿using FluentValidation;
+using UserService.Dtos.Requests;
 
-namespace UserService.Validators;
+namespace UserService.Common.Validators;
 
-public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+public class RegisterRequestValidator : 
+    AbstractValidator<RegisterRequest>
 {
     public RegisterRequestValidator()
     {

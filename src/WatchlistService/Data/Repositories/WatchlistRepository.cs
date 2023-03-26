@@ -16,7 +16,7 @@ public class WatchlistRepository : IWatchListRepository
     public async Task<Watchlist> GetWatchListsAsync(string watchlistId)
     {
         return await _context.Watchlists
-            .Find(w => w.WatchlistId == watchlistId)
+            .Find(w => w.Id == watchlistId)
             .FirstOrDefaultAsync();
     }
     
@@ -30,7 +30,7 @@ public class WatchlistRepository : IWatchListRepository
     {
         var updateResult = await _context.Watchlists
             .ReplaceOneAsync(
-                filter: w => w.WatchlistId == watchList.WatchlistId, 
+                filter: w => w.Id == watchList.Id, 
                 replacement: watchList);
         
         return updateResult.IsAcknowledged
@@ -40,7 +40,7 @@ public class WatchlistRepository : IWatchListRepository
     public async Task<bool> DeleteWatchListAsync(string watchListId)
     {
         DeleteResult result = await _context.Watchlists
-            .DeleteOneAsync(w => w.WatchlistId == watchListId);
+            .DeleteOneAsync(w => w.Id == watchListId);
         
         return result.IsAcknowledged && result.DeletedCount > 0;
     }

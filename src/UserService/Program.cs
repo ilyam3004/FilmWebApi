@@ -23,7 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
     builder.Services
-        .AddScoped<IAccountService, AccountService>()
+        .AddScoped<IUserService, UserServiceImp>()
         .AddScoped<IUserRepository, UserRepository>();
 
     builder.Services
