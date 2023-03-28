@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 networks:
   dev:
@@ -13,7 +13,7 @@ services:
     ports:
       - "8080:80"
     build: 
-      context: .
+      context: UserService
       dockerfile: Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
@@ -25,6 +25,24 @@ services:
     networks:
       - dev
 
+  watchlist-service:
+    image: docker.io/ilya3004/watchlist-service
+    depends_on:
+      - "watchlist-service-db"
+    container_name: watchlist-service-services
+    ports:
+      - "8181:81"
+    build:
+      context: WatchlistService
+      dockerfile: Dockerfile
+    environment:
+      - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
+      - DatabaseSettings__DatabaseName=WatchlistDB
+      - DatabaseSettings__CollectionName=Watchlists
+      - ASPNETCORE_URLS=http://+:81
+    networks:
+      - dev
+    
   user-service-db:
     image: postgres:latest
     container_name: user-service-db
@@ -36,10 +54,22 @@ services:
       - POSTGRES_DB=userdb
     restart: always
     volumes:
-      - app_data:/var/lib/postgresql/data
-      - ./dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+      - ./UserService/dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dev
+
+  watchlist-service-db:
+    container_name: mongo_db
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
     networks:
       - dev
 
 volumes:
-  app_data:
+  postgres-data:
+  mongodb_data:

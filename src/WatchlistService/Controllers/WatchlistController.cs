@@ -14,7 +14,7 @@ public class WatchlistController : ApiController
         _watchListService = watchListService;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateWatchlist(CreateWatchlistRequest request)
     {
         var result = await _watchListService.CreateWatchlist(request);
