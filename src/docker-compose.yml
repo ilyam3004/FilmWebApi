@@ -5,44 +5,20 @@ networks:
     driver: bridge
 
 services:
-  user-service:
-    image: docker.io/ilya3004/user-service
-    depends_on:
-      - "user-service-db"
-    container_name: user-service-services
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3-management
     ports:
-      - "8080:80"
-    build: 
-      context: UserService
-      dockerfile: Dockerfile
+      - "5672:5672"
+      - "15672:15672"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
-      - JwtSettings__Secret=super-secret-key
-      - JwtSettings__ExpiryMinutes=60
-      - JwtSettings__Issuer=Watchwise
-      - JwtSettings__Audience=Watchwise
-      - ASPNETCORE_URLS=http://+:80
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/mnesia
     networks:
       - dev
 
-  watchlist-service:
-    image: docker.io/ilya3004/watchlist-service
-    depends_on:
-      - "watchlist-service-db"
-    container_name: watchlist-service-services
-    ports:
-      - "8181:81"
-    build:
-      context: WatchlistService
-      dockerfile: Dockerfile
-    environment:
-      - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
-      - DatabaseSettings__DatabaseName=WatchlistDB
-      - DatabaseSettings__CollectionName=Watchlists
-      - ASPNETCORE_URLS=http://+:81
-    networks:
-      - dev
-    
   user-service-db:
     image: postgres:latest
     container_name: user-service-db
@@ -70,6 +46,47 @@ services:
     networks:
       - dev
 
+  user-service:
+    image: docker.io/ilya3004/user-service
+    depends_on:
+      - rabbitmq
+      - user-service-db
+    container_name: user-service-services
+    ports:
+      - "8080:80"
+    build:
+      context: UserService
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
+      - JwtSettings__Secret=super-secret-key
+      - JwtSettings__ExpiryMinutes=60
+      - JwtSettings__Issuer=Watchwise
+      - JwtSettings__Audience=Watchwise
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev
+
+  watchlist-service:
+    image: docker.io/ilya3004/watchlist-service
+    depends_on:
+      - rabbitmq
+      - watchlist-service-db
+    container_name: watchlist-service-services
+    ports:
+      - "8181:81"
+    build:
+      context: WatchlistService
+      dockerfile: Dockerfile
+    environment:
+      - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
+      - DatabaseSettings__DatabaseName=WatchlistDB
+      - DatabaseSettings__CollectionName=Watchlists
+      - ASPNETCORE_URLS=http://+:81
+    networks:
+      - dev
+
 volumes:
   postgres-data:
   mongodb_data:
+  rabbitmq_data:

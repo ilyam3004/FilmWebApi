@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using UserService.Common.Services;
 using System.Reflection;
 using FluentValidation;
+using UserService.AsyncDataServices;
 using UserService.Data;
+using UserService.EventProcessing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +21,11 @@ var builder = WebApplication.CreateBuilder(args);
     );
 
     builder.Services
+        .AddSingleton<IEventProcessor, EventProcessor>()
         .AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>()
-        .AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
+        .AddSingleton<IDateTimeProvider, DateTimeProvider>()
+        .AddHostedService<MessageBusSubscriber>();
+    
     builder.Services
         .AddScoped<IUserService, UserServiceImp>()
         .AddScoped<IUserRepository, UserRepository>();

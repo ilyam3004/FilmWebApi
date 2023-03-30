@@ -4,7 +4,7 @@ namespace UserService.Data;
 
 public static class DbInitializer
 {
-    
+
     public static void PrepeareDatabase(IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();

@@ -19,7 +19,7 @@ public class WatchlistController : ApiController
     {
         var result = await _watchListService.CreateWatchlist(request);
 
-        return result.Match<IActionResult>(Ok, Problem);
+        return result.Match(Ok, Problem);
     }
 
     [HttpGet("{watchlistId}")]

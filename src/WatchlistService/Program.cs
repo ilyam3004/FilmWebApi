@@ -3,6 +3,7 @@ using WatchlistService.Data.Repositories;
 using System.Reflection;
 using FluentValidation;
 using WatchlistService.Common.Services;
+using WatchlistService.SyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddScoped<IWatchlistService, WatchlistServiceImp>()
         .AddScoped<IWatchListRepository, WatchlistRepository>()
         .AddScoped<IWatchlistContext, WatchlistContext>()
+        .AddSingleton<IMessageBusClient, MessageBusClient>()
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         .AddControllers();
