@@ -17,7 +17,7 @@ public class MessageBusSubscriber : BackgroundService
     {
         _configuration = configuration;
         _eventProcessor = eventProcessor;
-        
+
         InitializeRabbitMq();
     }
 
@@ -25,12 +25,9 @@ public class MessageBusSubscriber : BackgroundService
     {
         var factory = new ConnectionFactory
         {
-            HostName = "rabbitmq",
-            Port = 5672,
-            UserName = "guest",
-            Password = "guest"
+            HostName = _configuration["RabbitMQHost"]
         };
-        
+
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
@@ -40,7 +37,7 @@ public class MessageBusSubscriber : BackgroundService
             routingKey: "");
 
         Console.WriteLine("--> Listening the message bus...");
-        
+
         _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
     }
 
@@ -57,7 +54,7 @@ public class MessageBusSubscriber : BackgroundService
             var body = ea.Body;
             var notificationMessage = Encoding.UTF8.GetString(
                 body.ToArray());
-            
+
             _eventProcessor.ProcessEvent(notificationMessage);
         };
         

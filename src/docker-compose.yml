@@ -7,15 +7,18 @@ networks:
 services:
   rabbitmq:
     container_name: "rabbitmq"
-    image: rabbitmq:3-management
+    image: rabbitmq:3-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq/mnesia
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
       - dev
 
@@ -32,6 +35,11 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./UserService/dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
       - dev
 
@@ -49,8 +57,10 @@ services:
   user-service:
     image: docker.io/ilya3004/user-service
     depends_on:
-      - rabbitmq
-      - user-service-db
+      rabbitmq:
+        condition: service_healthy
+      user-service-db:
+        condition: service_healthy
     container_name: user-service-services
     ports:
       - "8080:80"
@@ -63,6 +73,7 @@ services:
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__Issuer=Watchwise
       - JwtSettings__Audience=Watchwise
+      - RabbitMQHost=rabbitmq
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
@@ -72,7 +83,6 @@ services:
     depends_on:
       - rabbitmq
       - watchlist-service-db
-    container_name: watchlist-service-services
     ports:
       - "8181:81"
     build:
@@ -82,6 +92,7 @@ services:
       - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
       - DatabaseSettings__DatabaseName=WatchlistDB
       - DatabaseSettings__CollectionName=Watchlists
+      - RabbitMQHost=rabbitmq
       - ASPNETCORE_URLS=http://+:81
     networks:
       - dev
@@ -89,4 +100,3 @@ services:
 volumes:
   postgres-data:
   mongodb_data:
-  rabbitmq_data:

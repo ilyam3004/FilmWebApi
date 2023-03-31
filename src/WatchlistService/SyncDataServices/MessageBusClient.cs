@@ -8,34 +8,30 @@ namespace WatchlistService.SyncDataServices;
 public class MessageBusClient : IMessageBusClient
 {
     private readonly IConfiguration _configuration;
-    private readonly IConnection _connection;
-    private readonly IModel _channel;
+    private IConnection _connection;
+    private IModel _channel;
 
     public MessageBusClient(IConfiguration configuration)
     {
         _configuration = configuration;
+        InitializeRabbitMQ();
+    }
+
+    private void InitializeRabbitMQ()
+    {
         var factory = new ConnectionFactory
         {
-            HostName = "rabbitmq",
-            Port = 5672,
-            UserName = "guest",
-            Password = "guest"
+            HostName = _configuration["RabbitMQHost"],
         };
-        try
-        {
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
 
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+        _connection = factory.CreateConnection();
+        _channel = _connection.CreateModel();
 
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+        _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
 
-            Console.WriteLine("--> Connected to Message Bus");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"--> Could not connect to the message bus: {e.Message}");
-        }
+        _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+
+        _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
     }
 
     public void PublishAuthUser(AuthUserRequest request)
