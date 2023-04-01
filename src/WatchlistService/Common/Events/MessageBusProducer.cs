@@ -35,92 +35,61 @@ public class MessageBusProducer : IMessageBusProducer
         _channel.QueueDeclare("", exclusive: true);
     }
 
-    public void PublishAuthUser(AuthUserRequest request)
+    public async Task<string> PublishAuthMessage(AuthUserRequest request)
     {
         var message = JsonSerializer.Serialize(request);
 
-        if (_connection.IsOpen)
+        if (!_connection.IsOpen)
         {
-            _channel.QueueDeclare(
+            throw new InvalidOperationException();
+        }
+
+        var tsc = new TaskCompletionSource<string>();
+
+        _channel.QueueDeclare(
                 "request-queue", 
                 exclusive: false);
 
-            var consumer = new EventingBasicConsumer(_channel);
-            
-            consumer.Received += (model, ea) =>
-            {
-                var body = ea.Body.ToArray();
-                var response = Encoding.UTF8.GetString(body);
-                Console.WriteLine($"Received response: {response}");
-            };
-            
-            _channel.BasicConsume(
-                queue: _replyQueue.QueueName,
-                autoAck: true,
-                consumer: consumer);
-            
-            var body = Encoding.UTF8.GetBytes(message);
-            var properties = _channel.CreateBasicProperties();
-            
-            properties.ReplyTo = _replyQueue.QueueName;
-            properties.CorrelationId = Guid.NewGuid().ToString();
-            
-            _channel.BasicPublish(
-                exchange: "",
-                routingKey: "request-queue",
-                basicProperties: properties,
-                body: body);
-            
-            Console.WriteLine("Sending request: {0}", message);
-        }
-        else
-        {
-            Console.WriteLine("Connection closed.");
-        }
-    }
-
-    public async Task<string> PublishAuthMessage(AuthUserRequest request)
-    {
-        if (!_connection.IsOpen)
-        {
-            throw new InvalidOperationException("RabbitMQ connection is not open.");
-        }
-
-        var message = JsonSerializer.Serialize(request);
-
-        var tcs = new TaskCompletionSource<string>();
-
         var consumer = new EventingBasicConsumer(_channel);
+        
         consumer.Received += (model, ea) =>
         {
             var body = ea.Body.ToArray();
             var response = Encoding.UTF8.GetString(body);
-            tcs.SetResult(response);
+            tsc.SetResult(response);
+            Console.WriteLine($"Received response: {response}");
         };
-
-        var correlationId = Guid.NewGuid().ToString();
-
+        
+        _channel.BasicConsume(
+            queue: _replyQueue.QueueName,
+            autoAck: true,
+            consumer: consumer);
+        
+        var body = Encoding.UTF8.GetBytes(message);
         var properties = _channel.CreateBasicProperties();
+        
         properties.ReplyTo = _replyQueue.QueueName;
-        properties.CorrelationId = correlationId;
-
+        properties.CorrelationId = Guid.NewGuid().ToString();
+        
         _channel.BasicPublish(
             exchange: "",
             routingKey: "request-queue",
             basicProperties: properties,
-            body: Encoding.UTF8.GetBytes(message));
+            body: body);
         
+        Console.WriteLine("Sending request: {0}", message);
+        
+        // Wait for the response or a timeout
         var timeoutTask = Task.Delay(TimeSpan.FromSeconds(10));
-        var completedTask = await Task.WhenAny(tcs.Task, timeoutTask);
+        var completedTask = await Task.WhenAny(tsc.Task, timeoutTask);
 
         if (completedTask == timeoutTask)
         {
             throw new TimeoutException("The request timed out.");
         }
-
-        var responseMessage = await tcs.Task;
-
-        return responseMessage;
+        
+        var responseMesaage = await tsc.Task;
+        return responseMesaage;
     }
 
     public void Dispose()
