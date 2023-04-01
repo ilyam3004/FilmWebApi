@@ -30,10 +30,9 @@ public class EventProcessor : IEventProcessor
 
     private void AuthenticateUser(string authMessage)
     {
-        Console.WriteLine($"Message received: {authMessage}");
-        Console.WriteLine("Ready to authenticate user");
         using var scope = _scopeFactory.CreateScope();
         var service = scope.ServiceProvider.GetRequiredService<IUserService>();
+        Console.WriteLine("Ready to authenticate user");
     }
 
     private EventType DetermineEvent(string notificationMessage)

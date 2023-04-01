@@ -5,15 +5,17 @@ using UserService.EventProcessing;
 
 namespace UserService.AsyncDataServices;
 
-public class MessageBusSubscriber : BackgroundService
+public class MessageBusSubscriber : BackgroundService 
 {
     private readonly IConfiguration _configuration;
     private readonly IEventProcessor _eventProcessor;
     private IConnection _connection;
     private IModel _channel;
-    private string _queueName;
+    private QueueDeclareOk _queue;
 
-    public MessageBusSubscriber(IConfiguration configuration, IEventProcessor eventProcessor)
+    public MessageBusSubscriber(
+        IConfiguration configuration, 
+        IEventProcessor eventProcessor)
     {
         _configuration = configuration;
         _eventProcessor = eventProcessor;
@@ -30,11 +32,8 @@ public class MessageBusSubscriber : BackgroundService
 
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
-        _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-        _queueName = _channel.QueueDeclare().QueueName;
-        _channel.QueueBind(queue: _queueName,
-            exchange: "trigger",
-            routingKey: "");
+        _channel.QueueDeclare(queue: "request-queue",
+            exclusive: false);
 
         Console.WriteLine("--> Listening the message bus...");
 
@@ -43,27 +42,35 @@ public class MessageBusSubscriber : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        Console.WriteLine("--> MessageBus Subscriber is starting");
         stoppingToken.ThrowIfCancellationRequested();
 
         var consumer = new EventingBasicConsumer(_channel);
 
-        consumer.Received += (ModuleHandle, ea) =>
+        consumer.Received += (model, ea) =>
         {
-            Console.WriteLine("--> Event received");
+            Console.WriteLine($"Received request: {Encoding.UTF8.GetString(ea.Body.ToArray())}");
 
-            var body = ea.Body;
-            var notificationMessage = Encoding.UTF8.GetString(
-                body.ToArray());
+            var replyMessage = $"Reply from microservice: {Encoding.UTF8.GetString(ea.Body.ToArray())}";
+            var replyBody = Encoding.UTF8.GetBytes(replyMessage);
 
-            _eventProcessor.ProcessEvent(notificationMessage);
+            _channel.BasicPublish(
+                exchange: "",
+                routingKey: ea.BasicProperties.ReplyTo,
+                null,
+                body: replyBody);
+            Console.WriteLine($"Sent reply: {replyMessage}");
         };
-        
-        _channel.BasicConsume(queue: _queueName,
-            autoAck: true, consumer: consumer);
+
+        _channel.BasicConsume(
+            queue: "request-queue",
+            autoAck: true,
+            consumer: consumer);
+        Console.WriteLine("--> MessageBus Subscriber is started after sending a message");
 
         return Task.CompletedTask;
     }
-    
+
     private void RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)
     {
         Console.WriteLine("--> Connection Shutdown");
@@ -76,8 +83,7 @@ public class MessageBusSubscriber : BackgroundService
             _channel.Close();
             _connection.Close();
         }
-        
+
         base.Dispose();
     }
-
 }

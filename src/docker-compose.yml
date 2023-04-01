@@ -61,7 +61,7 @@ services:
         condition: service_healthy
       user-service-db:
         condition: service_healthy
-    container_name: user-service-services
+    container_name: user-service
     ports:
       - "8080:80"
     build:
@@ -80,11 +80,12 @@ services:
 
   watchlist-service:
     image: docker.io/ilya3004/watchlist-service
+    container_name: watchlist-service
     depends_on:
-      - rabbitmq
-      - watchlist-service-db
+      rabbitmq:
+        condition: service_healthy
     ports:
-      - "8181:81"
+      - "8181:80"
     build:
       context: WatchlistService
       dockerfile: Dockerfile
@@ -93,9 +94,18 @@ services:
       - DatabaseSettings__DatabaseName=WatchlistDB
       - DatabaseSettings__CollectionName=Watchlists
       - RabbitMQHost=rabbitmq
-      - ASPNETCORE_URLS=http://+:81
+      - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
+  
+  web-client:
+    container_name: web-client
+    image: web-client
+    build: 
+      context: WebClient
+      dockerfile: Dockerfile
+    ports:
+        - "4200:80"
 
 volumes:
   postgres-data:

@@ -2,8 +2,9 @@ using WatchlistService.Data.DbContext;
 using WatchlistService.Data.Repositories;
 using System.Reflection;
 using FluentValidation;
+using RabbitMQ.Client;
+using WatchlistService.Common.Events;
 using WatchlistService.Common.Services;
-using WatchlistService.SyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -13,10 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
         .AddScoped<IWatchlistService, WatchlistServiceImp>()
         .AddScoped<IWatchListRepository, WatchlistRepository>()
         .AddScoped<IWatchlistContext, WatchlistContext>()
-        .AddSingleton<IMessageBusClient, MessageBusClient>()
+        .AddSingleton<IMessageBusProducer, MessageBusProducer>()
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         .AddControllers();
+    var factory = new ConnectionFactory
+    {
+        HostName = builder.Configuration["RabbitMQHost"],
+    };
+    
+    builder.Services.AddSingleton(factory.CreateConnection());
 
     builder.Services.Configure<DatabaseSettings>(
         builder.Configuration.GetSection(DatabaseSettings.SectionName)

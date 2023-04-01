@@ -1,10 +1,10 @@
 using WatchlistService.Data.Repositories;
+using WatchlistService.Common.Events;
 using WatchlistService.Dtos.Requests;
 using WatchlistService.Models;
 using LanguageExt.Common;
 using FluentValidation;
 using MongoDB.Bson;
-using WatchlistService.SyncDataServices;
 
 namespace WatchlistService.Common.Services;
 
@@ -12,18 +12,18 @@ public class WatchlistServiceImp : IWatchlistService
 {
     private readonly IValidator<CreateWatchlistRequest> _validator;
     private readonly IWatchListRepository _watchListRepository;
-    private readonly IMessageBusClient _messageBusClient;
-    
+    private readonly IMessageBusProducer _messageBusProducer;
+
     public WatchlistServiceImp(
         IValidator<CreateWatchlistRequest> validator, 
         IWatchListRepository watchListRepository,
-        IMessageBusClient messageBusClient)
+        IMessageBusProducer messageBusProducer)
     {
         _validator = validator;
         _watchListRepository = watchListRepository;
-        _messageBusClient = messageBusClient;
+        _messageBusProducer = messageBusProducer;
     }
-    
+
     public async Task<Result<Watchlist>> CreateWatchlist(CreateWatchlistRequest request)
     {
         var validationResult = await _validator.ValidateAsync(request);
@@ -35,19 +35,13 @@ public class WatchlistServiceImp : IWatchlistService
 
             return new Result<Watchlist>(validationException);
         }
-
-        try
-        {
-            var authRequest = new AuthUserRequest(
+            
+        var authRequest = new AuthUserRequest(
                 request.Token, "Auth_User");
             
-            _messageBusClient.PublishAuthUser(authRequest);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-
+        string authResponse = await _messageBusProducer.PublishAuthMessage(authRequest);
+        Console.WriteLine($"Auth response: {authResponse}");
+        
         var watchlist = new Watchlist
         {
             Id = ObjectId.GenerateNewId().ToString(),
