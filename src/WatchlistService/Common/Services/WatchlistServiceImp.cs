@@ -39,7 +39,7 @@ public class WatchlistServiceImp : IWatchlistService
         var authRequest = new AuthUserRequest(
                 request.Token, "Auth_User");
             
-        string authResponse = await _messageBusProducer.PublishAuthMessage(authRequest);
+        string authResponse = _messageBusProducer.PublishAuthMessage(authRequest);
         Console.WriteLine($"Auth response: {authResponse}");
         
         var watchlist = new Watchlist

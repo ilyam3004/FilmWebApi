@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WatchlistService.Controllers;
 
+[ApiController]
 public class ApiController : ControllerBase
 {
     protected IActionResult Problem(Exception ex)

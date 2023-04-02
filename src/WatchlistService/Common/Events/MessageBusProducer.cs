@@ -9,54 +9,34 @@ namespace WatchlistService.Common.Events;
 public class MessageBusProducer : IMessageBusProducer
 {
     private readonly IConfiguration _configuration;
-    private IConnection _connection;
-    private IModel _channel;
-    private QueueDeclareOk _replyQueue;
+    private readonly IConnection _connection;
+    private readonly IModel _channel;
+    private readonly QueueDeclareOk _replyQueue;
 
     public MessageBusProducer(
         IConfiguration configuration,
         IConnection connection)
     {
         _configuration = configuration;
-        InitializeRabbitMQ();
-    }
-
-    private void InitializeRabbitMQ()
-    {
-        var factory = new ConnectionFactory
-        {
-            HostName = _configuration["RabbitMQHost"],
-        };
-
-        _connection = factory.CreateConnection();
+        _connection = connection;
         _channel = _connection.CreateModel();
-
-        _replyQueue = _channel.QueueDeclare();
-        _channel.QueueDeclare("", exclusive: true);
+        _replyQueue = _channel.QueueDeclare("", exclusive: true);   
     }
 
-    public async Task<string> PublishAuthMessage(AuthUserRequest request)
+    public string PublishAuthMessage(AuthUserRequest request)
     {
-        var message = JsonSerializer.Serialize(request);
-
-        if (!_connection.IsOpen)
-        {
-            throw new InvalidOperationException();
-        }
-
-        var tsc = new TaskCompletionSource<string>();
-
         _channel.QueueDeclare(
-                "request-queue", 
-                exclusive: false);
+            "request-queue", 
+            exclusive: false);
 
         var consumer = new EventingBasicConsumer(_channel);
-        
+
+        var response = "";
+
         consumer.Received += (model, ea) =>
         {
             var body = ea.Body.ToArray();
-            var response = Encoding.UTF8.GetString(body);
-            tsc.SetResult(response);
+            response = Encoding.UTF8.GetString(body);
             Console.WriteLine($"Received response: {response}");
         };
         
@@ -65,6 +45,14 @@ public class MessageBusProducer : IMessageBusProducer
             autoAck: true,
             consumer: consumer);
         
+        var message = JsonSerializer.Serialize(request);
+        PublishMessage(message);
+        
+        return response;
+    }
+
+    private void PublishMessage(string message)
+    {
         var body = Encoding.UTF8.GetBytes(message);
         var properties = _channel.CreateBasicProperties();
         
@@ -78,18 +66,6 @@ public class MessageBusProducer : IMessageBusProducer
             body: body);
         
         Console.WriteLine("Sending request: {0}", message);
-        
-        // Wait for the response or a timeout
-        var timeoutTask = Task.Delay(TimeSpan.FromSeconds(10));
-        var completedTask = await Task.WhenAny(tsc.Task, timeoutTask);
-
-        if (completedTask == timeoutTask)
-        {
-            throw new TimeoutException("The request timed out.");
-        }
-        
-        var responseMesaage = await tsc.Task;
-        return responseMesaage;
     }
 
     public void Dispose()

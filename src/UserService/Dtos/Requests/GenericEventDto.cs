@@ -2,4 +2,3 @@
 
 public record GenericEventDto(
     string Event);
-

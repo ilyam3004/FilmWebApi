@@ -4,5 +4,5 @@ namespace WatchlistService.Common.Events;
 
 public interface IMessageBusProducer
 {
-    Task<string> PublishAuthMessage(AuthUserRequest authUserRequest);
+    string PublishAuthMessage(AuthUserRequest authUserRequest);
 }

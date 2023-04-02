@@ -93,6 +93,10 @@ services:
       - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
       - DatabaseSettings__DatabaseName=WatchlistDB
       - DatabaseSettings__CollectionName=Watchlists
+      - JwtSettings__Secret=super-secret-key
+      - JwtSettings__ExpiryMinutes=60
+      - JwtSettings__Issuer=Watchwise
+      - JwtSettings__Audience=Watchwise
       - RabbitMQHost=rabbitmq
       - ASPNETCORE_URLS=http://+:80
     networks:

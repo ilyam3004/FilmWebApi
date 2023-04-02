@@ -1,10 +1,11 @@
-using WatchlistService.Data.DbContext;
 using WatchlistService.Data.Repositories;
+using WatchlistService.Common.Services;
+using WatchlistService.Data.DbContext;
+using WatchlistService.Common.Events;
+using WatchlistService.Extensions;
 using System.Reflection;
 using FluentValidation;
 using RabbitMQ.Client;
-using WatchlistService.Common.Events;
-using WatchlistService.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -18,12 +19,15 @@ var builder = WebApplication.CreateBuilder(args);
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         .AddControllers();
+    
     var factory = new ConnectionFactory
     {
         HostName = builder.Configuration["RabbitMQHost"],
     };
     
     builder.Services.AddSingleton(factory.CreateConnection());
+
+    builder.Services.AddAuth(builder.Configuration);
 
     builder.Services.Configure<DatabaseSettings>(
         builder.Configuration.GetSection(DatabaseSettings.SectionName)
@@ -32,6 +36,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
     app.Run();
