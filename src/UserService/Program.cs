@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using UserService.Common.Services;
 using System.Reflection;
 using FluentValidation;
-using UserService.AsyncDataServices;
+using UserService.Common.Events;
 using UserService.Data;
-using UserService.EventProcessing;
+using UserService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,15 +21,16 @@ var builder = WebApplication.CreateBuilder(args);
     );
 
     builder.Services
-        .AddSingleton<IEventProcessor, EventProcessor>()
-        .AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>()
+        .AddSingleton<IJwtTokenService, JwtTokenService>()
         .AddSingleton<IDateTimeProvider, DateTimeProvider>()
         .AddHostedService<MessageBusSubscriber>();
-    
+
     builder.Services
         .AddScoped<IUserService, UserServiceImp>()
         .AddScoped<IUserRepository, UserRepository>();
 
+    builder.Services.AddRabbitMq(builder.Configuration);
+    
     builder.Services
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())

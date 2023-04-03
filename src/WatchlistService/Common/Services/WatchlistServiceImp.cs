@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Security.Claims;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Common.Events;
 using WatchlistService.Dtos.Requests;
@@ -24,7 +26,9 @@ public class WatchlistServiceImp : IWatchlistService
         _messageBusProducer = messageBusProducer;
     }
 
-    public async Task<Result<Watchlist>> CreateWatchlist(CreateWatchlistRequest request)
+    public async Task<Result<Watchlist>> CreateWatchlist(
+        CreateWatchlistRequest request,
+        string token)
     {
         var validationResult = await _validator.ValidateAsync(request);
 
@@ -35,12 +39,10 @@ public class WatchlistServiceImp : IWatchlistService
 
             return new Result<Watchlist>(validationException);
         }
-            
-        var authRequest = new AuthUserRequest(
-                request.Token, "Auth_User");
-            
-        string authResponse = _messageBusProducer.PublishAuthMessage(authRequest);
-        Console.WriteLine($"Auth response: {authResponse}");
+
+        string userId = GetUserIdFromToken(token);
+        
+        Console.WriteLine($"UserId: {userId}");
         
         var watchlist = new Watchlist
         {
@@ -52,5 +54,17 @@ public class WatchlistServiceImp : IWatchlistService
         
         await _watchListRepository.CreateWatchListAsync(watchlist);
         return watchlist;
+    }
+
+    private string GetUserIdFromToken(string jwt)
+    {
+        string[] token = jwt.Split();
+        
+        var decodeTokenRequest = new DecodeTokenRequest(
+            token[1], 
+            "decode-token-event");
+        
+        return _messageBusProducer
+            .PublishDecodeTokenMessage(decodeTokenRequest);
     }
 }

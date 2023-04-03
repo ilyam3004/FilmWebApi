@@ -19,7 +19,8 @@ public class WatchlistController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateWatchlist(CreateWatchlistRequest request)
     {
-        var result = await _watchListService.CreateWatchlist(request);
+        string token = HttpContext.Request.Headers["Authorization"]!;
+        var result = await _watchListService.CreateWatchlist(request, token);
         return result.Match(Ok, Problem);
     }
 

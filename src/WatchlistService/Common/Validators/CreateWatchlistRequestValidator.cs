@@ -11,9 +11,5 @@ public class CreateWatchlistRequestValidator :
         RuleFor(w => w.WatchlistName)
             .NotEmpty()
             .WithMessage("Name is required");
-        
-        RuleFor(w => w.Token)
-            .NotEmpty()
-            .WithMessage("Token is required for authentication");
     }
 }

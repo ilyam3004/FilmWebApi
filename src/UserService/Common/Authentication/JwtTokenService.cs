@@ -8,12 +8,12 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace UserService.Common.Authentication;
 
-public class JwtTokenGenerator : IJwtTokenGenerator
+public class JwtTokenService : IJwtTokenService
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly JwtSettings _jwtSettings;
     
-    public JwtTokenGenerator(
+    public JwtTokenService(
         IDateTimeProvider dateTimeProvider, 
         IOptions<JwtSettings> jwtOptions)
     {
@@ -41,5 +41,20 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             signingCredentials: signingCredentials);
 
         return new JwtSecurityTokenHandler().WriteToken(securityKey);
+    }
+
+    public string DecodeJwt(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = handler.ReadJwtToken(token);
+        return jwtSecurityToken.Claims.First(x => 
+            x.Type == JwtRegisteredClaimNames.UniqueName)
+            .Value;
+    }
+
+    public bool CanReadToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        return handler.CanReadToken(token);
     }
 }

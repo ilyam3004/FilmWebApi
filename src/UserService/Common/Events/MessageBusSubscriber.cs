@@ -3,40 +3,25 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using UserService.EventProcessing;
 
-namespace UserService.AsyncDataServices;
+namespace UserService.Common.Events;
 
 public class MessageBusSubscriber : BackgroundService 
 {
-    private readonly IConfiguration _configuration;
     private readonly IEventProcessor _eventProcessor;
-    private IConnection _connection;
-    private IModel _channel;
+    private readonly IConnection _connection;
+    private readonly IModel _channel;
     private QueueDeclareOk _queue;
 
     public MessageBusSubscriber(
-        IConfiguration configuration, 
-        IEventProcessor eventProcessor)
+        IEventProcessor eventProcessor,
+        IConnection connection)
     {
-        _configuration = configuration;
         _eventProcessor = eventProcessor;
-
-        InitializeRabbitMq();
-    }
-
-    private void InitializeRabbitMq()
-    {
-        var factory = new ConnectionFactory
-        {
-            HostName = _configuration["RabbitMQHost"]
-        };
-
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(queue: "request-queue",
+        _connection = connection;
+        _channel = connection.CreateModel();
+        _queue = _channel.QueueDeclare(
+            queue: "request-queue",
             exclusive: false);
-
-        Console.WriteLine("--> Listening the message bus...");
-
         _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
     }
 
@@ -49,9 +34,11 @@ public class MessageBusSubscriber : BackgroundService
 
         consumer.Received += (model, ea) =>
         {
-            Console.WriteLine($"Received request: {Encoding.UTF8.GetString(ea.Body.ToArray())}");
-
-            var replyMessage = $"Reply from microservice: {Encoding.UTF8.GetString(ea.Body.ToArray())}";
+            string request = Encoding.UTF8.GetString(ea.Body.ToArray());
+            
+            Console.WriteLine($"Received request: {request}");
+            
+            var replyMessage = _eventProcessor.ProcessEvent(request);
             var replyBody = Encoding.UTF8.GetBytes(replyMessage);
 
             _channel.BasicPublish(
@@ -59,7 +46,7 @@ public class MessageBusSubscriber : BackgroundService
                 routingKey: ea.BasicProperties.ReplyTo,
                 null,
                 body: replyBody);
-            Console.WriteLine($"Sent reply: {replyMessage}");
+            Console.WriteLine($"Sent reply: {replyBody}");
         };
 
         _channel.BasicConsume(
@@ -87,3 +74,6 @@ public class MessageBusSubscriber : BackgroundService
         base.Dispose();
     }
 }
+
+public record DecodeTokenRequest(
+    string Token);

@@ -14,19 +14,19 @@ public class UserServiceImp : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IValidator<RegisterRequest> _validator;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IJwtTokenService _jwtTokenService;
     private readonly IMapper _mapper;
 
     public UserServiceImp(
         IUserRepository userRepository,
         IMapper mapper, 
         IValidator<RegisterRequest> validator, 
-        IJwtTokenGenerator jwtTokenGenerator)
+        IJwtTokenService jwtTokenService)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _validator = validator;
-        _jwtTokenGenerator = jwtTokenGenerator;
+        _jwtTokenService = jwtTokenService;
     }
 
     public async Task<Result<UserResponse>> Register(RegisterRequest request)
@@ -49,7 +49,7 @@ public class UserServiceImp : IUserService
         var user = _mapper.Map<User>((request, hash));
         await _userRepository.AddUser(user);
 
-        var token = _jwtTokenGenerator.GenerateToken(user.UserId, user.Login);
+        var token = _jwtTokenService.GenerateToken(user.UserId, user.Login);
         
         return new Result<UserResponse>(
             _mapper.Map<UserResponse>((user, token)));
@@ -71,7 +71,7 @@ public class UserServiceImp : IUserService
             return new Result<UserResponse>(exception);
         }
         
-        var token = _jwtTokenGenerator.GenerateToken(user.UserId, user.Login);
+        var token = _jwtTokenService.GenerateToken(user.UserId, user.Login);
         
         return new Result<UserResponse>(
             _mapper.Map<UserResponse>((user, token)));

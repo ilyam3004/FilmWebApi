@@ -1,8 +1,9 @@
-﻿using WatchlistService.Dtos.Requests;
+﻿using System.Security.Claims;
+using WatchlistService.Dtos.Requests;
 
 namespace WatchlistService.Common.Events;
 
 public interface IMessageBusProducer
 {
-    string PublishAuthMessage(AuthUserRequest authUserRequest);
+    string PublishDecodeTokenMessage(DecodeTokenRequest decodeTokenRequest);
 }

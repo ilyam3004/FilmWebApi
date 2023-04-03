@@ -6,5 +6,5 @@ namespace WatchlistService.Common.Services;
 
 public interface IWatchlistService
 {
-    Task<Result<Watchlist>> CreateWatchlist(CreateWatchlistRequest request);
+    Task<Result<Watchlist>> CreateWatchlist(CreateWatchlistRequest request, string token);
 }

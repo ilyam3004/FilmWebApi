@@ -1,5 +1,5 @@
 ﻿namespace WatchlistService.Dtos.Requests;
 
-public record AuthUserRequest(
+public record DecodeTokenRequest(
     string Token,
     string Event);

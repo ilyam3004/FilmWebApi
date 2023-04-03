@@ -8,22 +8,20 @@ namespace WatchlistService.Common.Events;
 
 public class MessageBusProducer : IMessageBusProducer
 {
-    private readonly IConfiguration _configuration;
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly QueueDeclareOk _replyQueue;
 
     public MessageBusProducer(
-        IConfiguration configuration,
         IConnection connection)
     {
-        _configuration = configuration;
         _connection = connection;
-        _channel = _connection.CreateModel();
-        _replyQueue = _channel.QueueDeclare("", exclusive: true);   
+        _channel = connection.CreateModel();
+        _replyQueue = _channel.QueueDeclare(queue: "",
+            exclusive: false);
     }
 
-    public string PublishAuthMessage(AuthUserRequest request)
+    public string PublishDecodeTokenMessage(DecodeTokenRequest request)
     {
         _channel.QueueDeclare(
             "request-queue", 
@@ -37,7 +35,7 @@ public class MessageBusProducer : IMessageBusProducer
         {
             var body = ea.Body.ToArray();
             response = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"Received response: {response}");
+            Console.WriteLine($"--> Received response: {response}");
         };
         
         _channel.BasicConsume(
@@ -65,7 +63,7 @@ public class MessageBusProducer : IMessageBusProducer
             basicProperties: properties,
             body: body);
         
-        Console.WriteLine("Sending request: {0}", message);
+        Console.WriteLine("--> Sending request: {0}", message);
     }
 
     public void Dispose()
