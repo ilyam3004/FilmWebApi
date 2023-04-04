@@ -47,9 +47,12 @@ public class JwtTokenService : IJwtTokenService
     {
         var handler = new JwtSecurityTokenHandler();
         var jwtSecurityToken = handler.ReadJwtToken(token);
-        return jwtSecurityToken.Claims.First(x => 
-            x.Type == JwtRegisteredClaimNames.UniqueName)
+        var userId = jwtSecurityToken.Claims.First(x => 
+                x.Type == JwtRegisteredClaimNames.UniqueName)
             .Value;
+        
+        Console.WriteLine(userId);
+        return userId;
     }
 
     public bool CanReadToken(string token)

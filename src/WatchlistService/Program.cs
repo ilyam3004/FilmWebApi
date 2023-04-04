@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddAuth(builder.Configuration);
 
-    builder.Services.AddRabbitMQ(builder.Configuration);
+    builder.Services.AddRabbitMq(builder.Configuration);
 
     builder.Services.Configure<DatabaseSettings>(
         builder.Configuration.GetSection(DatabaseSettings.SectionName)

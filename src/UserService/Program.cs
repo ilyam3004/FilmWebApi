@@ -22,8 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services
         .AddSingleton<IJwtTokenService, JwtTokenService>()
-        .AddSingleton<IDateTimeProvider, DateTimeProvider>()
-        .AddHostedService<MessageBusSubscriber>();
+        .AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
     builder.Services
         .AddScoped<IUserService, UserServiceImp>()

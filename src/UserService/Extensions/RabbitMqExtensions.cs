@@ -1,6 +1,5 @@
-﻿using RabbitMQ.Client;
-using UserService.Common.Events.EventProcessing;
-using UserService.EventProcessing;
+﻿using UserService.MessageBus.Consumers;
+using MassTransit;
 
 namespace UserService.Extensions;
 
@@ -10,14 +9,35 @@ public static class RabbitMqExtensions
         this IServiceCollection services, 
         ConfigurationManager configuration)
     {
-        var factory = new ConnectionFactory
+        services.AddMassTransit(x =>
         {
-            HostName = configuration["RabbitMQHost"],
-        };
-
-        services.AddSingleton(factory.CreateConnection());
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+            x.AddConsumer<DecodeRequestConsumer>();
+            x.AddConsumer<DecodeResponseConsumer>();
+            
+            
+    
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(configuration["RabbitMQHost"], h =>
+                {
+                    h.Username(configuration["RabbitMQUser"]);
+                    h.Password(configuration["RabbitMQPassword"]);
+                });
         
+                cfg.ReceiveEndpoint("request-queue", e =>
+                {
+                    e.ConfigureConsumer<DecodeRequestConsumer>(context);
+                });
+        
+                cfg.ReceiveEndpoint("response-queue", e =>
+                {
+                    e.ConfigureConsumer<DecodeResponseConsumer>(context);
+                });
+            });
+        });
+
+        services.AddMassTransitHostedService();
+
         return services;
     }
 }

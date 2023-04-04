@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Security.Claims;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Common.Events;
 using WatchlistService.Dtos.Requests;
@@ -7,6 +5,9 @@ using WatchlistService.Models;
 using LanguageExt.Common;
 using FluentValidation;
 using MongoDB.Bson;
+using WatchlistService.MessageBus;
+using WatchlistService.MessageBus.Requests;
+using WatchlistService.MessageBus.Responses;
 
 namespace WatchlistService.Common.Services;
 
@@ -14,16 +15,16 @@ public class WatchlistServiceImp : IWatchlistService
 {
     private readonly IValidator<CreateWatchlistRequest> _validator;
     private readonly IWatchListRepository _watchListRepository;
-    private readonly IMessageBusProducer _messageBusProducer;
+    private readonly Requestor _requestor;
 
     public WatchlistServiceImp(
         IValidator<CreateWatchlistRequest> validator, 
-        IWatchListRepository watchListRepository,
-        IMessageBusProducer messageBusProducer)
+        IWatchListRepository watchListRepository, 
+        Requestor requestor)
     {
         _validator = validator;
         _watchListRepository = watchListRepository;
-        _messageBusProducer = messageBusProducer;
+        _requestor = requestor;
     }
 
     public async Task<Result<Watchlist>> CreateWatchlist(
@@ -40,14 +41,14 @@ public class WatchlistServiceImp : IWatchlistService
             return new Result<Watchlist>(validationException);
         }
 
-        string userId = GetUserIdFromToken(token);
+        DecodeTokenResponse response = await GetUserIdFromToken(token);
         
-        Console.WriteLine($"UserId: {userId}");
+        Console.WriteLine($"UserId: {response.UserId}");
         
         var watchlist = new Watchlist
         {
             Id = ObjectId.GenerateNewId().ToString(),
-            UserId = Guid.NewGuid().ToString(),
+            UserId = response.UserId,
             Name = "watchlist",
             MoviesId = request.MoviesId
         };
@@ -56,15 +57,15 @@ public class WatchlistServiceImp : IWatchlistService
         return watchlist;
     }
 
-    private string GetUserIdFromToken(string jwt)
+    private async Task<DecodeTokenResponse> GetUserIdFromToken(string jwt)
     {
         string[] token = jwt.Split();
         
         var decodeTokenRequest = new DecodeTokenRequest(
-            token[1], 
-            "decode-token-event");
-        
-        return _messageBusProducer
-            .PublishDecodeTokenMessage(decodeTokenRequest);
+            token[1]);
+
+        var response = await _requestor.SendRequest(decodeTokenRequest);
+
+        return response;
     }
 }

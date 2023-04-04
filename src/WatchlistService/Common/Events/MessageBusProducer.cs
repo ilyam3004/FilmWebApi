@@ -3,6 +3,7 @@ using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using WatchlistService.Dtos.Requests;
+using WatchlistService.MessageBus.Requests;
 
 namespace WatchlistService.Common.Events;
 
@@ -21,21 +22,22 @@ public class MessageBusProducer : IMessageBusProducer
             exclusive: false);
     }
 
-    public string PublishDecodeTokenMessage(DecodeTokenRequest request)
+    public async Task<string> PublishDecodeTokenMessage(DecodeTokenRequest request)
     {
         _channel.QueueDeclare(
             "request-queue", 
             exclusive: false);
 
-        var consumer = new EventingBasicConsumer(_channel);
+        var consumer = new AsyncEventingBasicConsumer(_channel);
 
         var response = "";
 
-        consumer.Received += (model, ea) =>
+        consumer.Received += async (model, ea) =>
         {
             var body = ea.Body.ToArray();
             response = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"--> Received response: {response}");
+            _channel.BasicAck(ea.DeliveryTag, false);
+            await Task.Yield();
         };
         
         _channel.BasicConsume(
@@ -45,7 +47,7 @@ public class MessageBusProducer : IMessageBusProducer
         
         var message = JsonSerializer.Serialize(request);
         PublishMessage(message);
-        
+
         return response;
     }
 

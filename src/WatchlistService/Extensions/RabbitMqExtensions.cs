@@ -1,22 +1,30 @@
-﻿using WatchlistService.Common.Events;
-using RabbitMQ.Client;
+﻿using MassTransit;
+using WatchlistService.MessageBus;
 
 namespace WatchlistService.Extensions;
 
 public static class RabbitMqExtensions
 {
-    public static IServiceCollection AddRabbitMQ(
+    public static IServiceCollection AddRabbitMq(
         this IServiceCollection services, 
         ConfigurationManager configuration)
     {
-        var factory = new ConnectionFactory
-        {
-            HostName = configuration["RabbitMQHost"],
-        };
+        services.AddScoped<Requestor>();
         
-        services.AddSingleton(factory.CreateConnection());
-        services.AddSingleton<IMessageBusProducer, MessageBusProducer>();
-            
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(configuration["RabbitMQHost"], h =>
+                {
+                    h.Username(configuration["RabbitMQUser"]);
+                    h.Password(configuration["RabbitMQPassword"]);
+                });
+            });
+        });
+
+        services.AddMassTransitHostedService();
+
         return services;
     }
 }
