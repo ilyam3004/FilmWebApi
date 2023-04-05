@@ -73,7 +73,7 @@ services:
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__Issuer=Watchwise
       - JwtSettings__Audience=Watchwise
-      - RabbitMQHost=rabbitmq
+      - RabbitMQHost=rabbitmq://rabbitmq:5672
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
@@ -97,7 +97,7 @@ services:
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__Issuer=Watchwise
       - JwtSettings__Audience=Watchwise
-      - RabbitMQHost=rabbitmq
+      - RabbitMQHost=rabbitmq://rabbitmq:5672/
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev

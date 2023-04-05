@@ -1,13 +1,12 @@
+using WatchlistService.MessageBus.Requests;
+using WatchlistService.MessageBus.Responses;
 using WatchlistService.Data.Repositories;
-using WatchlistService.Common.Events;
 using WatchlistService.Dtos.Requests;
 using WatchlistService.Models;
 using LanguageExt.Common;
 using FluentValidation;
+using MassTransit;
 using MongoDB.Bson;
-using WatchlistService.MessageBus;
-using WatchlistService.MessageBus.Requests;
-using WatchlistService.MessageBus.Responses;
 
 namespace WatchlistService.Common.Services;
 
@@ -15,16 +14,16 @@ public class WatchlistServiceImp : IWatchlistService
 {
     private readonly IValidator<CreateWatchlistRequest> _validator;
     private readonly IWatchListRepository _watchListRepository;
-    private readonly Requestor _requestor;
+    private readonly IRequestClient<DecodeTokenRequest> _requestClient;
 
     public WatchlistServiceImp(
         IValidator<CreateWatchlistRequest> validator, 
-        IWatchListRepository watchListRepository, 
-        Requestor requestor)
+        IWatchListRepository watchListRepository,
+        IRequestClient<DecodeTokenRequest> requestClient)
     {
         _validator = validator;
         _watchListRepository = watchListRepository;
-        _requestor = requestor;
+        _requestClient = requestClient;
     }
 
     public async Task<Result<Watchlist>> CreateWatchlist(
@@ -61,11 +60,14 @@ public class WatchlistServiceImp : IWatchlistService
     {
         string[] token = jwt.Split();
         
-        var decodeTokenRequest = new DecodeTokenRequest(
-            token[1]);
-
-        var response = await _requestor.SendRequest(decodeTokenRequest);
-
-        return response;
+        var request = new DecodeTokenRequest
+        {
+            Token = token[1]
+        };
+        Console.WriteLine("Sending request to decode token");
+        var response = await _requestClient
+            .GetResponse<DecodeTokenResponse>(request);
+        
+        return response.Message;
     }
 }

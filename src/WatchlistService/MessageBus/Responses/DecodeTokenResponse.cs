@@ -1,4 +1,6 @@
 ﻿namespace WatchlistService.MessageBus.Responses;
 
-public record DecodeTokenResponse(
-    string UserId);
+public class DecodeTokenResponse
+{
+    public string UserId { get; set; }
+};

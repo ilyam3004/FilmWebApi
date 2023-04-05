@@ -1,4 +1,6 @@
 ﻿namespace UserService.MessageBus.Requests;
 
-public record DecodeTokenRequest(
-    string Token);
+public record DecodeTokenRequest
+{
+    public string Token { get; set; }
+};

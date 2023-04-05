@@ -11,31 +11,22 @@ public static class RabbitMqExtensions
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<DecodeRequestConsumer>();
-            x.AddConsumer<DecodeResponseConsumer>();
-            
-            
-    
-            x.UsingRabbitMq((context, cfg) =>
+            x.AddConsumer<DecodeTokenRequestConsumer>();
+            x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host(configuration["RabbitMQHost"], h =>
-                {
-                    h.Username(configuration["RabbitMQUser"]);
-                    h.Password(configuration["RabbitMQPassword"]);
+                cfg.Host("localhost", "/", h => {
+                        h.Username("guest");
+                        h.Password("guest");
                 });
-        
-                cfg.ReceiveEndpoint("request-queue", e =>
+                
+                cfg.ReceiveEndpoint("/request-queue", ep =>
                 {
-                    e.ConfigureConsumer<DecodeRequestConsumer>(context);
+                    ep.PrefetchCount = 16;
+                    ep.UseMessageRetry(r => r.Interval(2, 100));
+                    ep.ConfigureConsumer<DecodeTokenRequestConsumer>(provider);
                 });
-        
-                cfg.ReceiveEndpoint("response-queue", e =>
-                {
-                    e.ConfigureConsumer<DecodeResponseConsumer>(context);
-                });
-            });
+            }));
         });
-
         services.AddMassTransitHostedService();
 
         return services;

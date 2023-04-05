@@ -1,4 +1,6 @@
 ﻿namespace WatchlistService.MessageBus.Requests;
 
-public record DecodeTokenRequest(
-    string Token);
+public class DecodeTokenRequest
+{
+    public string Token { get; set; } = String.Empty;
+}

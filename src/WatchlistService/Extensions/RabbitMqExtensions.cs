@@ -1,5 +1,5 @@
-﻿using MassTransit;
-using WatchlistService.MessageBus;
+﻿using WatchlistService.MessageBus.Requests;
+using MassTransit;
 
 namespace WatchlistService.Extensions;
 
@@ -9,22 +9,22 @@ public static class RabbitMqExtensions
         this IServiceCollection services, 
         ConfigurationManager configuration)
     {
-        services.AddScoped<Requestor>();
-        
         services.AddMassTransit(x =>
         {
-            x.UsingRabbitMq((context, cfg) =>
+            x.AddBus(provider => Bus.Factory
+                .CreateUsingRabbitMq(config =>
             {
-                cfg.Host(configuration["RabbitMQHost"], h =>
-                {
-                    h.Username(configuration["RabbitMQUser"]);
-                    h.Password(configuration["RabbitMQPassword"]);
+                config.Host($"localhost", "/", h => {
+                        h.Username("guest");
+                        h.Password("guest");
                 });
-            });
+            }));
+
+            x.AddRequestClient<DecodeTokenRequest>(
+                new Uri("queue:my-new-request-queue"));
         });
-
         services.AddMassTransitHostedService();
-
+        
         return services;
     }
 }
