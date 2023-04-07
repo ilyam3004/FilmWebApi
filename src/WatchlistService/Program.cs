@@ -1,7 +1,6 @@
 using WatchlistService.Data.Repositories;
 using WatchlistService.Common.Services;
 using WatchlistService.Data.DbContext;
-using WatchlistService.Common.Events;
 using WatchlistService.Extensions;
 using System.Reflection;
 using FluentValidation;

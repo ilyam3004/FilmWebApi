@@ -21,4 +21,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Events" />
+    <Folder Include="MessageBus" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Watchwise.Shared\Watchwise.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

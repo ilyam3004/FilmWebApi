@@ -9,26 +9,23 @@ public static class RabbitMqExtensions
         this IServiceCollection services, 
         ConfigurationManager configuration)
     {
-        services.AddMassTransit(x =>
+        services.AddMassTransit(config =>
         {
-            x.AddConsumer<DecodeTokenRequestConsumer>();
-            x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+            config.AddConsumer<DecodeTokenMessageConsumer>();  
+            
+            config.UsingRabbitMq((context, config) =>
             {
-                cfg.Host("localhost", "/", h => {
-                        h.Username("guest");
-                        h.Password("guest");
-                });
-                
-                cfg.ReceiveEndpoint("/request-queue", ep =>
-                {
-                    ep.PrefetchCount = 16;
-                    ep.UseMessageRetry(r => r.Interval(2, 100));
-                    ep.ConfigureConsumer<DecodeTokenRequestConsumer>(provider);
-                });
-            }));
-        });
-        services.AddMassTransitHostedService();
+                config.Host("amqp://guest:guest@localhost:5672");
 
+                config.ReceiveEndpoint("decode-token", e =>
+                {
+                    e.ConfigureConsumer<DecodeTokenMessageConsumer>(context);
+                });
+            });
+        });
+
+        services.AddMassTransitHostedService();
+        
         return services;
     }
 }

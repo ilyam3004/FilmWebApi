@@ -1,11 +1,8 @@
-using WatchlistService.MessageBus.Requests;
-using WatchlistService.MessageBus.Responses;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Dtos.Requests;
 using WatchlistService.Models;
 using LanguageExt.Common;
 using FluentValidation;
-using MassTransit;
 using MongoDB.Bson;
 
 namespace WatchlistService.Common.Services;
@@ -14,16 +11,13 @@ public class WatchlistServiceImp : IWatchlistService
 {
     private readonly IValidator<CreateWatchlistRequest> _validator;
     private readonly IWatchListRepository _watchListRepository;
-    private readonly IRequestClient<DecodeTokenRequest> _requestClient;
 
     public WatchlistServiceImp(
         IValidator<CreateWatchlistRequest> validator, 
-        IWatchListRepository watchListRepository,
-        IRequestClient<DecodeTokenRequest> requestClient)
+        IWatchListRepository watchListRepository)
     {
         _validator = validator;
         _watchListRepository = watchListRepository;
-        _requestClient = requestClient;
     }
 
     public async Task<Result<Watchlist>> CreateWatchlist(
@@ -39,15 +33,11 @@ public class WatchlistServiceImp : IWatchlistService
 
             return new Result<Watchlist>(validationException);
         }
-
-        DecodeTokenResponse response = await GetUserIdFromToken(token);
-        
-        Console.WriteLine($"UserId: {response.UserId}");
         
         var watchlist = new Watchlist
         {
             Id = ObjectId.GenerateNewId().ToString(),
-            UserId = response.UserId,
+            UserId = Guid.NewGuid().ToString(), 
             Name = "watchlist",
             MoviesId = request.MoviesId
         };
@@ -56,18 +46,18 @@ public class WatchlistServiceImp : IWatchlistService
         return watchlist;
     }
 
-    private async Task<DecodeTokenResponse> GetUserIdFromToken(string jwt)
-    {
-        string[] token = jwt.Split();
-        
-        var request = new DecodeTokenRequest
-        {
-            Token = token[1]
-        };
-        Console.WriteLine("Sending request to decode token");
-        var response = await _requestClient
-            .GetResponse<DecodeTokenResponse>(request);
-        
-        return response.Message;
-    }
+    // private async Task<DecodeTokenResponse> GetUserIdFromToken(string jwt)
+    // {
+        // string[] token = jwt.Split();
+        //  
+        // var request = new DecodeTokenRequest
+        // {
+        //     Token = token[1]
+        // };
+        // Console.WriteLine("Sending request to decode token");
+        // var response = await _requestClient
+        //     .GetResponse<DecodeTokenResponse>(request);
+        //
+        // return response.Message;
+    // }
 }

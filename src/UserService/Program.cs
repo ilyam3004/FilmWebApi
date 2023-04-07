@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using UserService.Common.Services;
 using System.Reflection;
 using FluentValidation;
-using UserService.Common.Events;
 using UserService.Data;
 using UserService.Extensions;
 
