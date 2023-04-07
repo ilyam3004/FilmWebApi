@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using WatchwiseShared.Messages;
 
 namespace WatchlistService.Extensions;
 
@@ -12,11 +13,9 @@ public static class RabbitMqExtensions
         {
             config.UsingRabbitMq((context, config) =>
             {
-                config.Host("amqp://guest:guest@localhost:5672", hostConfigurator => { });
+                config.Host(configuration["RabbitMqConnectionString"]);
             });
         });
-        
-        services.AddMassTransitHostedService();
         
         return services;
     }

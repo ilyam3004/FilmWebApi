@@ -6,7 +6,8 @@ networks:
 
 services:
   rabbitmq:
-    container_name: "rabbitmq"
+    container_name: rabbitmq
+    restart: always
     image: rabbitmq:3-management-alpine
     ports:
       - "5672:5672"
@@ -52,7 +53,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - dev
+        - dev
 
   user-service:
     image: docker.io/ilya3004/user-service
@@ -65,15 +66,15 @@ services:
     ports:
       - "8080:80"
     build:
-      context: UserService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: UserService/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
       - JwtSettings__Secret=super-secret-key
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__Issuer=Watchwise
       - JwtSettings__Audience=Watchwise
-      - RabbitMQHost=rabbitmq://rabbitmq:5672
+      - RabbitMqConnectionString=amqp://guest:guest@rabbitmq:5672/
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
@@ -87,8 +88,8 @@ services:
     ports:
       - "8181:80"
     build:
-      context: WatchlistService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: WatchlistService/Dockerfile
     environment:
       - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
       - DatabaseSettings__DatabaseName=WatchlistDB
@@ -97,7 +98,7 @@ services:
       - JwtSettings__ExpiryMinutes=60
       - JwtSettings__Issuer=Watchwise
       - JwtSettings__Audience=Watchwise
-      - RabbitMQHost=rabbitmq://rabbitmq:5672/
+      - RabbitMqConnectionString=amqp://guest:guest@rabbitmq:5672/
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev

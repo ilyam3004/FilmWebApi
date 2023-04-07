@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Watchwise.Shared\Watchwise.Shared.csproj" />
+    <ProjectReference Include="..\WatchwiseShared\WatchwiseShared.csproj" />
   </ItemGroup>
 
 </Project>

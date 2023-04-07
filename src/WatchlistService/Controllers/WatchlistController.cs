@@ -1,25 +1,20 @@
-using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using WatchlistService.Common.Services;
 using WatchlistService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Watchwise.Shared.Messages;
-using Watchwise.Shared.Responses;
 
 namespace WatchlistService.Controllers;
 
 [ApiController]
 [Route("watchlist")]
-//[Authorize]
+[Authorize]
 public class WatchlistController : ApiController
 {
     private readonly IWatchlistService _watchListService;
-    private readonly IRequestClient<DecodeTokenMessage> _requestClient;
     public WatchlistController(
-        IWatchlistService watchListService,
-        IPublishEndpoint publishEndpoint, IRequestClient<DecodeTokenMessage> requestClient)
+        IWatchlistService watchListService)
     {
         _watchListService = watchListService;
-        _requestClient = requestClient;
     }
 
     [HttpPost]
@@ -29,25 +24,23 @@ public class WatchlistController : ApiController
         var result = await _watchListService.CreateWatchlist(request, token);
         return result.Match(Ok, Problem); 
     }
-
-    [HttpPost("rabbitmq")]
-    public async Task<IActionResult> CreateWatchlistRabbitMq()
+    
+    [HttpGet("all")]
+    public async Task<IActionResult> GetWatchlists()
     {
         string token = HttpContext.Request.Headers["Authorization"]!;
-        Console.WriteLine("Sending request...");
 
-        var result = await _requestClient
-            .GetResponse<DecodeTokenMessageResponse>(new DecodeTokenMessage
-            {
-                Token = token
-            });
+        var result = await _watchListService.GetWatchlists(token);
 
-        return Ok(result.Message);
+        return result.Match(Ok, Problem);  
     }
     
     [HttpGet("{watchlistId}")]
-    public async Task<IActionResult> Get(string watchlistId)
+    public async Task<IActionResult> GetWatchlist(string watchlistId)
     {
-        return Ok();
+        var result = await _watchListService
+            .GetWatchlistByIdAsync(watchlistId);
+
+        return result.Match(Ok, Problem);
     }
 }

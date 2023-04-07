@@ -44,7 +44,6 @@ public class UserController : ApiController
     public async Task<IActionResult> GetClaims()
     {
         string token = HttpContext.Request.Headers["Authorization"]!;
-        Console.WriteLine(token);
         var result = _jwtTokenService.DecodeJwt(token);
 
         return Ok(result);

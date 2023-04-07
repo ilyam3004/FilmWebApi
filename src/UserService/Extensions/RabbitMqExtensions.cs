@@ -1,4 +1,4 @@
-﻿using UserService.MessageBus.Consumers;
+﻿using UserService.Bus.Consumers;
 using MassTransit;
 
 namespace UserService.Extensions;
@@ -11,21 +11,16 @@ public static class RabbitMqExtensions
     {
         services.AddMassTransit(config =>
         {
-            config.AddConsumer<DecodeTokenMessageConsumer>();  
-            
+            config.AddConsumer<DecodeTokenMessageConsumer>();
+
             config.UsingRabbitMq((context, config) =>
             {
-                config.Host("amqp://guest:guest@localhost:5672");
-
+                config.Host(configuration["RabbitMqConnectionString"]);
                 config.ReceiveEndpoint("decode-token", e =>
-                {
-                    e.ConfigureConsumer<DecodeTokenMessageConsumer>(context);
-                });
+                    e.ConfigureConsumer<DecodeTokenMessageConsumer>(context));
             });
         });
 
-        services.AddMassTransitHostedService();
-        
         return services;
     }
 }

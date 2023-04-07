@@ -20,8 +20,7 @@ public class UserControllerTests
 
     public UserControllerTests()
     {
-        _sut = new UserController(_userServiceMock.Object, _mapperMock.Object);
-        _fixture = new Fixture();
+        
     }
 
     [Fact]

@@ -51,7 +51,6 @@ public class JwtTokenService : IJwtTokenService
                 x.Type == JwtRegisteredClaimNames.UniqueName)
             .Value;
         
-        Console.WriteLine(userId);
         return userId;
     }
 
