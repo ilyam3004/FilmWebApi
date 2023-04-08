@@ -25,7 +25,7 @@ public class WatchlistController : ApiController
         return result.Match(Ok, Problem); 
     }
     
-    [HttpGet("all")]
+    [HttpGet]
     public async Task<IActionResult> GetWatchlists()
     {
         string token = HttpContext.Request.Headers["Authorization"]!;

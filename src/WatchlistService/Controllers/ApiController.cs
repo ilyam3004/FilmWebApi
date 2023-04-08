@@ -14,8 +14,6 @@ public class ApiController : ControllerBase
         {
             ValidationException => ValidationProblem(ex),
             DuplicateWatchlistException => Problem(ex.Message, statusCode: StatusCodes.Status409Conflict),
-            // InvalidCredentialsException => Problem(ex.Message,
-            //     statusCode: StatusCodes.Status401Unauthorized),
             _ => StatusCode(500, "Internal Server Error")
         };
     }
