@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpErrorResponse} from "@angular/common/http";
+import {Component} from '@angular/core';
 import {User} from "./core/models/user";
 import {AccountService} from "./core/services/account.service";
 
