@@ -10,7 +10,7 @@ import {environment} from "../../../environments/environment.development";
 })
 export class AccountService {
   private userSubject: BehaviorSubject<User | null>;
-  private user: Observable<User | null>;
+  public user: Observable<User | null>;
 
   constructor(
     private router: Router,

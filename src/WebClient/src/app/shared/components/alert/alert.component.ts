@@ -5,7 +5,7 @@ import {NavigationStart, Router} from "@angular/router";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
-  selector: 'app-alert',
+  selector: 'alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })

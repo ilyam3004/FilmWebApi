@@ -1,33 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {PostService} from "./core/services/post.service";
-import {Post} from "./core/models/post";
 import {HttpErrorResponse} from "@angular/common/http";
+import {User} from "./core/models/user";
+import {AccountService} from "./core/services/account.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
-  public posts: Post[];
+export class AppComponent{
+  user?: User | null;
 
-  constructor(private postService: PostService) {
-    this.posts = [];
+  constructor(private accountService: AccountService) {
+    this.accountService.user.subscribe(x => this.user = x);
   }
 
-  ngOnInit() {
-    this.getPosts();
-  }
-
-  public getPosts(): void {
-    this.postService.getPosts().subscribe(
-      (response: Post[]) => {
-        this.posts = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);;
-      }
-    )
-    console.log(this.posts)
+  logout(){
+    this.accountService.logout();
   }
 }
