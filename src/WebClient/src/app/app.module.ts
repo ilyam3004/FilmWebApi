@@ -8,6 +8,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {JwtInterceptor} from "./shared/helpers/jwt.interceptor";
 import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
 import {HomeComponent} from "./modules/home/home.component";
+import {AuthModule} from "./modules/auth/auth.module";
+import {AuthRoutingModule} from "./modules/auth/auth-routing.module";
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import {HomeComponent} from "./modules/home/home.component";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
