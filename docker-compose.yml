@@ -35,7 +35,7 @@ services:
     restart: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./UserService/dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./src/UserService/dbscripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -67,7 +67,7 @@ services:
       - "8080:80"
     build:
       context: .
-      dockerfile: UserService/Dockerfile
+      dockerfile: src/UserService/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=Server=user-service-db;Port=5432;Database=userdb;User ID=postgres;Password=ilya3004;
       - JwtSettings__Secret=super-secret-key
@@ -89,7 +89,7 @@ services:
       - "8181:80"
     build:
       context: .
-      dockerfile: WatchlistService/Dockerfile
+      dockerfile: src/WatchlistService/Dockerfile
     environment:
       - DatabaseSettings__ConnectionString=mongodb://mongo_db:27017
       - DatabaseSettings__DatabaseName=WatchlistDB
@@ -107,7 +107,7 @@ services:
     container_name: web-client
     image: web-client
     build: 
-      context: WebClient
+      context: src/WebClient
       dockerfile: Dockerfile
     ports:
         - "4200:80"

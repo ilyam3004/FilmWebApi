@@ -4,10 +4,9 @@ EXPOSE 80
 
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["UserService/UserService.csproj", "UserService/"]
-COPY ["WatchwiseShared/WatchwiseShared.csproj", "WatchwiseShared/"]
-RUN dotnet restore "UserService/UserService.csproj"
+COPY ["src/UserService/UserService.csproj", "src/UserService/"]
+COPY ["src/WatchwiseShared/WatchwiseShared.csproj", "src/WatchwiseShared/"]
+RUN dotnet restore "src/UserService/UserService.csproj"
 
 COPY . .
 
