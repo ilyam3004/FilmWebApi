@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {BehaviorSubject, map, Observable} from "rxjs";
-import {User} from "../models/user";
+import {RegisterRequest, User} from "../models/user";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment.development";
 
@@ -25,7 +25,7 @@ export class AccountService {
   }
 
   login(login: string, password: string) {
-    return this.http.post<User>(`${environment.apiBaseUrl}/users/authenticate`, { login, password })
+    return this.http.post<User>(`${environment.apiBaseUrl}/users/login`, { login, password })
       .pipe(map(user => {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
@@ -39,7 +39,7 @@ export class AccountService {
     this.router.navigate(['account/login']);
   }
 
-  register(user: User) {
-    return this.http.post(`${environment.apiBaseUrl}/users/register`, user)
+  register(request: RegisterRequest) {
+    return this.http.post(`${environment.apiBaseUrl}/users/register`, request)
   }
 }

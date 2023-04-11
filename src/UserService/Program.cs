@@ -33,11 +33,21 @@ var builder = WebApplication.CreateBuilder(args);
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         .AddControllers();
+
+    builder.Services.AddCors(options => {
+        options.AddPolicy("AllowAllOrigins",
+            builder => {
+                builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin();
+            });
+    });
 }
 
 var app = builder.Build();
 {
     app.UseAuthorization();
     app.MapControllers();
+    app.UseCors("AllowAllOrigins");
     app.Run();
 }

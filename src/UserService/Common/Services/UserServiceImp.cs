@@ -40,7 +40,7 @@ public class UserServiceImp : IUserService
         
         if(_userRepository.UserExists(request.Login))
         {
-            var exception = new DuplicateEmailException($"User with login {request.Login} already exists");
+            var exception = new DuplicateEmailException($"User with the same already exists");
             return new Result<UserResponse>(exception);
         }
 

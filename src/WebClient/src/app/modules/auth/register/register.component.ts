@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {first} from "rxjs";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../../../shared/services/alert.service";
 import {AccountService} from "../../../core/services/account.service";
+import {RegisterRequest} from "../../../core/models/user";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
   form!: FormGroup;
@@ -26,8 +25,23 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-    });
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+    }, { validator: this.passwordMatchValidator() });
+  }
+
+  passwordMatchValidator() {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls['password'];
+      const matchingControl = formGroup.controls['confirmPassword'];
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ passwordsNotMatch: true });
+        return;
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
   }
 
   get f() { return this.form.controls; }
@@ -41,8 +55,16 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    let request: RegisterRequest = {
+      login: this.form.value['email'],
+      password: this.form.value['password'],
+      confirmPassword: this.form.value['confirmPassword']
+    }
+
+    console.log(request);
+
     this.loading = true;
-    this.accountService.register(this.form.value)
+    this.accountService.register(request)
       .pipe(first())
       .subscribe({
         next: () => {
