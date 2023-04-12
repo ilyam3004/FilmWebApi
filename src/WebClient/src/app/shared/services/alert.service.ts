@@ -18,7 +18,7 @@ export class AlertService {
   }
 
   error(message: string, options?: AlertOptions) {
-    this.alert(new Alert({ ...options, type: AlertType.Error, message }));
+    this.alert(new Alert({ ...options, type: AlertType.Error, message, autoClose: true }));
   }
 
   info(message: string, options?: AlertOptions) {

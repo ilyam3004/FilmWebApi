@@ -35,11 +35,10 @@ var builder = WebApplication.CreateBuilder(args);
         .AddControllers();
 
     builder.Services.AddCors(options => {
-        options.AddPolicy("AllowAllOrigins",
-            builder => {
-                builder.AllowAnyHeader()
-                       .AllowAnyMethod()
-                       .AllowAnyOrigin();
+        options.AddDefaultPolicy(builder => {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
             });
     });
 }
@@ -48,6 +47,6 @@ var app = builder.Build();
 {
     app.UseAuthorization();
     app.MapControllers();
-    app.UseCors("AllowAllOrigins");
+    app.UseCors();
     app.Run();
 }
