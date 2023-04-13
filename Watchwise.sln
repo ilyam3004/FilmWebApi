@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5A41B095
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceTests", "tests\UserServiceTests\UserServiceTests.csproj", "{16DDE3C7-DDFB-4871-B2E2-BE34C42653F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchwiseShared", "src\WatchwiseShared\WatchwiseShared.csproj", "{EB636F59-FA19-474F-A666-3B249ED04D8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{EB636F59-FA19-474F-A666-3B249ED04D8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "src\ApiGateway\ApiGateway.csproj", "{5DA36C10-7D08-450E-B6FA-01CA27EFE7C8}"
 EndProject

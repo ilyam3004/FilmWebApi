@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WatchlistService.Controllers;
 
 [ApiController]
-[Route("watchlist")]
+[Route("watchlists")]
 [Authorize]
 public class WatchlistController : ApiController
 {
@@ -22,7 +22,9 @@ public class WatchlistController : ApiController
     {
         string token = HttpContext.Request.Headers["Authorization"]!;
         var result = await _watchListService.CreateWatchlist(request, token);
-        return result.Match(Ok, Problem); 
+        return result.Match(
+            watchlist => Created($"watchlists/{watchlist.Id}", watchlist), 
+            Problem); 
     }
     
     [HttpGet]
@@ -34,7 +36,7 @@ public class WatchlistController : ApiController
 
         return result.Match(Ok, Problem);  
     }
-    
+
     [HttpGet("{watchlistId}")]
     public async Task<IActionResult> GetWatchlist(string watchlistId)
     {

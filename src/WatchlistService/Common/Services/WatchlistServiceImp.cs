@@ -2,8 +2,9 @@ using Watchlist = WatchlistService.Models.Watchlist;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Common.Exceptions;
 using WatchlistService.Dtos.Requests;
-using WatchwiseShared.Replies;
-using WatchwiseShared.Messages;
+using WatchlistService.Dtos.Responses;
+using Shared.Replies;
+using Shared.Messages;
 using LanguageExt.Common;
 using FluentValidation;
 using MassTransit;
@@ -27,7 +28,7 @@ public class WatchlistServiceImp : IWatchlistService
         _requestClient = requestClient;
     }
 
-    public async Task<Result<Watchlist>> CreateWatchlist(
+    public async Task<Result<CreateWatchlistResponse>> CreateWatchlist(
         CreateWatchlistRequest request,
         string token)
     {
@@ -38,7 +39,7 @@ public class WatchlistServiceImp : IWatchlistService
             var validationException = new ValidationException(
                 validationResult.Errors);
 
-            return new Result<Watchlist>(validationException);
+            return new Result<CreateWatchlistResponse>(validationException);
         }
 
         var userId = await GetUserIdFromToken(token);
@@ -46,7 +47,7 @@ public class WatchlistServiceImp : IWatchlistService
         if(await _watchListRepository
                 .WatchlistExistsAsync(request.WatchlistName, userId))
         {
-            return new Result<Watchlist>(new DuplicateWatchlistException(
+            return new Result<CreateWatchlistResponse>(new DuplicateWatchlistException(
                 $"Watchlist with name {request.WatchlistName} already exists"));
         }
 
@@ -60,7 +61,11 @@ public class WatchlistServiceImp : IWatchlistService
 
         await _watchListRepository.CreateWatchListAsync(watchlist);
 
-        return watchlist;
+        return new CreateWatchlistResponse
+        {
+            Id = watchlist.Id,
+            Name = watchlist.Name
+        };
     }
 
     public async Task<Result<List<Watchlist>>> GetWatchlists(string token)

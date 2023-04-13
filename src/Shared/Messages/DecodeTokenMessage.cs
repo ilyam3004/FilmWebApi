@@ -1,4 +1,4 @@
-﻿namespace WatchwiseShared.Messages;
+﻿namespace Shared.Messages;
 
 public class DecodeTokenMessage
 {

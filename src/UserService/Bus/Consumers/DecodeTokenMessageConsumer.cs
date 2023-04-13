@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using UserService.Common.Authentication;
-using WatchwiseShared.Messages;
-using WatchwiseShared.Replies;
+using Shared.Messages;
+using Shared.Replies;
 
 namespace UserService.Bus.Consumers;
 

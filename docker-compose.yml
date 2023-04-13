@@ -102,6 +102,24 @@ services:
       - ASPNETCORE_URLS=http://+:80
     networks:
       - dev
+      
+  movie-service:
+    image: docker.io/ilya3004/movie-service
+    container_name: movie-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8282:80"
+    build:
+      context: .
+      dockerfile: src/MovieService/Dockerfile
+    environment:
+#      - TmdbApiKey=
+      - RabbitMqConnectionString=amqp://guest:guest@rabbitmq:5672/
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - dev 
   
   web-client:
     container_name: web-client

@@ -1,7 +1,7 @@
-﻿using MassTransit;
-using Shared.Messages;
+﻿using MovieService.Bus.Consumers;
+using MassTransit;
 
-namespace WatchlistService.Extensions;
+namespace MovieService.Extensions;
 
 public static class RabbitMqExtensions
 {
@@ -11,12 +11,16 @@ public static class RabbitMqExtensions
     {
         services.AddMassTransit(config =>
         {
+            config.AddConsumer<MoviesDataMessageConsumer>();
+
             config.UsingRabbitMq((context, config) =>
             {
                 config.Host(configuration["RabbitMqConnectionString"]);
+                config.ReceiveEndpoint("movie-data", e =>
+                    e.ConfigureConsumer<MoviesDataMessageConsumer>(context));
             });
         });
-        
+
         return services;
     }
 }

@@ -5,7 +5,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 COPY ["src/WatchlistService/WatchlistService.csproj", "src/WatchlistService/"]
-COPY ["src/WatchwiseShared/WatchwiseShared.csproj", "src/WatchwiseShared/"]
+COPY ["src/Shared/Shared.csproj", "src/Shared/"]
 RUN dotnet restore "src/WatchlistService/WatchlistService.csproj"
 
 COPY . .

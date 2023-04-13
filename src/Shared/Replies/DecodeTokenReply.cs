@@ -1,4 +1,4 @@
-﻿namespace WatchwiseShared.Replies;
+﻿namespace Shared.Replies;
 
 public class DecodeTokenReply
 {
