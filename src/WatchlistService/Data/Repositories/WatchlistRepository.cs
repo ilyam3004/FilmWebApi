@@ -25,23 +25,21 @@ public class WatchlistRepository : IWatchListRepository
          return await _context.Watchlists
                 .Find(w => w.UserId == userId)
                 .ToListAsync();
-        
+    }
+
+    public Task AddMovieToWatchlistAsync(string watchlistId, int movieId)
+    {
+        return _context.Watchlists
+            .UpdateOneAsync(
+                w => w.Id == watchlistId,
+                Builders<Watchlist>.Update.AddToSet(w => w.MoviesId, movieId)
+            );
     }
 
     public async Task<Watchlist> CreateWatchListAsync(Watchlist watchList)
     {
         await _context.Watchlists.InsertOneAsync(watchList);
         return watchList;
-    }
-
-    public async Task<bool> UpdateWatchListAsync(Watchlist watchList)
-    {
-        var updateResult = await _context.Watchlists.ReplaceOneAsync(
-            filter: w => w.Id == watchList.Id,
-            replacement: watchList
-        );
-
-        return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
     }
 
     public async Task<bool> DeleteWatchListAsync(string watchListId)
@@ -52,10 +50,17 @@ public class WatchlistRepository : IWatchListRepository
         return result.IsAcknowledged && result.DeletedCount > 0;
     }
 
-    public Task<bool> WatchlistExistsAsync(string watchlistName, string userId)
+    public Task<bool> WatchlistExistsByIdAsync(string watchlistId)
     {
         return _context.Watchlists
-            .Find(w => w.Name == watchlistName && w.UserId == userId)
+            .Find(w => w.Id == watchlistId)
+            .AnyAsync();
+    }
+
+    public Task<bool> WatchlistExistsByNameAsync(string userId, string watchlistName)
+    {
+        return _context.Watchlists
+            .Find(w => w.UserId == userId && w.Name == watchlistName)
             .AnyAsync();
     }
 }

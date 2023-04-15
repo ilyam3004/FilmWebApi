@@ -10,4 +10,5 @@ public interface IWatchlistService
     Task<Result<CreateWatchlistResponse>> CreateWatchlist(CreateWatchlistRequest request, string token);
     Task<Result<List<Watchlist>>> GetWatchlists(string token);
     Task<Result<Watchlist>> GetWatchlistByIdAsync(string watchlistId);
+    Task<Result<WatchlistResponse>> AddMovieToWatchlist(string token, AddMovieRequest request);
 }

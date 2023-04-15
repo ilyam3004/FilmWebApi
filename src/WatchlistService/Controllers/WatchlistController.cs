@@ -45,4 +45,14 @@ public class WatchlistController : ApiController
 
         return result.Match(Ok, Problem);
     }
+
+    [HttpPost]
+    [Route("add-movie")]
+    public async Task<IActionResult> AddMovieToWatchlist(AddMovieRequest request)
+    {
+        var token = HttpContext.Request.Headers["Authorization"];
+        var result = await _watchListService
+            .AddMovieToWatchlist(token, request);
+        return result.Match(Ok, Problem);
+    }
 }

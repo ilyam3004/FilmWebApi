@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿
+using MassTransit;
 using MovieService.Common.Services;
 using Shared.Messages;
 

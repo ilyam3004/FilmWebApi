@@ -17,7 +17,7 @@ public class MovieServiceImp : IMovieService
     {
         var movies = new List<Movie>();
 
-        foreach (var movieId in message.MovieIds)
+        foreach (var movieId in message.MoviesId)
         {
             var movie = await _movieClient.GetMovieAsync(movieId);
             movies.Add(movie);

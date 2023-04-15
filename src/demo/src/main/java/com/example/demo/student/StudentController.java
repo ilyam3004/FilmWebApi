@@ -1,8 +1,7 @@
 package com.example.demo.student;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,8 +14,13 @@ public class StudentController {
         _studentService = studentService;
     }
 
-    @GetMapping("get")
+    @GetMapping
     public List<Student> getStudents() {
         return _studentService.getStudents();
+    }
+    
+    @PostMapping
+    public Student registerStudent(@RequestBody Student student){
+        return _studentService.registerStudent(student);
     }
 }

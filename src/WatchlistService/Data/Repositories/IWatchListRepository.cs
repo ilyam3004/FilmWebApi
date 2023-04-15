@@ -6,8 +6,9 @@ public interface IWatchListRepository
 {
     Task<Watchlist> GetWatchlistByIdAsync(string watchlistId);
     Task<Watchlist> CreateWatchListAsync(Watchlist watchList);
-    Task<bool> UpdateWatchListAsync(Watchlist watchList);
     Task<bool> DeleteWatchListAsync(string watchListId);
-    Task<bool> WatchlistExistsAsync(string watchlistName, string userId);
+    Task<bool> WatchlistExistsByIdAsync(string watchlistId);
+    Task<bool> WatchlistExistsByNameAsync(string userId, string watchlistName);
     Task<List<Watchlist>> GetWatchlistsAsync(string userId);
+    Task AddMovieToWatchlistAsync(string watchlistId, int movieId);
 }
