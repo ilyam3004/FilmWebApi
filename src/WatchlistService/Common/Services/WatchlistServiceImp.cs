@@ -16,8 +16,7 @@ namespace WatchlistService.Common.Services;
 
 public class WatchlistServiceImp : IWatchlistService
 {
-    private readonly IValidator<CreateWatchlistRequest> _createWatchlistValidator;
-    private readonly IValidator<AddMovieRequest> _addMovieRequestValidator;
+    private readonly IValidator<CreateWatchlistRequest> _createWatchlistValidator; 
     private readonly IWatchListRepository _watchListRepository;
     private readonly IRequestClient<DecodeTokenMessage> _decodeTokenRequestClient;
     private readonly IRequestClient<MoviesDataMessage> _movieDataRequestClient;
@@ -25,14 +24,12 @@ public class WatchlistServiceImp : IWatchlistService
     
     public WatchlistServiceImp(
         IValidator<CreateWatchlistRequest> createWatchlistValidator,
-        IValidator<AddMovieRequest> addMovieRequestValidator,
         IWatchListRepository watchListRepository, 
         IRequestClient<DecodeTokenMessage> decodeTokenRequestClient, 
         IRequestClient<MoviesDataMessage> movieDataRequestClient,
         IMapper mapper)
     {
         _createWatchlistValidator = createWatchlistValidator;
-        _addMovieRequestValidator = addMovieRequestValidator;
         _watchListRepository = watchListRepository;
         _decodeTokenRequestClient = decodeTokenRequestClient;
         _movieDataRequestClient = movieDataRequestClient;
@@ -58,8 +55,7 @@ public class WatchlistServiceImp : IWatchlistService
         if(await _watchListRepository
                 .WatchlistExistsByNameAsync(request.WatchlistName, userId))
         {
-            return new Result<CreateWatchlistResponse>(new DuplicateWatchlistException(
-                $"Watchlist with name {request.WatchlistName} already exists"));
+            return new Result<CreateWatchlistResponse>(new DuplicateWatchlistException());
         }
 
         var watchlist = new Watchlist
@@ -74,36 +70,46 @@ public class WatchlistServiceImp : IWatchlistService
 
         return _mapper.Map<CreateWatchlistResponse>(watchlist);
     }
+    
+    public async Task RemoveWatchlistAsync(string watchlistId)
+    {
+        //TODO add check if watchlist exists
+        await _watchListRepository.RemoveWatchListAsync(watchlistId);
+    }
 
     public async Task<Result<WatchlistResponse>> AddMovieToWatchlist(
-        string token,
-        AddMovieRequest request)
+        string watchlistId, int movieId)
     {
-        var validationResult = await _addMovieRequestValidator.ValidateAsync(request);
-        if (!validationResult.IsValid)
-        {
-            var validationException = new ValidationException(validationResult.Errors);
-            return new Result<WatchlistResponse>(validationException);
-        }
-        
-        var userId = await GetUserIdFromToken(token);
-
         if (!await _watchListRepository
-                .WatchlistExistsByIdAsync(request.WatchlistId))
+                .WatchlistExistsByIdAsync(watchlistId))
         {
             var notFoundException = new WatchlistNotFoundException();
             return new Result<WatchlistResponse>(notFoundException);
         }
-
+        
+        if (await _watchListRepository
+                .MovieExistsInWatchlistAsync(watchlistId, movieId))
+        {
+            return new Result<WatchlistResponse>(new DuplicateMovieInWatchlistException());
+        }
+        
         await _watchListRepository.AddMovieToWatchlistAsync(
-            request.WatchlistId, request.MovieId);
+            watchlistId, movieId);
         
         var updatedWatchlist = await _watchListRepository
-            .GetWatchlistByIdAsync(request.WatchlistId);
+            .GetWatchlistByIdAsync(watchlistId);
         
         var moviesData = await GetMoviesData(updatedWatchlist.MoviesId);
 
         return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData));
+    }
+    
+    public async Task RemoveMovieFromWatchlistAsync(
+        string watchlistId, int movieId)
+    {
+        //TODO add check if movie exists in watchlist
+        await _watchListRepository.RemoveMovieFromWatchlistAsync(
+            watchlistId, movieId);
     }
 
     public async Task<Result<List<Watchlist>>> GetWatchlists(string token)
@@ -122,7 +128,8 @@ public class WatchlistServiceImp : IWatchlistService
     {
         string[] token = jwt.Split();
          
-        var response = await _decodeTokenRequestClient.GetResponse<DecodeTokenReply>(
+        var response = await _decodeTokenRequestClient
+            .GetResponse<DecodeTokenReply>(
                 new DecodeTokenMessage
                 {
                     Token = token[1]
@@ -133,8 +140,8 @@ public class WatchlistServiceImp : IWatchlistService
     
     private async Task<List<Movie>> GetMoviesData(List<int> moviesId)
     {
-        var response = await _movieDataRequestClient.GetResponse<MoviesDataReply>(
-            new MoviesDataMessage
+        var response = await _movieDataRequestClient
+            .GetResponse<MoviesDataReply>(new MoviesDataMessage
             {
                 MoviesId = moviesId
             });

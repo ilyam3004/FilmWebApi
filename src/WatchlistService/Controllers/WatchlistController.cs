@@ -27,6 +27,22 @@ public class WatchlistController : ApiController
             Problem); 
     }
     
+    [HttpGet("{watchlistId}")]
+    public async Task<IActionResult> GetWatchlist(string watchlistId)
+    {
+        var result = await _watchListService
+            .GetWatchlistByIdAsync(watchlistId);
+
+        return result.Match(Ok, Problem);
+    }
+    
+    [HttpDelete("{watchlistId}")]
+    public async Task<IActionResult> RemoveWatchlist(string watchlistId)
+    {
+        await _watchListService.RemoveWatchlistAsync(watchlistId);
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetWatchlists()
     {
@@ -37,22 +53,21 @@ public class WatchlistController : ApiController
         return result.Match(Ok, Problem);  
     }
 
-    [HttpGet("{watchlistId}")]
-    public async Task<IActionResult> GetWatchlist(string watchlistId)
+    [HttpPost("{watchlistId}/movie/{movieId}")]
+    public async Task<IActionResult> AddMovieToWatchlist(
+        string watchlistId,
+        int movieId)
     {
         var result = await _watchListService
-            .GetWatchlistByIdAsync(watchlistId);
-
+            .AddMovieToWatchlist(watchlistId, movieId);
+        
         return result.Match(Ok, Problem);
     }
 
-    [HttpPost]
-    [Route("add-movie")]
-    public async Task<IActionResult> AddMovieToWatchlist(AddMovieRequest request)
+    [HttpDelete("{watchlistId}/movie/{movieId}")]
+    public async Task<IActionResult> RemoveFromWatchlist(string watchlistId, int movieId)
     {
-        var token = HttpContext.Request.Headers["Authorization"];
-        var result = await _watchListService
-            .AddMovieToWatchlist(token, request);
-        return result.Match(Ok, Problem);
+        await _watchListService.RemoveMovieFromWatchlistAsync(watchlistId, movieId);
+        return Ok();
     }
 }

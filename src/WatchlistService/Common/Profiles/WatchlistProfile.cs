@@ -21,6 +21,8 @@ public class WatchlistProfile : Profile
             .ForMember(dest => dest.Name, opt =>
                 opt.MapFrom(src => src.Item1.Name))
             .ForMember(dest => dest.Movies, opt =>
-                opt.MapFrom(src => src.Item2));
+                opt.MapFrom(src => src.Item2))
+            .ForMember(dest => dest.MoviesCount, opt =>
+                opt.MapFrom(src => src.Item2.Count));
     }
 }

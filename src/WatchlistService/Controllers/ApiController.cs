@@ -14,6 +14,8 @@ public class ApiController : ControllerBase
         {
             ValidationException => ValidationProblem(ex),
             DuplicateWatchlistException => Problem(ex.Message, statusCode: StatusCodes.Status409Conflict),
+            WatchlistNotFoundException => Problem(ex.Message, statusCode: StatusCodes.Status404NotFound),
+            DuplicateMovieInWatchlistException => Problem(ex.Message, statusCode: StatusCodes.Status409Conflict),
             _ => StatusCode(500, "Internal Server Error")
         };
     }

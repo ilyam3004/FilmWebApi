@@ -1,23 +1,22 @@
-﻿using Shared.Messages;
-using TMDbLib.Client;
+﻿using TMDbLib.Client;
 using TMDbLib.Objects.Movies;
 
 namespace MovieService.Common.Services;
 
 public class MovieServiceImp : IMovieService
 {
-    private readonly TMDbClient _movieClient;
-
-    public MovieServiceImp(IConfiguration configuration)
+    private TMDbClient _movieClient;
+    
+    public MovieServiceImp(TMDbClient movieClient)
     {
-        _movieClient = new TMDbClient(configuration["TmdbApiKey"]);
+        _movieClient = movieClient;
     }
 
-    public async Task<List<Movie>> GetMoviesData(MoviesDataMessage message)
+    public async Task<List<Movie>> GetMoviesData(List<int> moviesId)
     {
         var movies = new List<Movie>();
 
-        foreach (var movieId in message.MoviesId)
+        foreach (var movieId in moviesId)
         {
             var movie = await _movieClient.GetMovieAsync(movieId);
             movies.Add(movie);

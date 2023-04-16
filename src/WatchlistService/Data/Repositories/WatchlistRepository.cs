@@ -42,7 +42,7 @@ public class WatchlistRepository : IWatchListRepository
         return watchList;
     }
 
-    public async Task<bool> DeleteWatchListAsync(string watchListId)
+    public async Task<bool> RemoveWatchListAsync(string watchListId)
     {
         DeleteResult result = await _context
                 .Watchlists.DeleteOneAsync(w => w.Id == watchListId);
@@ -62,5 +62,22 @@ public class WatchlistRepository : IWatchListRepository
         return _context.Watchlists
             .Find(w => w.UserId == userId && w.Name == watchlistName)
             .AnyAsync();
+    }
+    
+    public Task<bool> MovieExistsInWatchlistAsync(string watchlistId, int movieId)
+    {
+        return _context.Watchlists
+            .Find(w => w.Id == watchlistId && w.MoviesId.Contains(movieId))
+            .AnyAsync();
+    }
+
+    public Task RemoveMovieFromWatchlistAsync(string watchlistId, int movieId)
+    {
+        //TODO fix the the bug with removing the movie from the watchlist
+        return _context.Watchlists
+            .UpdateOneAsync(
+                w => w.Id == watchlistId,
+                Builders<Watchlist>.Update.Pull(w => w.MoviesId, movieId)
+            );
     }
 }

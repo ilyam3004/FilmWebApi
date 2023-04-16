@@ -7,7 +7,6 @@ using UserService.Data;
 using UserService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 {
     var assembly = Assembly.GetExecutingAssembly();
 
