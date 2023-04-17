@@ -157,9 +157,22 @@ public class WatchlistServiceImp : IWatchlistService
         return watchlists;
     }
 
-    public async Task<Result<Watchlist>> GetWatchlistByIdAsync(string watchlistId)
+    public async Task<Result<WatchlistResponse>> GetWatchlistByIdAsync(string watchlistId)
     {
-        return await _watchListRepository.GetWatchlistByIdAsync(watchlistId);
+        if(!await _watchListRepository
+                .WatchlistExistsByIdAsync(watchlistId))
+        {
+            var notFoundException = new WatchlistNotFoundException();
+            return new Result<WatchlistResponse>(notFoundException);
+        }
+        
+        var dbWatchlist =  await _watchListRepository
+            .GetWatchlistByIdAsync(watchlistId);
+
+        var movieData = await GetMoviesData(
+            dbWatchlist.MoviesId);
+        
+        return _mapper.Map<WatchlistResponse>((dbWatchlist, movieData));
     }
 
     private async Task<string> GetUserIdFromToken(string jwt)
