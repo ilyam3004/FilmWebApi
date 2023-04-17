@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using WatchlistService.Data.DbContext;
 using WatchlistService.Models;
 
@@ -73,11 +74,12 @@ public class WatchlistRepository : IWatchListRepository
 
     public Task RemoveMovieFromWatchlistAsync(string watchlistId, int movieId)
     {
-        //TODO fix the the bug with removing the movie from the watchlist
         return _context.Watchlists
             .UpdateOneAsync(
                 w => w.Id == watchlistId,
-                Builders<Watchlist>.Update.Pull(w => w.MoviesId, movieId)
+                Builders<Watchlist>.Update.Pull(
+                    w => w.MoviesId,
+                    movieId)
             );
     }
 }

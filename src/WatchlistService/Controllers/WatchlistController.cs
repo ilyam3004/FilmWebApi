@@ -39,8 +39,10 @@ public class WatchlistController : ApiController
     [HttpDelete("{watchlistId}")]
     public async Task<IActionResult> RemoveWatchlist(string watchlistId)
     {
-        await _watchListService.RemoveWatchlistAsync(watchlistId);
-        return Ok();
+        var result = await _watchListService.RemoveWatchlistAsync(watchlistId);
+        return result.Match(
+            value => NoContent(), 
+            Problem);
     }
 
     [HttpGet]
@@ -67,7 +69,11 @@ public class WatchlistController : ApiController
     [HttpDelete("{watchlistId}/movie/{movieId}")]
     public async Task<IActionResult> RemoveFromWatchlist(string watchlistId, int movieId)
     {
-        await _watchListService.RemoveMovieFromWatchlistAsync(watchlistId, movieId);
-        return Ok();
+        var result = await _watchListService
+            .RemoveMovieFromWatchlistAsync(watchlistId, movieId);
+
+        return result.Match(
+            value => NoContent(),
+            Problem);
     }
 }

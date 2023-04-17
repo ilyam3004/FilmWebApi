@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddScoped<IWatchlistContext, WatchlistContext>()
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+        .AddSwaggerGen()
         .AddControllers();
 
     builder.Services.AddAuth(builder.Configuration);
@@ -31,5 +32,7 @@ var app = builder.Build();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.Run();
 }

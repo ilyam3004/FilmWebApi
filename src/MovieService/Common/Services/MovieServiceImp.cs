@@ -1,5 +1,5 @@
-﻿using TMDbLib.Client;
-using TMDbLib.Objects.Movies;
+﻿using TMDbLib.Objects.Movies;
+using TMDbLib.Client;
 
 namespace MovieService.Common.Services;
 

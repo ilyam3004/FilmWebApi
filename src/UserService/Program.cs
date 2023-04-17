@@ -1,10 +1,10 @@
 using UserService.Common.Authentication;
 using Microsoft.EntityFrameworkCore;
 using UserService.Common.Services;
+using UserService.Extensions;
 using System.Reflection;
 using FluentValidation;
 using UserService.Data;
-using UserService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -31,6 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+        .AddSwaggerGen()
         .AddControllers();
 
     builder.Services.AddCors(options => {
@@ -46,6 +47,8 @@ var app = builder.Build();
 {
     app.UseAuthorization();
     app.MapControllers();
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.UseCors();
     app.Run();
 }

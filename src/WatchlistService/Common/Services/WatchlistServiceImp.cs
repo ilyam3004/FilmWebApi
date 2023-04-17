@@ -53,7 +53,7 @@ public class WatchlistServiceImp : IWatchlistService
         var userId = await GetUserIdFromToken(token);
 
         if(await _watchListRepository
-                .WatchlistExistsByNameAsync(request.WatchlistName, userId))
+                .WatchlistExistsByNameAsync(userId, request.WatchlistName))
         {
             return new Result<CreateWatchlistResponse>(new DuplicateWatchlistException());
         }
@@ -71,10 +71,19 @@ public class WatchlistServiceImp : IWatchlistService
         return _mapper.Map<CreateWatchlistResponse>(watchlist);
     }
     
-    public async Task RemoveWatchlistAsync(string watchlistId)
+    public async Task<Result<Deleted>> RemoveWatchlistAsync(
+        string watchlistId)
     {
-        //TODO add check if watchlist exists
+        if (!await _watchListRepository
+                .WatchlistExistsByIdAsync(watchlistId))
+        {
+            var notFoundException = new WatchlistNotFoundException();
+            return new Result<Deleted>(notFoundException);
+        }
+        
         await _watchListRepository.RemoveWatchListAsync(watchlistId);
+
+        return new Deleted();
     }
 
     public async Task<Result<WatchlistResponse>> AddMovieToWatchlist(
@@ -104,19 +113,48 @@ public class WatchlistServiceImp : IWatchlistService
         return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData));
     }
     
-    public async Task RemoveMovieFromWatchlistAsync(
+    public async Task<Result<Deleted>> RemoveMovieFromWatchlistAsync(
         string watchlistId, int movieId)
     {
-        //TODO add check if movie exists in watchlist
+        if (!await _watchListRepository
+                .WatchlistExistsByIdAsync(watchlistId))
+        {
+            var notFoundException = new WatchlistNotFoundException();
+            return new Result<Deleted>(notFoundException);
+        }
+
+        if (!await _watchListRepository
+                .MovieExistsInWatchlistAsync(watchlistId, movieId))
+        {
+            var notFoundException = new MovieNotFoundException();
+            return new Result<Deleted>();
+        }
+
         await _watchListRepository.RemoveMovieFromWatchlistAsync(
             watchlistId, movieId);
+
+        return new Deleted();
     }
 
-    public async Task<Result<List<Watchlist>>> GetWatchlists(string token)
+    public async Task<Result<List<WatchlistResponse>>> GetWatchlists(string token)
     {
         string userId = await GetUserIdFromToken(token);
 
-        return await _watchListRepository.GetWatchlistsAsync(userId);
+        var dbWatchlists = await _watchListRepository
+            .GetWatchlistsAsync(userId);
+
+        var watchlists = new List<WatchlistResponse>();
+
+        foreach (var watchlist in dbWatchlists)
+        {
+            var moviesData = await GetMoviesData(
+                watchlist.MoviesId);
+            
+            watchlists.Add(_mapper
+                .Map<WatchlistResponse>((watchlist, moviesData)));
+        }
+
+        return watchlists;
     }
 
     public async Task<Result<Watchlist>> GetWatchlistByIdAsync(string watchlistId)
@@ -127,7 +165,7 @@ public class WatchlistServiceImp : IWatchlistService
     private async Task<string> GetUserIdFromToken(string jwt)
     {
         string[] token = jwt.Split();
-         
+        
         var response = await _decodeTokenRequestClient
             .GetResponse<DecodeTokenReply>(
                 new DecodeTokenMessage
