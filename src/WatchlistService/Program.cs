@@ -1,7 +1,7 @@
 using WatchlistService.Data.Repositories;
-using WatchlistService.Common.Services;
 using WatchlistService.Data.DbContext;
 using WatchlistService.Extensions;
+using WatchlistService.Bus;
 using System.Reflection;
 using FluentValidation;
 
@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
     var assembly = Assembly.GetExecutingAssembly();
 
     builder.Services
-        .AddScoped<IWatchlistService, WatchlistServiceImp>()
         .AddScoped<IWatchListRepository, WatchlistRepository>()
         .AddScoped<IWatchlistContext, WatchlistContext>()
+        .AddScoped<IWatchlistRequestClient, WatchlistRequestClient>()
         .AddValidatorsFromAssembly(assembly)
         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
         .AddSwaggerGen()
@@ -22,6 +22,9 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddRabbitMq(builder.Configuration);
 
+    builder.Services.AddMediatR(c =>
+        c.RegisterServicesFromAssemblyContaining<Program>());
+    
     builder.Services.Configure<DatabaseSettings>(
         builder.Configuration.GetSection(DatabaseSettings.SectionName)
     );
