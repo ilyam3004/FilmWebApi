@@ -39,6 +39,14 @@ public class AddMovieCommandHandler :
             return new Result<WatchlistResponse>(notFoundException);
         }
         
+        if (!await IsWatchlistOwner(command.Token, command.WatchlistId))
+        {
+            var exception = new UnauthorizedAccessException(
+                "You are not authorized to access this watchlist.");
+            
+            return new Result<WatchlistResponse>(exception);
+        }
+        
         if (await _watchListRepository
                 .MovieExistsInWatchlistAsync(command.WatchlistId, command.MovieId))
         {
@@ -55,5 +63,14 @@ public class AddMovieCommandHandler :
             GetMoviesData(updatedWatchlist.MoviesId);
 
         return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData));
+    }
+    
+    private async Task<bool> IsWatchlistOwner(string Token, string watchlistId)
+    {
+        var userId = await _requestClient.GetUserIdFromToken(Token);
+        var dbWatchlist =  await _watchListRepository
+            .GetWatchlistByIdAsync(watchlistId);
+        
+        return dbWatchlist.UserId == userId;
     }
 }

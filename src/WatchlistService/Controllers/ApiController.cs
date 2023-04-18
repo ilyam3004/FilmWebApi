@@ -17,6 +17,7 @@ public class ApiController : ControllerBase
             WatchlistNotFoundException => Problem(ex.Message, statusCode: StatusCodes.Status404NotFound),
             DuplicateMovieInWatchlistException => Problem(ex.Message, statusCode: StatusCodes.Status409Conflict),
             MovieNotFoundException => Problem(ex.Message, statusCode: StatusCodes.Status404NotFound),
+            UnauthorizedAccessException => Problem(ex.Message, statusCode: StatusCodes.Status401Unauthorized),
             _ => StatusCode(500, "Internal Server Error")
         };
     }

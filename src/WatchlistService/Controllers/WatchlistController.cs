@@ -6,7 +6,6 @@ using WatchlistService.Messages.Commands.RemoveMovie;
 using WatchlistService.Messages.Commands.AddMovie;
 using Microsoft.AspNetCore.Authorization;
 using WatchlistService.Dtos.Responses;
-using WatchlistService.Dtos.Requests;
 using Microsoft.AspNetCore.Mvc;
 using TMDbLib.Objects.Movies;
 using AutoMapper;
@@ -28,13 +27,13 @@ public class WatchlistController : ApiController
         _mapper = mapper;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateWatchlist(CreateWatchlistRequest request)
+    [HttpPost("{watchlistName}")]
+    public async Task<IActionResult> CreateWatchlist(string watchlistName)
     {
         string token = HttpContext.Request.Headers["Authorization"]!;
         
         var command = new CreateWatchlistCommand(
-            request.WatchlistName,
+            watchlistName,
             token);
 
         var result = await _sender.Send(command);
@@ -49,7 +48,10 @@ public class WatchlistController : ApiController
     [HttpGet("{watchlistId}", Name = "GetWatchlist")]
     public async Task<IActionResult> GetWatchlist(string watchlistId)
     {
-        var getWatchlistQuery = new GetWatchlistQuery(watchlistId);
+        var token = HttpContext.Request.Headers["Authorization"]!;
+        
+        var getWatchlistQuery = new GetWatchlistQuery(
+            watchlistId, token);
 
         var result = await _sender.Send(getWatchlistQuery);
         
@@ -59,8 +61,10 @@ public class WatchlistController : ApiController
     [HttpDelete("{watchlistId}")]
     public async Task<IActionResult> RemoveWatchlist(string watchlistId)
     {
+        string token = HttpContext.Request.Headers["Authorization"]!;
         var command = new RemoveWatchlistCommand(
-            watchlistId);
+            watchlistId, 
+            token);
         
         var result = await _sender.Send(command);
         
@@ -85,7 +89,12 @@ public class WatchlistController : ApiController
         string watchlistId,
         int movieId)
     {
-        var command = new AddMovieCommand(watchlistId, movieId);
+        var token = HttpContext.Request.Headers["Authorization"]!;
+        
+        var command = new AddMovieCommand(
+            watchlistId, 
+            movieId,
+            token);
 
         var result = await _sender.Send(command);
         

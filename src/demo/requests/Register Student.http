@@ -1,8 +1,0 @@
-POST http://localhost:8080/students/register
-Content-Type: application/json
-
-{
-  "name": "jamal",
-  "age": 20,
-  "email": "jamal.gmail.com"
-}

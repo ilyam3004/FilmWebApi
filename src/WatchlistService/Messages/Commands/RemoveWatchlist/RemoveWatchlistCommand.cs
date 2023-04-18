@@ -5,4 +5,5 @@ using WatchlistService.Dtos.Responses;
 namespace WatchlistService.Messages.Commands.RemoveWatchlist;
 
 public record RemoveWatchlistCommand(
-    string WatchlistId) : IRequest<Result<Deleted>>;
+    string WatchlistId,
+    string Token) : IRequest<Result<Deleted>>;

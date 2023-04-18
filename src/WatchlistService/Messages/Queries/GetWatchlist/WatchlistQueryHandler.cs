@@ -29,8 +29,6 @@ public class WatchlistQueryHandler
         _mapper = mapper;
     }
     
-    //TODO Check if the user is the owner of the watchlist
-    
     public async Task<Result<WatchlistResponse>> Handle(
         GetWatchlistQuery query, CancellationToken cancellationToken)
     {
@@ -43,6 +41,17 @@ public class WatchlistQueryHandler
         
         var dbWatchlist =  await _watchListRepository
             .GetWatchlistByIdAsync(query.WatchlistId);
+        
+        var userId = await _requestClient.GetUserIdFromToken(
+            query.Token);
+
+        if (dbWatchlist.UserId != userId)
+        {
+            var exception = new UnauthorizedAccessException(
+                "You are not authorized to access this watchlist.");
+            
+            return new Result<WatchlistResponse>(exception);
+        }
 
         var movieData = await _requestClient.GetMoviesData(
             dbWatchlist.MoviesId);
