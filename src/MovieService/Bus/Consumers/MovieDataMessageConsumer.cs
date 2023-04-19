@@ -7,7 +7,7 @@ namespace MovieService.Bus.Consumers;
 
 public class MoviesDataMessageConsumer : IConsumer<MoviesDataMessage>
 {
-    private readonly IMovieService _movieService;
+     private readonly IMovieService _movieService;
     
      public MoviesDataMessageConsumer(IMovieService movieService)
      {
