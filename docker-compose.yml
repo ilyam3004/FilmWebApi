@@ -129,6 +129,23 @@ services:
       dockerfile: Dockerfile
     ports:
         - "4200:80"
+  
+  ocelot.gateway:
+    image: docker.io/ilya3004/api-gateway
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Dockerfile
+    ports:
+      - "52793:80"
+    links:
+      - user-service
+      - watchlist-service
+      - movie-service
+    depends_on:
+      - user-service
+      - watchlist-service
+      - movie-service
 
 volumes:
   postgres-data:
