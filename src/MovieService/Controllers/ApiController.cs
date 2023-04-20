@@ -10,7 +10,7 @@ public class ApiController : ControllerBase
     {
         return ex switch
         {
-            MoviesNotFoundException => Problem(ex.Message, 
+            MovieNotFoundException => Problem(ex.Message, 
                 statusCode: StatusCodes.Status404NotFound),
             _ => StatusCode(500, "Internal Server Error")
         };

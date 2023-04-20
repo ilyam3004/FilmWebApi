@@ -10,9 +10,23 @@ public class MovieServiceImp : IMovieService
 {
     private TMDbClient _movieClient;
     private const int PagesCount = 1;
+    
     public MovieServiceImp(TMDbClient movieClient)
     {
         _movieClient = movieClient;
+    }
+
+    public async Task<Result<Movie>> GetMovieData(int movieId)
+    {
+        var movie = await _movieClient.GetMovieAsync(movieId);
+        
+        if (movie is null)
+        {
+            var exception = new MovieNotFoundException("Movie not found");
+            return new Result<Movie>(exception);
+        }
+
+        return movie;
     }
 
     public async Task<List<Movie>> GetMoviesData(
@@ -23,7 +37,7 @@ public class MovieServiceImp : IMovieService
         foreach (var movieId in moviesId)
         {
             var movie = await _movieClient.GetMovieAsync(movieId);
-            if (movie is null)
+            if (movie is not null)
             {
                 movies.Add(movie);        
             }
@@ -39,7 +53,7 @@ public class MovieServiceImp : IMovieService
         
         if (movies is null)
         {
-            var exception = new MoviesNotFoundException();
+            var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
         
@@ -53,7 +67,7 @@ public class MovieServiceImp : IMovieService
 
         if (movies is null)
         {
-            var exception = new MoviesNotFoundException();
+            var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
         
@@ -67,7 +81,7 @@ public class MovieServiceImp : IMovieService
 
         if (movies is null)
         {
-            var exception = new MoviesNotFoundException();
+            var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
         
@@ -81,7 +95,7 @@ public class MovieServiceImp : IMovieService
 
         if (movies is null)
         {
-            var exception = new MoviesNotFoundException();
+            var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
         

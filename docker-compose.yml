@@ -63,8 +63,8 @@ services:
       user-service-db:
         condition: service_healthy
     container_name: user-service
-    ports:
-      - "8080:80"
+#    ports:
+#      - "5000:80"
     build:
       context: .
       dockerfile: src/UserService/Dockerfile
@@ -85,8 +85,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-    ports:
-      - "8181:80"
+#    ports:
+#      - "5001:80"
     build:
       context: .
       dockerfile: src/WatchlistService/Dockerfile
@@ -109,8 +109,8 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-    ports:
-      - "8282:80"
+#    ports:
+#      - "5002:80"
     build:
       context: .
       dockerfile: src/MovieService/Dockerfile
@@ -130,22 +130,20 @@ services:
     ports:
         - "4200:80"
   
-  ocelot.gateway:
+  api-gateway:
     image: docker.io/ilya3004/api-gateway
     container_name: gateway
     build:
       context: .
       dockerfile: src/ApiGateway/Dockerfile
     ports:
-      - "52793:80"
-    links:
-      - user-service
-      - watchlist-service
-      - movie-service
+      - "8000:80"
     depends_on:
       - user-service
       - watchlist-service
       - movie-service
+    networks:
+        - dev
 
 volumes:
   postgres-data:

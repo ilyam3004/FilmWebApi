@@ -1,7 +1,9 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/users/{everything}",
+      "UpstreamPathTemplate": "/users/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +11,25 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/users/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "DownstreamPathTemplate": "/users/register"
     },
     {
-      "DownstreamPathTemplate": "/watchlists/{everything}",
+      "UpstreamPathTemplate": "/users/login",
+      "UpstreamHttpMethod": [ "Post" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "user-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/users/login"
+    },
+    {
+      "UpstreamPathTemplate": "/watchlists/{watchlistName}",
+      "UpstreamHttpMethod": [ "Post" ],
+
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,11 +37,51 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/watchlists/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "DownstreamPathTemplate": "/watchlists/{watchlistName}"
     },
     {
-      "DownstreamPathTemplate": "/movies/{everything}",
+      "UpstreamPathTemplate": "/watchlists/{watchlistId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "watchlist-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/watchlists/{watchlistId}"
+    },
+    {
+      "UpstreamPathTemplate": "/watchlists",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "watchlist-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/watchlists"
+    },
+    {
+      "UpstreamPathTemplate": "/watchlists/{watchlistId}/movie/{movieId}",
+      "UpstreamHttpMethod": [ "Post", "Delete" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "watchlist-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/watchlists/{watchlistId}/movie/{movieId}"
+    },
+    {
+      "UpstreamPathTemplate": "/movies/search/{query}",
+      "UpstreamHttpMethod": [ "Get" ],
+
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -33,8 +89,62 @@
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/movies/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "DownstreamPathTemplate": "/movies/search/{query}"
+    },
+    {
+      "UpstreamPathTemplate": "/movies/{movieId}",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movie-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/movies/{movieId}"
+    },
+    {
+      "UpstreamPathTemplate": "/movies/popular",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movie-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/movies/popular"
+    },
+    {
+      "UpstreamPathTemplate": "/movies/top-rated",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movie-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/movies/top-rated"
+    },
+    {
+      "UpstreamPathTemplate": "/movies/upcoming",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "movie-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/movies/upcoming"
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "BaseURL": "http://localhost:8000"
+  }
 }

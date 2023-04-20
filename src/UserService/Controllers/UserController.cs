@@ -27,6 +27,7 @@ public class UserController : ApiController
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
+        Console.WriteLine("Received request from the api gateway");
         var result = await _userService.Register(request);
 
         return result.Match<IActionResult>(Ok, Problem);
@@ -38,14 +39,5 @@ public class UserController : ApiController
         var result = await _userService.Login(request);
 
         return result.Match<IActionResult>(Ok, Problem);
-    }
-    
-    [HttpGet("claims")]
-    public async Task<IActionResult> GetClaims()
-    {
-        string token = HttpContext.Request.Headers["Authorization"]!;
-        var result = _jwtTokenService.DecodeJwt(token);
-
-        return Ok(result);
     }
 }

@@ -8,7 +8,7 @@ namespace MovieService.Controllers;
 public class MovieController : ApiController
 {
     private readonly IMovieService _movieService;
-    
+
     public MovieController(IMovieService movieService)
     {
         _movieService = movieService;
@@ -22,7 +22,15 @@ public class MovieController : ApiController
 
         return result.Match(Ok, Problem);
     }
-    
+
+    [HttpGet("{movieId}")]
+    public async Task<IActionResult> GetMovie(int movieId)
+    {
+        var result = await _movieService.GetMovieData(movieId);
+
+        return result.Match(Ok, Problem);
+    }
+
     [HttpGet("popular")]
     public async Task<IActionResult> PopularMovies()
     {

@@ -1,7 +1,7 @@
 ﻿namespace MovieService.Common.Exceptions;
 
-public class MoviesNotFoundException : Exception
+public class MovieNotFoundException : Exception
 {
-    public MoviesNotFoundException(
+    public MovieNotFoundException(
         string message = "No results by this search request") : base(message) { }    
 }
