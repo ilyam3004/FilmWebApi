@@ -10,12 +10,14 @@ import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
 import {HomeComponent} from "./modules/home/home.component";
 import {AuthModule} from "./modules/auth/auth.module";
 import {AuthRoutingModule} from "./modules/auth/auth-routing.module";
+import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertComponent,
-    HomeComponent
+    HomeComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

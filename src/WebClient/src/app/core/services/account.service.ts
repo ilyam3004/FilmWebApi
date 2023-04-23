@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Router} from "@angular/router";
-import {BehaviorSubject, map, Observable} from "rxjs";
-import {RegisterRequest, User} from "../models/user";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../environments/environment.development";
+import { Router } from "@angular/router";
+import { BehaviorSubject, map, Observable } from "rxjs";
+import { RegisterRequest, User } from "../models/user";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +40,8 @@ export class AccountService {
   }
 
   register(request: RegisterRequest) {
-    return this.http.post(`${environment.apiBaseUrl}/users/register`, request)
+    return this.http.post(
+      `${environment.apiBaseUrl}/users/register`,
+      request, {withCredentials: true});
   }
 }
