@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {HomeComponent} from "./modules/home/home.component";
 import {AuthGuard} from "./shared/helpers/auth.guard";
-import {RegisterComponent} from "./modules/auth/register/register.component";
+import { NgModule } from '@angular/core';
+import {HomeModule} from "./modules/home/home.module";
 
 const authModule = () => import('./modules/auth/auth.module')
   .then(x => x.AuthModule);
+const homeModule = () => import('./modules/home/home.module')
+  .then(x => x.HomeModule);
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: '', loadChildren: homeModule, canActivate: [AuthGuard]},
   { path: 'account', loadChildren: authModule },
   { path: '**', redirectTo: ''}
 ];
@@ -17,4 +18,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

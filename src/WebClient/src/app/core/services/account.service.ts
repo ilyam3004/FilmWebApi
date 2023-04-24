@@ -42,6 +42,6 @@ export class AccountService {
   register(request: RegisterRequest) {
     return this.http.post(
       `${environment.apiBaseUrl}/users/register`,
-      request, {withCredentials: true});
+      request);
   }
 }
