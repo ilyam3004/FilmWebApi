@@ -1,15 +1,25 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div style="max-height: 100vh; overflow: scroll; width: 123%">
   <div class="input-group mb-3">
-    <input type="text"
-           class="form-control"
-           placeholder="Type movie title here"
-           aria-label="Recipient's username"
-           aria-describedby="basic-addon2">
+    <input type="text" class="form-control" placeholder="Type movie title here" aria-label="Recipient's username"
+           aria-describedby="basic-addon2" #fieldName (keyup)="processKeyup(fieldName.value)"/>
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary"
-              type="submit">
-        Button
+      <button class="btn btn-outline-secondary" type="submit">
+        Search
       </button>
     </div>
   </div>
-</form>
+  <div class="row">
+    <div class="col-sm-6 col-md-4" *ngFor="let movie of movies">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="https://image.tmdb.org/t/p/w300{{movie.backdropPath}}  " alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{movie.title}}</h5>
+          <p class="card-text">
+            {{movie.overview}}
+          </p>
+          <a href="#" class="btn btn-primary">Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
