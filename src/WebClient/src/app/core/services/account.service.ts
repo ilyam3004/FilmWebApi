@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { BehaviorSubject, map, Observable } from "rxjs";
 import { RegisterRequest, User } from "../models/user";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class AccountService {
   }
 
   login(login: string, password: string) {
-    return this.http.post<User>(`${environment.apiBaseUrl}/users/login`, { login, password })
+    return this.http.post<User>(`users/login`, { login, password })
       .pipe(map(user => {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
@@ -40,8 +39,6 @@ export class AccountService {
   }
 
   register(request: RegisterRequest) {
-    return this.http.post(
-      `${environment.apiBaseUrl}/users/register`,
-      request);
+    return this.http.post(`users/register`, request);
   }
 }
