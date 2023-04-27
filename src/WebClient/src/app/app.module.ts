@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AlertComponent } from './shared/components/alert/alert.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import {JwtInterceptor} from "./shared/helpers/jwt.interceptor";
+import {ApiInterceptor} from "./shared/helpers/api-interceptor.service";
 import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
 
 @NgModule({
@@ -20,8 +20,8 @@ import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
     ReactiveFormsModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   exports: [
     AlertComponent

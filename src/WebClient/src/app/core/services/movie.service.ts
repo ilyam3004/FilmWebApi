@@ -1,3 +1,4 @@
+import {environment} from "../../../environments/environment.development";
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Observable } from 'rxjs';
@@ -15,18 +16,18 @@ export class MovieService {
   }
 
   getPopularMovies(): Observable<Movie[]>{
-    return this.httpClient.get<Movie[]>('popular');
+    return this.httpClient.get<Movie[]>('movies/popular');
   }
 
   getTopRated(): Observable<Movie[]>{
-    return this.httpClient.get<Movie[]>('top-rated')
+    return this.httpClient.get<Movie[]>('movies/top-rated')
   }
 
   getUpcoming(): Observable<Movie[]>{
-    return this.httpClient.get<Movie[]>('upcoming')
+    return this.httpClient.get<Movie[]>('movies/upcoming')
   }
 
   getMovie(id: number): Observable<Movie>{
-    return this.httpClient.get<Movie>(`id`)
+    return this.httpClient.get<Movie>(`movies/id`)
   }
 }
