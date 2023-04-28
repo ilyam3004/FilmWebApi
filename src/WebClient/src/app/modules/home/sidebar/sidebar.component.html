@@ -1,53 +1,62 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-     style="width: 100%; height: 100vh;">
-  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+  <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
     <svg class="bi me-2" width="40" height="32" fill="white">
       <use xlink:href="bootstrap-icons.svg#film"/>
     </svg>
-    <span class="fs-4">Watchwise</span>
+    <span class="fs-5 d-none d-sm-inline">
+      Watchwise
+    </span>
   </a>
   <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
+  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
     <li class="nav-item">
       <a routerLink="/movies"
          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-         class="nav-link" [class.active]="currentRoute === '/movies'">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="bootstrap-icons.svg#film" fill="currentColor"></use>
-        </svg>
-        Movies
+         class="nav-link"
+         [class.active]="currentRoute === '/movies'">
+        <i class="fs-4 bi-film"></i>
+        <span class="ms-1 d-none d-sm-inline">
+          Movies
+        </span>
       </a>
     </li>
-    <li>
+    <li class="nav-item">
       <a routerLink="/search"
          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-         class="nav-link" [class.active]="currentRoute === '/search'">
-        <svg class="bi me-2" width="16" height="16" fill="currentColor">
-          <use xlink:href="bootstrap-icons.svg#search"/>
-        </svg>
-        Search
+         class="nav-link"
+         [class.active]="currentRoute === '/search'">
+        <i class="fs-4 bi-search"></i>
+        <span class="ms-1 d-none d-sm-inline">
+          Search
+        </span>
       </a>
     </li>
-    <li>
+    <li class="nav-item">
       <a routerLink="/watchlists"
          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-         class="nav-link" [class.active]="currentRoute === '/watchlists'">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="bootstrap-icons.svg#view-list" fill="currentColor"/>
-        </svg>
-        Watchlists
+         class="nav-link"
+         [class.active]="currentRoute === '/watchlists'">
+        <i class="fs-4 bi-view-list"></i>
+        <span class="ms-1 d-none d-sm-inline">
+          Watchlists
+        </span>
       </a>
     </li>
-    <li>
+    <li class="nav-item">
       <a routerLink="/suggestions"
          routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-         class="nav-link" [class.active]="currentRoute === '/suggestions'">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="bootstrap-icons.svg#fire" fill="currentColor"/>
-        </svg>
-        Suggestions
+         class="nav-link"
+         [class.active]="currentRoute === '/suggestions'">
+        <i class="fs-4 bi-fire"></i>
+        <span class="ms-1 d-none d-sm-inline">
+          Suggestions
+        </span>
       </a>
     </li>
   </ul>
-  <button type="button" class="btn btn-outline-danger">Log out</button>
+  <a routerLink="/login"
+     routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+     class="nav-link">
+    <button type="button" class="btn btn-outline-danger">Log out</button>
+  </a>
 </div>
