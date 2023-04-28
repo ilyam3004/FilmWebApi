@@ -18,6 +18,9 @@ export class SearchComponent {
     private alertService: AlertService) { }
 
   processKeyup(query: string){
+    if(!query){
+      this.movies = [];
+    }
     this.movieService.searchMovie(query)
       .subscribe(
         (response: Movie[]) => {
