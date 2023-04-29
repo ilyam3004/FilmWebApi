@@ -8,6 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { SuggestionsComponent } from './suggestions/suggestions.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { MovieComponent } from './shared/movie/movie.component';
 
 
 @NgModule({
@@ -17,13 +18,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     SearchComponent,
     SidebarComponent,
     LayoutComponent,
-    SuggestionsComponent
+    SuggestionsComponent,
+    MovieComponent
   ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        FormsModule,
+        ReactiveFormsModule
+    ]
 })
 export class HomeModule { }

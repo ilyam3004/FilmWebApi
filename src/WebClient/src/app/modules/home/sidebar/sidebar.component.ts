@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })

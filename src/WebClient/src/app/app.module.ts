@@ -11,7 +11,7 @@ import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
 @NgModule({
   declarations: [
     AppComponent,
-    AlertComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -23,9 +23,9 @@ import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  exports: [
-    AlertComponent
-  ],
+    exports: [
+        AlertComponent
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
