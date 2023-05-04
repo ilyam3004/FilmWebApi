@@ -4,11 +4,12 @@ import { HomeRoutingModule } from './home-routing.module';
 import { MoviesComponent } from './movies/movies.component';
 import { WatchlistsComponent } from './watchlists/watchlists.component';
 import { SearchComponent } from './search/search.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { SuggestionsComponent } from './suggestions/suggestions.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MovieComponent } from './shared/movie/movie.component';
+import { DetailComponent } from './detail/detail.component';
 
 
 @NgModule({
@@ -16,10 +17,11 @@ import { MovieComponent } from './shared/movie/movie.component';
     MoviesComponent,
     WatchlistsComponent,
     SearchComponent,
-    SidebarComponent,
+    NavbarComponent,
     LayoutComponent,
     SuggestionsComponent,
-    MovieComponent
+    MovieComponent,
+    DetailComponent
   ],
     imports: [
         CommonModule,

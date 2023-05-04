@@ -5,6 +5,7 @@ import {SearchComponent} from "./search/search.component";
 import {LayoutComponent} from "./layout/layout.component";
 import {MoviesComponent} from "./movies/movies.component";
 import {SuggestionsComponent} from "./suggestions/suggestions.component";
+import {DetailComponent} from "./detail/detail.component";
 
 const routes: Routes = [
   {
@@ -12,8 +13,9 @@ const routes: Routes = [
     children: [
       { path: 'movies', component: MoviesComponent},
       { path: 'watchlists', component: WatchlistsComponent},
-      { path: 'search', component: SearchComponent},
-      { path: 'suggestions', component: SuggestionsComponent}
+      { path: 'search', component: SearchComponent },
+      { path: 'suggestions', component: SuggestionsComponent},
+      { path: 'details', component: DetailComponent}
     ]
   }
 ];

@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Movie} from "../../../../core/models/movie";
 
 @Component({
-  selector: 'app-movie',
+  selector: 'movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']
 })

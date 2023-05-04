@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
-  selector: 'sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  selector: 'navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss']
 })
-export class SidebarComponent {
+export class NavbarComponent {
   public currentRoute: string;
 
   constructor(private router: Router) {

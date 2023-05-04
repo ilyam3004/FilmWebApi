@@ -1,0 +1,61 @@
+  <!--<div class="container">-->
+  <!--  <div *ngIf="!loading && movie != null">-->
+  <!--    <h1 class="my-4">-->
+  <!--      {{ movie.title }}-->
+  <!--      <span class="badge badge-primary">-->
+  <!--        {{ movie.voteAverage }}-->
+  <!--      </span>-->
+  <!--    </h1>-->
+  <!--    <div class="row">-->
+  <!--      <div class="col-md-8">-->
+  <!--        <img-->
+  <!--          class="img-fluid"-->
+  <!--          src="https://image.tmdb.org/t/p/w500{{movie.backdropPath}}"-->
+  <!--          [alt]="movie.title">-->
+  <!--      </div>-->
+
+  <!--      <div class="col-md-4">-->
+  <!--      <span-->
+  <!--        class="badge badge-success"-->
+  <!--        *ngFor="let genre of movie.genreIds">-->
+  <!--        {{ genre }}-->
+  <!--      </span>-->
+
+  <!--        <h3 class="my-3">Plot</h3>-->
+  <!--        <p>{{ movie.overview }}</p>-->
+
+  <!--        <h3 class="my-3">Ratings</h3>-->
+  <!--        &lt;!&ndash;      <ul class="list-group">&ndash;&gt;-->
+  <!--        &lt;!&ndash;        <li&ndash;&gt;-->
+  <!--        &lt;!&ndash;          class="list-group-item"&ndash;&gt;-->
+  <!--        &lt;!&ndash;          *ngFor="let rating of movie.">&ndash;&gt;-->
+  <!--        &lt;!&ndash;          {{ rating.Source }} - {{ rating.Value }}&ndash;&gt;-->
+  <!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+  <!--        &lt;!&ndash;      </ul>&ndash;&gt;-->
+
+  <!--        <h3 class="my-3">Plot</h3>-->
+  <!--        <p>{{ movie.overview }}</p>-->
+  <!--      </div>-->
+
+  <!--    </div>-->
+
+  <!--    &lt;!&ndash; Related Projects Row &ndash;&gt;-->
+  <!--    &lt;!&ndash;  <div *ngIf="movie.similarMovies.length > 0">&ndash;&gt;-->
+  <!--    &lt;!&ndash;    <h3 class="my-4">Similar Movies</h3>&ndash;&gt;-->
+  <!--    &lt;!&ndash;    <div class="row">&ndash;&gt;-->
+  <!--    &lt;!&ndash;      <div&ndash;&gt;-->
+  <!--    &lt;!&ndash;        class="col-md-3 col-sm-6 mb-4"&ndash;&gt;-->
+  <!--    &lt;!&ndash;        *ngFor="let similarMovie of movie.similarMovies">&ndash;&gt;-->
+  <!--    &lt;!&ndash;        <a&ndash;&gt;-->
+  <!--    &lt;!&ndash;          routerLink="/movie-detail"&ndash;&gt;-->
+  <!--    &lt;!&ndash;          [queryParams]="{ movieId: similarMovie.imdbID }" >&ndash;&gt;-->
+  <!--    &lt;!&ndash;          <img&ndash;&gt;-->
+  <!--    &lt;!&ndash;            class="img-fluid similar-poster"&ndash;&gt;-->
+  <!--    &lt;!&ndash;            [src]="similarMovie.Poster | defaultImage"&ndash;&gt;-->
+  <!--    &lt;!&ndash;            [alt]="similarMovie.Title">&ndash;&gt;-->
+  <!--    &lt;!&ndash;        </a>&ndash;&gt;-->
+  <!--    &lt;!&ndash;      </div>&ndash;&gt;-->
+  <!--    &lt;!&ndash;    </div>&ndash;&gt;-->
+  <!--    &lt;!&ndash;  </div>&ndash;&gt;-->
+  <!--  </div>-->
+  <!--</div>-->

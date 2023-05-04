@@ -1,4 +1,3 @@
-import {environment} from "../../../environments/environment.development";
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Observable } from 'rxjs';
@@ -28,6 +27,6 @@ export class MovieService {
   }
 
   getMovie(id: number): Observable<Movie>{
-    return this.httpClient.get<Movie>(`movies/id`)
+    return this.httpClient.get<Movie>(`movies/${id}`)
   }
 }

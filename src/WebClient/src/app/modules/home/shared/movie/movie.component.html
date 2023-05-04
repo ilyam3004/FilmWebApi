@@ -1,8 +1,11 @@
 <div class="card">
   <img src="https://image.tmdb.org/t/p/w500{{movie.backdropPath}}"
-       alt="movie image"/>
+       alt="https://prohygiene.com/peru/wp-content/uploads/sites/24/2015/12/placeholder.gif"/>
   <div class="card-body">
     <h5 class="card-title">{{movie.title}}</h5>
     <p class="card-text">{{movie.overview}}</p>
+    <a [routerLink]="['/details']"
+       [queryParams]="{ id: movie.id }"
+       class="btn btn-primary">More</a>
   </div>
 </div>
