@@ -16,24 +16,27 @@
       </div>
     </div>
   </form>
-  <div *ngIf="!loading">
-    <div *ngIf="movies.length == 0">
-      <div class="d-flex justify-content-center">
-        Movies not found
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-6 col-lg-4" *ngFor="let movie of movies">
-        <movie [movie]="movie"/>
-      </div>
-    </div>
-  </div>
   <div *ngIf="loading">
     <div class="d-flex justify-content-center"
          style="height: 65vh;">
       <div class="spinner-border text-secondary"
            role="status"
            style="margin: auto">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!loading">
+    <div *ngIf="notFound">
+      <div class="d-flex justify-content-center">
+        Movies not found
+      </div>
+    </div>
+    <div *ngIf="!notFound">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-4" *ngFor="let movie of movies">
+          <movie [movie]="movie"/>
+          <div style="margin-bottom: 10%"></div>
+        </div>
       </div>
     </div>
   </div>

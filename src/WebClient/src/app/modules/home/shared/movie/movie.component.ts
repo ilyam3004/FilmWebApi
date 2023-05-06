@@ -25,5 +25,9 @@ export class MovieComponent {
     popularity: 0
   };
 
+  handleImageError(event: any){
+      event.target.src = "./"
+  }
+
   ngOnInit() { }
 }

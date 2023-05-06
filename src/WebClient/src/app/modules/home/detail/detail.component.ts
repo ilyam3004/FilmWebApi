@@ -5,7 +5,7 @@ import {MovieService} from "../../../core/services/movie.service";
 import {AlertService} from "../../../shared/services/alert.service";
 
 @Component({
-  selector: 'details',
+  selector: 'movie-details',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })

@@ -1,9 +1,22 @@
 <div class="card">
   <img src="https://image.tmdb.org/t/p/w500{{movie.backdropPath}}"
-       alt="https://prohygiene.com/peru/wp-content/uploads/sites/24/2015/12/placeholder.gif"/>
+       alt="" (error)="handleImageError($event)"/>
   <div class="card-body">
-    <h5 class="card-title">{{movie.title}}</h5>
-    <p class="card-text">{{movie.overview}}</p>
+    <h5 class="card-title">
+      {{movie.title.length > 27
+      ? movie.title.substring(0, 27) + "..."
+      : movie.title}}
+    </h5>
+    <div *ngIf="!movie.overview">
+      <p class="card-text">
+        Overview for this movie not found
+      </p>
+    </div>
+    <p class="card-text">
+      {{movie.overview.length > 100
+      ? movie.overview.substring(0, 100) + "..."
+      : movie.overview}}
+    </p>
     <a [routerLink]="['/details']"
        [queryParams]="{ id: movie.id }"
        class="btn btn-primary">More</a>
