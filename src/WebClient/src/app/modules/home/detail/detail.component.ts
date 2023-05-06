@@ -57,4 +57,8 @@ export class DetailComponent implements OnInit {
         });
     this.loading = false;
   }
+
+  handleImageError(event: any){
+    event.target.src = "./assets/img/placeholder.jpg"
+  }
 }

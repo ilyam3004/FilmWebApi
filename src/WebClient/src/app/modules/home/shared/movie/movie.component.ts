@@ -26,7 +26,7 @@ export class MovieComponent {
   };
 
   handleImageError(event: any){
-      event.target.src = "./"
+      event.target.src = "./assets/img/placeholder.jpg"
   }
 
   ngOnInit() { }
