@@ -13,7 +13,8 @@ import {AlertService} from "../../../shared/services/alert.service";
 export class DetailComponent implements OnInit {
   movie: Movie | null = null;
   loading: boolean = false;
-  id: number = 0;
+  movieId: number = 0;
+  player: YT.Player | undefined;
 
   constructor(private route: ActivatedRoute,
               private movieService: MovieService,
@@ -22,7 +23,7 @@ export class DetailComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        this.id = params.id
+        this.movieId = params.id
       });
     // this.movie = {
     //   adult: false,
@@ -44,9 +45,16 @@ export class DetailComponent implements OnInit {
     this.getMovieData();
   }
 
+  savePlayer(player: YT.Player) {
+    this.player = player;
+  }
+  onStateChange(event: any) {
+
+  }
+
   getMovieData(){
     this.loading = true;
-    this.movieService.getMovie(this.id)
+    this.movieService.getMovie(this.movieId)
       .subscribe((response: Movie) => {
           this.movie = response;
           this.loading = false;
