@@ -4,5 +4,5 @@ namespace Shared.Replies;
 
 public class MoviesDataReply
 {
-    public List<Movie> Movies { get; set; }
+    public List<Movie> Movies { get; set; } = null!;
 }
