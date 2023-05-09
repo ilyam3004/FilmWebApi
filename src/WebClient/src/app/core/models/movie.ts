@@ -17,7 +17,6 @@ export interface Movie {
 }
 
 export interface MovieDetails {
-    accountStates: AccountStates;
     adult: boolean;
     backdropPath: string;
     budget: number;
@@ -31,7 +30,7 @@ export interface MovieDetails {
     popularity: number;
     posterPath: string;
     productionCompanies: ProductionCompany[];
-    productionCountries: productionCountry[];
+    productionCountries: ProductionCountry[];
     releaseDate: string;
     revenue: number;
     runtime: number;
@@ -42,26 +41,26 @@ export interface MovieDetails {
     tagline: string;
     title: string;
     video: boolean;
-    videos: Videos;
+    videos: Videos | null;
     voteAverage: number;
     voteCount: number;
   }
-  
+
   export interface Genre {
     id: number;
     name: string;
   }
-  
+
   export interface SpokenLanguage {
     iso_639_1: string;
     name: string;
   }
-  
+
   export interface Videos {
     id: number;
     results: Result[];
   }
-  
+
   export interface Result {
     id: string;
     iso_3166_1: string;
@@ -73,21 +72,14 @@ export interface MovieDetails {
     type: string;
   }
 
-  export interface AccountStates {
-    favorite: boolean;
-    id: number;
-    rating: number;
-    watchlist: boolean;
-  }
-
   export interface ProductionCompany {
     id: number;
     name: string;
-    logoPath: string;
+    logoPath: string | null;
     originCountry: string;
   }
 
-  export interface productionCountry {
+  export interface ProductionCountry {
     iso_3166_1: string;
     name: string;
   }

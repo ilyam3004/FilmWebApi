@@ -7,27 +7,33 @@
       </span>
     </h1>
     <div class="row">
-      <div class="col-md-8">
-        <img class="img-fluid" src="{{movie.backdropPath}}"
-          (error)="handleImageError($event)">
+      <div class="col-md-7">
+        <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
       </div>
-
-      <div class="col-md-4">
-        <span class="badge badge-success" *ngFor="let genre of movie.genreIds">
-          {{ genre }}
+      <div class="col-md-5 justify-content-center">
+        <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
+          {{ genre.name }}
         </span>
-
         <h3 class="my-3">Overview</h3>
         <p>{{ movie.overview }}</p>
-
+        <hr style="margin-top: 3%"/>
         <h3 class="my-3">Ratings</h3>
         <p>Votes count: {{movie.voteCount}}</p>
         <p>Average vote: {{movie.voteAverage}}</p>
-        <h3 class="my-3">Videos</h3>
-        <youtube-player videoId="{{movie.id}}"
-            (ready)="savePlayer($event)"
-            (change)="onStateChange($event)"></youtube-player>
       </div>
+      <div *ngIf="movie.video">
+        <h3 class="my-3">Videos</h3>
+        <div *ngFor="let video of movie.videos?.results">
+          <div>{{video.name}}</div>
+          <span class="badge rounded-pill bg-info">
+            {{video.type}}
+        </span>
+          <youtube-player style="display: flex; justify-content: center" videoId="{{video.key}}"
+                          (ready)="savePlayer($event)"
+                          (change)="onStateChange($event)"></youtube-player>
+        </div>
+      </div>
+      <div *ngIf="movie"></div>
     </div>
 
     <!-- Related Projects Row -->
