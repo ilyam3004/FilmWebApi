@@ -25,9 +25,12 @@ export class MovieComponent {
     popularity: 0
   };
 
-  handleImageError(event: any){
-      event.target.src = "./assets/img/placeholder.jpg"
+  imageError = false;
+
+  handleImageError(event: any) {
+    this.imageError = true;
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 }

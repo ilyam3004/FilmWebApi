@@ -58,10 +58,10 @@ export interface MovieDetails {
 
   export interface Videos {
     id: number;
-    results: Result[];
+    results: VideoResults[];
   }
 
-  export interface Result {
+  export interface VideoResults {
     id: string;
     iso_3166_1: string;
     iso_639_1: string;

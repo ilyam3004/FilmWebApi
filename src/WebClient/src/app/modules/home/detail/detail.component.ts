@@ -30,7 +30,6 @@ export class DetailComponent implements OnInit {
       adult: false,
       backdropPath: "https://image.tmdb.org/t/p/original/iJQIbOPm81fPEGKt5BPuZmfnA54.jpg",
       budget: 100000000,
-      credits: null,
       genres: [
       {
         id: 16,
@@ -55,10 +54,7 @@ export class DetailComponent implements OnInit {
     ],
       homepage: "https://www.thesupermariobros.movie",
       id: 502356,
-      images: null,
       imdbId: "tt6718170",
-      keywords: null,
-      lists: null,
       originalLanguage: "en",
       originalTitle: "The Super Mario Bros. Movie",
       overview: "While working underground to fix a water main, Brooklyn plumbers—and brothers—Mario and Luigi are transported down a mysterious pipe and wander into a magical new world. But when the brothers are separated, Mario embarks on an epic quest to find Luigi.",
@@ -78,46 +74,40 @@ export class DetailComponent implements OnInit {
         originCountry: "US"
       },
       {
-        "id": 12288,
-        "name": "Nintendo",
-        "logoPath": "/e4dQAqZD374H5EuM0W1ljEBWTKy.png",
-        "originCountry": "JP"
+        id: 12288,
+        name: "Nintendo",
+        logoPath: "/e4dQAqZD374H5EuM0W1ljEBWTKy.png",
+        originCountry: "JP"
       }
     ],
-      "productionCountries": [
+      productionCountries: [
       {
-        "iso_3166_1": "JP",
-        "name": "Japan"
+        iso_3166_1: "JP",
+        name: "Japan"
       },
       {
-        "iso_3166_1": "US",
-        "name": "United States of America"
+        iso_3166_1: "US",
+        name: "United States of America"
       }
     ],
-      "releaseDate": "2023-04-05T00:00:00",
-      "releaseDates": null,
-      "externalIds": null,
-      "releases": null,
-      "revenue": 1121048165,
-      "reviews": null,
-      "runtime": 92,
-      "similar": null,
-      "recommendations": null,
-      "spokenLanguages": [
+      releaseDate: "2023-04-05T00:00:00",
+      revenue: 1121048165,
+      runtime: 92,
+      similar: null,
+      recommendations: null,
+      spokenLanguages: [
       {
-        "iso_639_1": "en",
-        "name": "English"
+        iso_639_1: "en",
+        name: "English"
       }
     ],
-      "status": "Released",
-      "tagline": "",
-      "title": "The Super Mario Bros. Movie",
-      "translations": null,
-      "video": false,
-      "videos": null,
-      "watchProviders": null,
-      "voteAverage": 7.498,
-      "voteCount": 1870
+      status: "Released",
+      tagline: "",
+      title: "The Super Mario Bros. Movie",
+      video: false,
+      videos: null,
+      voteAverage: 7.498,
+      voteCount: 1870
     }
     //this.getMovieData();
   }

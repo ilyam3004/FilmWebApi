@@ -1,6 +1,7 @@
 <div class="card">
-<img src="{{movie.posterPath}}"
-     alt="" (error)="handleImageError($event)"/>
+  <img [src]="movie.posterPath"
+       (error)="handleImageError($event)"
+       [ngClass]="{'placeholder': imageError}"/>
   <div class="card-body">
     <h5 class="card-title">
       {{movie.title.length > 27

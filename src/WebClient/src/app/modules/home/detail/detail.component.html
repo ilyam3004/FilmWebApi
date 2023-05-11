@@ -1,10 +1,7 @@
 <div class="container">
   <div *ngIf="!loading && movie != null">
-    <h1 class="my-4">
+    <h1 class="my-4" style="font-size: 35px;">
       {{ movie.title }}
-      <span class="badge badge-primary">
-        {{ movie.voteAverage }}
-      </span>
     </h1>
     <div class="row">
       <div class="col-md-7">
@@ -20,18 +17,6 @@
         <h3 class="my-3">Ratings</h3>
         <p>Votes count: {{movie.voteCount}}</p>
         <p>Average vote: {{movie.voteAverage}}</p>
-      </div>
-      <div *ngIf="movie.video">
-        <h3 class="my-3">Videos</h3>
-        <div *ngFor="let video of movie.videos?.results">
-          <div>{{video.name}}</div>
-          <span class="badge rounded-pill bg-info">
-            {{video.type}}
-        </span>
-          <youtube-player style="display: flex; justify-content: center" videoId="{{video.key}}"
-                          (ready)="savePlayer($event)"
-                          (change)="onStateChange($event)"></youtube-player>
-        </div>
       </div>
       <div *ngIf="movie"></div>
     </div>
@@ -54,5 +39,30 @@
     <!--      </div>-->
     <!--    </div>-->
     <!--  </div>-->
+    <hr style="margin: 5% 0 3% 0">
+    <h1 class="my-4" style="font-size: 25px;">
+      Videos | {{movie.title}}
+    </h1>
+    <div *ngIf="movie.video">
+      <div *ngFor="let video of movie.videos?.results">
+        <div>{{video.name}}</div>
+        <span class="badge rounded-pill bg-info">
+            {{video.type}}
+        </span>
+        <youtube-player style="display: flex; justify-content: center" videoId="{{video.key}}"
+                        (ready)="savePlayer($event)"
+                        (change)="onStateChange($event)">
+        </youtube-player>
+      </div>
+    </div>
+    <div *ngIf="!movie.video">
+      <div style="display: flex;
+                  justify-content: center;
+                  height: 20vh;
+                  align-items: center;">
+        Videos not found:(
+      </div>
+    </div>
+    <hr>
   </div>
 </div>
