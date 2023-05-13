@@ -20,24 +20,19 @@ public class MovieServiceImp : IMovieService
     public async Task<Result<Movie>> GetMovieData(int movieId)
     {
         Movie movie = await _movieClient.GetMovieAsync(movieId);
-        
+
         if (movie is null)
         {
             var exception = new MovieNotFoundException("Movie not found");
             return new Result<Movie>(exception);
         }
-        
-        if (movie.Video)
-        {
-            var videos = await GetMovieVideos(movie.Id);
-            movie.Videos = videos;
-            
-            if(videos.Results.Count == 0)
-                movie.Video = false;
-        }
-        
-        SetMovieImagesLinks(ref movie);
-        
+
+        movie = await GetMovieVideos(movie);
+        movie = await GetRecommendations(movie);
+        movie = await GetSimilarMovies(movie);
+
+        GetMovieImagesLinks(ref movie);
+
         return movie;
     }
 
@@ -50,11 +45,11 @@ public class MovieServiceImp : IMovieService
             var movie = await _movieClient.GetMovieAsync(movieId);
             if (movie is not null)
             {
-                movies.Add(movie);        
+                movies.Add(movie);
             }
         }
-        
-        SetMovieImagesLinks(ref movies);
+
+        GetMovieImagesLinks(ref movies);
 
         return movies;
     }
@@ -63,18 +58,18 @@ public class MovieServiceImp : IMovieService
     {
         var movies = await _movieClient
             .SearchMovieAsync(query, PagesCount);
-        
+
         if (movies.Results.Count == 0)
         {
             var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
-        
-        SetMovieImagesLinks(ref movies);
+
+        GetMovieImagesLinks(ref movies);
 
         List<SearchMovie> sortedMovies = movies.Results
             .OrderBy(m => m.ReleaseDate).ToList();
-        
+
         return sortedMovies;
     }
 
@@ -88,8 +83,8 @@ public class MovieServiceImp : IMovieService
             var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
-        
-        SetMovieImagesLinks(ref movies);
+
+        GetMovieImagesLinks(ref movies);
 
         return movies.Results.ToList();
     }
@@ -104,9 +99,9 @@ public class MovieServiceImp : IMovieService
             var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
-        
-        SetMovieImagesLinks(ref movies);
-        
+
+        GetMovieImagesLinks(ref movies);
+
         return movies.Results.ToList();
     }
 
@@ -120,16 +115,39 @@ public class MovieServiceImp : IMovieService
             var exception = new MovieNotFoundException();
             return new Result<List<SearchMovie>>(exception);
         }
-        
-        SetMovieImagesLinks(ref movies);
-        
+
+        GetMovieImagesLinks(ref movies);
+
         return movies.Results.ToList();
     }
 
-    private async Task<ResultContainer<Video>> GetMovieVideos(int movieId)
+    private async Task<Movie> GetRecommendations(
+        Movie movie)
     {
-        var videos  = await _movieClient
-            .GetMovieVideosAsync(movieId);
+        var recommendations = await _movieClient
+            .GetMovieRecommendationsAsync(movie.Id, PagesCount);
+
+        GetMovieImagesLinks(ref recommendations);
+        movie.Recommendations = recommendations;
+
+        return movie;
+    }
+
+    private async Task<Movie> GetSimilarMovies(Movie movie)
+    {
+        var similarMovies = await _movieClient
+            .GetMovieSimilarAsync(movie.Id, PagesCount);
+
+        GetMovieImagesLinks(ref similarMovies);
+        movie.Similar = similarMovies;
+
+        return movie;
+    }
+
+    private async Task<Movie> GetMovieVideos(Movie movie)
+    {
+        var videos = await _movieClient
+            .GetMovieVideosAsync(movie.Id);
 
         foreach (var video in videos.Results)
         {
@@ -138,36 +156,39 @@ public class MovieServiceImp : IMovieService
                 videos.Results.Remove(video);
             }
         }
+        
+        movie.Videos = videos;
+        movie.Video = videos.Results.Count != 0;
 
-        return videos;
+        return movie;
     }
 
-    private void SetMovieImagesLinks(
+    private void GetMovieImagesLinks(
         ref SearchContainer<SearchMovie> movies)
     {
-        movies.Results.ForEach(m => SetMovieImagesLinks(ref m));
+        movies.Results.ForEach(m => GetMovieImagesLinks(ref m));
     }
-    
-    private void SetMovieImagesLinks(
+
+    private void GetMovieImagesLinks(
         ref List<Movie> movies)
     {
-        movies.ForEach(m => SetMovieImagesLinks(ref m));
+        movies.ForEach(m => GetMovieImagesLinks(ref m));
     }
-    
-    private void SetMovieImagesLinks(
+
+    private void GetMovieImagesLinks(
         ref SearchContainerWithDates<SearchMovie> movies)
     {
-        movies.Results.ForEach(m => SetMovieImagesLinks(ref m));
+        movies.Results.ForEach(m => GetMovieImagesLinks(ref m));
     }
-    
-    private void SetMovieImagesLinks(
+
+    private void GetMovieImagesLinks(
         ref Movie movie)
     {
         movie.BackdropPath = "https://image.tmdb.org/t/p/original" + movie.BackdropPath;
         movie.PosterPath = "https://image.tmdb.org/t/p/original" + movie.PosterPath;
     }
 
-    private void SetMovieImagesLinks(
+    private void GetMovieImagesLinks(
         ref SearchMovie movie)
     {
         movie.BackdropPath = "https://image.tmdb.org/t/p/original" + movie.BackdropPath;

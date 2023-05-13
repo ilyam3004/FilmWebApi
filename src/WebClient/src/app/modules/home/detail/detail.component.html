@@ -39,11 +39,11 @@
     <!--      </div>-->
     <!--    </div>-->
     <!--  </div>-->
-    <hr style="margin: 5% 0 3% 0">
-    <h1 class="my-4" style="font-size: 25px;">
-      Videos | {{movie.title}}
-    </h1>
     <div *ngIf="movie.video">
+      <hr style="margin: 5% 0 3% 0">
+      <h1 class="my-4" style="font-size: 25px;">
+        Videos | {{movie.title}}
+      </h1>
       <div *ngFor="let video of movie.videos?.results">
         <div>{{video.name}}</div>
         <span class="badge rounded-pill bg-info">
@@ -55,13 +55,14 @@
         </youtube-player>
       </div>
     </div>
-    <div *ngIf="!movie.video">
-      <div style="display: flex;
-                  justify-content: center;
-                  height: 20vh;
-                  align-items: center;">
-        Videos not found:(
+    <div *ngIf="movie.recommendations.results">
+      <h1 class="my-4" style="font-size: 25px;">
+        More like this | {{movie.title}}
+      </h1>
+      <div *ngFor="let movie of movie.recommendations.results">
+        <movie [movie]="movie"></movie>
       </div>
+      <hr>
     </div>
     <hr>
   </div>

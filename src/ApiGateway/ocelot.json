@@ -2,8 +2,7 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/users/register",
-      "UpstreamHttpMethod": [ "Post" ],
-      
+      "UpstreamHttpMethod": [ "Post" ],      
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
