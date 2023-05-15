@@ -68,7 +68,7 @@ public class MovieServiceImp : IMovieService
         GetMovieImagesLinks(ref movies);
 
         List<SearchMovie> sortedMovies = movies.Results
-            .OrderBy(m => m.ReleaseDate).ToList();
+            .OrderByDescending(m => m.ReleaseDate).ToList();
 
         return sortedMovies;
     }
