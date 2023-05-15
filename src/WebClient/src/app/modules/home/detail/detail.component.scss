@@ -30,3 +30,22 @@
 .badge {
   margin-right: 5px;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 20px;
+}
+
+.movie-card {
+  text-align: center;
+}
+
+.movie-image {
+  width: 100%;
+  height: auto;
+}
+
+.movie-title {
+  margin-top: 10px;
+}
