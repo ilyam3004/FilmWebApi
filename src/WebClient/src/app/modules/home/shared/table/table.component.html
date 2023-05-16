@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Your watchlists</th>
+        <th scope="col">Count of movies</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let watchlist of watchlists; index as i">
+        <td>{{ watchlist.name }}</td>
+        <td>{{watchlist.moviesCount}}</td>
+        <td>
+            <div *ngIf="isMovieExistsInWatchlist(watchlist)">
+                <button class="btn btn-outline-danger" (click)="deleteWatchlist(i, watchlist)">
+                    Remove movie
+                </button>
+            </div>
+            <div *ngIf="!isMovieExistsInWatchlist(watchlist)">
+                <button class="btn btn-outline-success" (click)="addMovieToWatchlist(watchlist)">
+                    Add movie
+                </button>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>

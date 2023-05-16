@@ -1,0 +1,20 @@
+﻿### Register request
+POST http://localhost:8000/users/register
+Content-Type: application/json
+
+{
+  "Login": "ilya3004@gmail.com",
+  "Password": "ilya3004",
+  "ConfirmPassword": "ilya3004"
+}
+
+
+
+### Login request
+POST http://localhost:8000/users/login
+Content-Type: application/json
+
+{
+  "Login": "ilya3004@gmail.com",
+  "Password": "ilya3004"
+}

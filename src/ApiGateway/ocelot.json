@@ -28,7 +28,7 @@
     {
       "UpstreamPathTemplate": "/watchlists/{watchlistName}",
       "UpstreamHttpMethod": [ "Post" ],
-
+      
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

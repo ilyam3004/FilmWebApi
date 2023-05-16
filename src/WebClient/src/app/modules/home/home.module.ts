@@ -11,6 +11,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MovieComponent} from './shared/movie/movie.component';
 import {DetailComponent} from './detail/detail.component';
 import {NgxYoutubePlayerModule} from "ngx-youtube-player";
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { TableComponent } from './shared/table/table.component';
 
 
 @NgModule({
@@ -22,11 +24,13 @@ import {NgxYoutubePlayerModule} from "ngx-youtube-player";
     LayoutComponent,
     SuggestionsComponent,
     MovieComponent,
-    DetailComponent
+    DetailComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
+    NgbDropdownModule,
     FormsModule,
     ReactiveFormsModule,
     NgxYoutubePlayerModule.forRoot()

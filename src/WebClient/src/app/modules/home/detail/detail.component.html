@@ -1,111 +1,67 @@
 <div class="container">
-  <div *ngIf="!loading && movie != null">
-    <h1 class="my-4" style="font-size: 35px;">
-      {{ movie.title }}
-    </h1>
-    <div class="row">
-      <div class="col-md-7">
-        <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
-      </div>
-      <div class="col-md-5 justify-content-center">
+    <div *ngIf="!loading && movie != null">
+        <h1 class="my-4" style="font-size: 35px;">
+            {{ movie.title }}
+        </h1>
+        <div class="row">
+            <div class="col-md-7">
+                <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
+            </div>
+            <div class="col-md-5 justify-content-center">
         <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
           {{ genre.name }}
         </span>
-        <h3 class="my-3">Overview</h3>
-        <p>{{ movie.overview }}</p>
-        <div *ngIf="addedToWatchlist">
-          <div class="btn-group">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Action
-            </button>
-            <div class="dropdown-menu">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  Default checkbox
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                  Checked checkbox
-                </label>
-              </div>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
+                <h3 class="my-3">Overview</h3>
+                <p>{{ movie.overview }}</p>
+                <hr style="margin-top: 3%"/>
+                <watchlist-table [watchlists]="watchlists" [movieId]="movie.id"/>
+                <h3 class="my-3">Ratings</h3>
+                <p>Votes count: {{movie.voteCount}}</p>
+                <p>Average vote: {{movie.voteAverage}}</p>
             </div>
-          </div>
+            <div *ngIf="movie"></div>
         </div>
-        <div *ngIf="!addedToWatchlist">
-          <button type="button" class="btn btn-outline-success">
-            Add to Watchlist
-          </button>
-        </div>
-        <hr style="margin-top: 3%"/>
-        <h3 class="my-3">Ratings</h3>
-        <p>Votes count: {{movie.voteCount}}</p>
-        <p>Average vote: {{movie.voteAverage}}</p>
-      </div>
-      <div *ngIf="movie"></div>
-    </div>
-    <!-- Related Projects Row -->
-    <!--  <div *ngIf="movie.similarMovies.length > 0">-->
-    <!--    <h3 class="my-4">Similar Movies</h3>-->
-    <!--    <div class="row">-->
-    <!--      <div-->
-    <!--        class="col-md-3 col-sm-6 mb-4"-->
-    <!--        *ngFor="let similarMovie of movie.similarMovies">-->
-    <!--        <a-->
-    <!--          routerLink="/movie-detail"-->
-    <!--          [queryParams]="{ movieId: similarMovie.imdbID }" >-->
-    <!--          <img-->
-    <!--            class="img-fluid similar-poster"-->
-    <!--            [src]="similarMovie.Poster | defaultImage"-->
-    <!--            [alt]="similarMovie.Title">-->
-    <!--        </a>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!--  </div>-->
-    <div *ngIf="movie.video">
-      <hr style="margin: 5% 0 3% 0;">
-      <h1 class="my-4" style="font-size: 25px;">
-        Videos | {{movie.title}}
-      </h1>
-      <div *ngFor="let video of movie.videos?.results">
-        <div>{{video.name}}</div>
-        <span class="badge rounded-pill bg-info">
+        <div *ngIf="movie.video">
+            <hr style="margin: 5% 0 3% 0;">
+            <h1 class="my-4" style="font-size: 25px;">
+                Videos | {{movie.title}}
+            </h1>
+            <div *ngFor="let video of movie.videos?.results">
+                <div>{{video.name}}</div>
+                <span class="badge rounded-pill bg-info">
             {{video.type}}
         </span>
-        <youtube-player style="display: flex; justify-content: center;"
-                        videoId="{{video.key}}"
-                        (ready)="savePlayer($event)"
-                        (change)="onStateChange($event)">
-        </youtube-player>
-      </div>
-    </div>
-    <div *ngIf="movie.recommendations.results">
-      <h1 class="my-4" style="font-size: 25px;">
-        More like this | {{movie.title}}
-      </h1>
-      <div class="grid-container">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4" *ngFor="let movie of movie.similar.results">
-              <a [routerLink]="['/details']"
-                 [queryParams]="{ id: movie.id }">
-                <div class="card">
-                  <img class="card-img-top" [src]="movie.backdropPath" (error)="handleImageError($event)"/>
-                  <div class="card-body">
-                    <h5 class="card-title" style="color: black;">{{ movie.title }}</h5>
-                  </div>
-                </div>
-              </a>
+                <youtube-player style="display: flex; justify-content: center;"
+                                videoId="{{video.key}}"
+                                (ready)="savePlayer($event)"
+                                (change)="onStateChange($event)">
+                </youtube-player>
             </div>
-          </div>
         </div>
-      </div>
-      <hr>
+        <div *ngIf="movie.recommendations.results">
+            <h1 class="my-4" style="font-size: 25px;">
+                More like this | {{movie.title}}
+            </h1>
+            <div class="grid-container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4" *ngFor="let movie of movie.similar.results">
+                            <a [routerLink]="['/details']"
+                               [queryParams]="{ id: movie.id }">
+                                <div class="card">
+                                    <img class="card-img-top" [src]="movie.backdropPath"
+                                         (error)="handleImageError($event)"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="color: black;">{{ movie.title }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <hr>
     </div>
-    <hr>
-  </div>
 </div>
