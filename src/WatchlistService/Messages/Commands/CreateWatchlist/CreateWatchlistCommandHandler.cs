@@ -6,6 +6,7 @@ using LanguageExt.Common;
 using MongoDB.Bson;
 using AutoMapper;
 using MediatR;
+using WatchlistService.Dtos.Responses;
 
 namespace WatchlistService.Messages.Commands.CreateWatchlist;
 

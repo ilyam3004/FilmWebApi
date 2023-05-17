@@ -7,6 +7,8 @@ namespace WatchlistService.Common.Profiles;
 
 public class WatchlistProfile : Profile
 {
+    private const int MoviesCountInEmptyWatchlist = 0; 
+    
     public WatchlistProfile()
     {
         CreateMap<Watchlist, CreateWatchlistResponse>()

@@ -11,7 +11,7 @@
         <td>{{watchlist.moviesCount}}</td>
         <td>
             <div *ngIf="isMovieExistsInWatchlist(watchlist)">
-                <button class="btn btn-outline-danger" (click)="deleteWatchlist(i, watchlist)">
+                <button class="btn btn-outline-danger" (click)="removeMovieFromWatchlist(i, watchlist)">
                     Remove movie
                 </button>
             </div>

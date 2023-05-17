@@ -15,6 +15,10 @@ export class ApiInterceptor implements HttpInterceptor {
       .clone({ url: `${environment.apiBaseUrl}/${request.url}`});
     const user = this.accountService.userValue;
     const isLoggedIn = user && user.token;
+    
+    //TODO remove that
+    console.log(user?.token)
+    
     if (isLoggedIn) {
       request = request.clone({
         url: `${environment.apiBaseUrl}/${request.url}`,
