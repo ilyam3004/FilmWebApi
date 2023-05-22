@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Movie, MovieDetails} from "../../../core/models/movie";
+import {MovieDetails} from "../../../core/models/movie";
 import {MovieService} from "../../../core/services/movie.service";
 import {AlertService} from "../../../shared/services/alert.service";
 import {Watchlist} from "../../../core/models/watchlist";
 import {WatchlistService} from "../../../core/services/watchlist.service";
 import {first} from "rxjs";
-
 
 @Component({
     selector: 'movie-details',
@@ -605,6 +604,14 @@ export class DetailComponent implements OnInit {
                     this.loading = false;
                 });
         this.loading = false;
+    }
+
+    getFlagEmoji(countryCode: string) {
+        const codePoints = countryCode
+            .toUpperCase()
+            .split('')
+            .map(char =>  127397 + char.charCodeAt(0));
+        return String.fromCodePoint(...codePoints);
     }
 
     handleImageError(event: any) {

@@ -185,10 +185,10 @@ public class MovieServiceImp : IMovieService
     private void GetMovieImagesLinks(
         ref Movie movie)
     {
-        movie.BackdropPath = "https://image.tmdb.org/t/p/300" + movie.BackdropPath;
-        movie.PosterPath = "https://image.tmdb.org/t/p/300" + movie.PosterPath;
+        movie.BackdropPath = "https://image.tmdb.org/t/p/original" + movie.BackdropPath;
+        movie.PosterPath = "https://image.tmdb.org/t/p/original" + movie.PosterPath;
         movie.ProductionCompanies.ForEach(c => c.LogoPath = 
-            "https://image.tmdb.org/t/p/300" + c.LogoPath);
+            "https://image.tmdb.org/t/p/original" + c.LogoPath);
     }
 
     private void GetMovieImagesLinks(
