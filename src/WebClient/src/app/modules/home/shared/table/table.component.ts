@@ -15,7 +15,8 @@ export class TableComponent {
     @Input() movieId: number = 0;
 
     constructor(private watchlistService: WatchlistService,
-                private alertService: AlertService) { }
+                private alertService: AlertService,
+                private router: Router) { }
 
     removeMovieFromWatchlist(i: number, watchlist: Watchlist) {
         this.watchlistService.removeMovieFromWatchlist(watchlist.id, this.movieId)

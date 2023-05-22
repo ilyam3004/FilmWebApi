@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {HomeRoutingModule} from './home-routing.module';
 import {MoviesComponent} from './movies/movies.component';
 import {WatchlistsComponent} from './watchlists/watchlists.component';
@@ -13,7 +13,7 @@ import {DetailComponent} from './detail/detail.component';
 import {NgxYoutubePlayerModule} from "ngx-youtube-player";
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './shared/table/table.component';
-
+import { MovieDataTableComponent } from './shared/movie-data-table/movie-data-table.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { TableComponent } from './shared/table/table.component';
     SuggestionsComponent,
     MovieComponent,
     DetailComponent,
-    TableComponent
+    TableComponent,
+    MovieDataTableComponent
   ],
   imports: [
     CommonModule,

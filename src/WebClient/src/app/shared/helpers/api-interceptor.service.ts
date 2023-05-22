@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse }
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent }
   from '@angular/common/http';
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment.development";
@@ -13,20 +13,20 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const apiReq = request
       .clone({ url: `${environment.apiBaseUrl}/${request.url}`});
+    
     const user = this.accountService.userValue;
     const isLoggedIn = user && user.token;
     
-    //TODO remove that
-    console.log(user?.token)
+    console.log(user);
     
     if (isLoggedIn) {
-      request = request.clone({
-        url: `${environment.apiBaseUrl}/${request.url}`,
-        setHeaders: {
-          Authorization: `Bearer ${user.token}`
-        }
-      })
+      const authRequest = apiReq.clone({
+        setHeaders: {Authorization: `Bearer ${user.token}`}
+      });
+      
+      return next.handle(authRequest);
     }
+    
     return next.handle(apiReq);
   }
 }

@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit {
       this.movies = [];
       return;
     }
-
+    
     this.loading = true;
     this.notFound = false;
 

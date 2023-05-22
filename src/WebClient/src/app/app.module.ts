@@ -7,6 +7,7 @@ import { AlertComponent } from './shared/components/alert/alert.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ApiInterceptor} from "./shared/helpers/api-interceptor.service";
 import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+      DatePipe
   ],
     exports: [
         AlertComponent

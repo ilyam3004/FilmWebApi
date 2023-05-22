@@ -1,4 +1,5 @@
-﻿using MovieService.Common.Exceptions;
+﻿using System.Runtime.InteropServices.JavaScript;
+using MovieService.Common.Exceptions;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
@@ -47,7 +48,7 @@ public class MovieServiceImp : IMovieService
             {
                 movies.Add(movie);
             }
-        }
+        }   
 
         GetMovieImagesLinks(ref movies);
 
@@ -184,8 +185,10 @@ public class MovieServiceImp : IMovieService
     private void GetMovieImagesLinks(
         ref Movie movie)
     {
-        movie.BackdropPath = "https://image.tmdb.org/t/p/original" + movie.BackdropPath;
-        movie.PosterPath = "https://image.tmdb.org/t/p/original" + movie.PosterPath;
+        movie.BackdropPath = "https://image.tmdb.org/t/p/300" + movie.BackdropPath;
+        movie.PosterPath = "https://image.tmdb.org/t/p/300" + movie.PosterPath;
+        movie.ProductionCompanies.ForEach(c => c.LogoPath = 
+            "https://image.tmdb.org/t/p/300" + c.LogoPath);
     }
 
     private void GetMovieImagesLinks(

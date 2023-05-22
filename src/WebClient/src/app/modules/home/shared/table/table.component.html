@@ -6,6 +6,15 @@
     </tr>
     </thead>
     <tbody>
+    <tr *ngIf="!watchlists">
+        <td colspan="2">
+            You don't have any watchlists. To create new watchlist go
+            <a routerLink="/watchlists"
+               routerLinkActive="active">
+                there
+            </a>
+        </td>
+    </tr>
     <tr *ngFor="let watchlist of watchlists; index as i">
         <td>{{ watchlist.name }}</td>
         <td>{{watchlist.moviesCount}}</td>

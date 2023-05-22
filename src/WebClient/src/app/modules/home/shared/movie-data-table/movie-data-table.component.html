@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Vote counts</th>
+        <th scope="col">Average vote</th>
+        <th scope="col">Budget</th>
+        <th scope="col">Popularity</th>
+        <th scope="col">Release date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ movie?.voteCount }}</td>
+        <td>{{ movie?.voteAverage }}</td>
+        <td>{{ movie?.budget | currency:'USD':true }}</td>
+        <td>{{ movie?.popularity }}</td>
+        <td>{{formattedDate}}</td>
+    </tr>
+    </tbody>
+</table>

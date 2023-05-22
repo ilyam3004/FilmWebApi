@@ -8,35 +8,46 @@
                 <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
             </div>
             <div class="col-md-5 justify-content-center">
-        <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
-          {{ genre.name }}
-        </span>
+                <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
+                    {{ genre.name }}
+                </span>
                 <h3 class="my-3">Overview</h3>
                 <p>{{ movie.overview }}</p>
+                <div *ngIf="movie.homepage">
+                    <a href="{{movie.homepage}}" class="link-success">Homepage</a>
+                </div>
                 <hr style="margin-top: 3%"/>
                 <watchlist-table [watchlists]="watchlists" [movieId]="movie.id"/>
-                <h3 class="my-3">Ratings</h3>
-                <p>Votes count: {{movie.voteCount}}</p>
-                <p>Average vote: {{movie.voteAverage}}</p>
             </div>
-            <div *ngIf="movie"></div>
+            <hr style="margin-top: 3%"/>
+            <movie-data-table [movie]="movie"/>
         </div>
         <div *ngIf="movie.video">
-            <hr style="margin: 5% 0 3% 0;">
             <h1 class="my-4" style="font-size: 25px;">
                 Videos | {{movie.title}}
             </h1>
             <div *ngFor="let video of movie.videos?.results">
                 <div>{{video.name}}</div>
                 <span class="badge rounded-pill bg-info">
-            {{video.type}}
-        </span>
+                    {{video.type}}
+                </span>
                 <youtube-player style="display: flex; justify-content: center;"
                                 videoId="{{video.key}}"
                                 (ready)="savePlayer($event)"
                                 (change)="onStateChange($event)">
                 </youtube-player>
             </div>
+            <hr style="margin-top: 3%"/>
+        </div>
+        <div *ngIf="movie.productionCompanies">
+            <h1 class="my-4" style="font-size: 25px;">
+                Production Companies | {{movie.title}}
+            </h1>
+            <div *ngFor="let company of movie.productionCompanies">
+                <div>{{company.name}}</div>
+                <img [src]="company.logoPath" (error)="handleImageError($event)">
+            </div>
+            <hr style="margin-top: 3%"/>
         </div>
         <div *ngIf="movie.recommendations.results">
             <h1 class="my-4" style="font-size: 25px;">
@@ -45,14 +56,14 @@
             <div class="grid-container">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4" *ngFor="let movie of movie.similar.results">
+                        <div class="col-md-4" *ngFor="let similar_movie of movie.similar.results">
                             <a [routerLink]="['/details']"
-                               [queryParams]="{ id: movie.id }">
+                               [queryParams]="{ id: similar_movie.id }">
                                 <div class="card">
-                                    <img class="card-img-top" [src]="movie.backdropPath"
+                                    <img class="card-img-top" [src]="similar_movie.backdropPath"
                                          (error)="handleImageError($event)"/>
                                     <div class="card-body">
-                                        <h5 class="card-title" style="color: black;">{{ movie.title }}</h5>
+                                        <h5 class="card-title" style="color: black;">{{ similar_movie.title }}</h5>
                                     </div>
                                 </div>
                             </a>
