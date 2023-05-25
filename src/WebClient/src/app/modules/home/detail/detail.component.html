@@ -27,7 +27,7 @@
                 Videos | {{movie.title}}
             </h1>
             <div *ngFor="let video of movie.videos?.results">
-                <div>{{video.name}}</div>
+                <h5>{{video.name}}</h5>
                 <span class="badge rounded-pill bg-info">
                     {{video.type}}
                 </span>
@@ -58,7 +58,11 @@
                         <td>{{ i }}</td>
                         <td>{{ company.name }}</td>
                         <td>
-                            <!--img with country flag-->
+                            <div *ngIf="company.originCountry">
+                                <span>
+                                    {{getCountryName(company.originCountry)}}
+                                </span>
+                            </div>
                         </td>
                         <td>
                             <img [src]="company.logoPath" width="40%" (error)="handleImageError($event)"/>
