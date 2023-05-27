@@ -5,7 +5,7 @@ import {MovieService} from "../../../core/services/movie.service";
 import {AlertService} from "../../../shared/services/alert.service";
 import {Watchlist} from "../../../core/models/watchlist";
 import {WatchlistService} from "../../../core/services/watchlist.service";
-import * as isoCountries from 'i18n-iso-countries';
+
 
 @Component({
     selector: 'movie-details',
@@ -14,6 +14,7 @@ import * as isoCountries from 'i18n-iso-countries';
 })
 
 export class DetailComponent implements OnInit {
+    images = [1, 2, 3].map((n) => `https://picsum.photos/id/${n}/900/500`);
     movie: MovieDetails | undefined;
     loading: boolean = false;
     movieId: number = 0;
@@ -26,18 +27,12 @@ export class DetailComponent implements OnInit {
                 private alertService: AlertService,
                 private watchlistService: WatchlistService){ }
     
-    getCountryName(countryCode: string): string {
-        return i18nIsoCountries.getName(countryCode, 'en');
-    }
 
     ngOnInit() {
-        isoCountries.registerLocale(require('i18n-iso-countries/langs/en.json'));
         this.route.queryParams
             .subscribe(params => {
                 this.movieId = params.id
             });
-
-        //i18nIsoCountries.registerLocale(require("i18n-iso-countries/langs/en.json"));
         
         
         // this.watchlistService.getWatchlists()

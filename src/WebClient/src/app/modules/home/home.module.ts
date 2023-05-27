@@ -11,31 +11,34 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MovieComponent} from './shared/movie/movie.component';
 import {DetailComponent} from './detail/detail.component';
 import {NgxYoutubePlayerModule} from "ngx-youtube-player";
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { TableComponent } from './shared/table/table.component';
-import { MovieDataTableComponent } from './shared/movie-data-table/movie-data-table.component';
+import {NgbCarousel, NgbCarouselModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {TableComponent} from './shared/table/table.component';
+import {MovieDataTableComponent} from './shared/movie-data-table/movie-data-table.component';
+import {CarouselComponent} from './shared/carousel/carousel.component'; 
 
 @NgModule({
-  declarations: [
-    MoviesComponent,
-    WatchlistsComponent,
-    SearchComponent,
-    NavbarComponent,
-    LayoutComponent,
-    SuggestionsComponent,
-    MovieComponent,
-    DetailComponent,
-    TableComponent,
-    MovieDataTableComponent
-  ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    NgbDropdownModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxYoutubePlayerModule.forRoot()
-  ]
+    declarations: [
+        MoviesComponent,
+        WatchlistsComponent,
+        SearchComponent,
+        NavbarComponent,
+        LayoutComponent,
+        SuggestionsComponent,
+        MovieComponent,
+        DetailComponent,
+        TableComponent,
+        MovieDataTableComponent,
+        CarouselComponent
+    ],
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        NgbDropdownModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbCarouselModule,
+        NgxYoutubePlayerModule.forRoot(),
+    ]
 })
 export class HomeModule {
 }

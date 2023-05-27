@@ -10,7 +10,7 @@ const homeModule = () => import('./modules/home/home.module')
 const routes: Routes = [
   { path: '', loadChildren: homeModule, canActivate: [AuthGuard]},
   { path: 'account', loadChildren: authModule },
-  { path: '**', redirectTo: ''}
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

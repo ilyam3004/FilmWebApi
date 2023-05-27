@@ -1,7 +1,7 @@
 export interface Movie {
   adult: boolean;
   originalTitle: string;
-  releaseDate: string;
+  releaseDate: string | null;
   title: string;
   video: boolean;
   backdropPath: string;
@@ -34,7 +34,7 @@ export interface MovieDetails {
     releaseDate: string;
     revenue: number;
     runtime: number;
-    similar: any;
+    similar: SimilarMovies;
     recommendations: any;
     spokenLanguages: SpokenLanguage[];
     status: string;
@@ -44,6 +44,13 @@ export interface MovieDetails {
     videos: Videos | null;
     voteAverage: number;
     voteCount: number;
+  }
+  
+  export interface SimilarMovies {
+    page: number;
+    results: Movie[];
+    totalPages: number;
+    totalResults: number;
   }
 
   export interface Genre {

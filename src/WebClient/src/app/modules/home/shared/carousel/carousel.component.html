@@ -1,0 +1,16 @@
+<ngb-carousel>
+  <ng-template ngbSlide *ngFor="let movie of movies">
+    <div class="picsum-img-wrapper">
+      <img src="{{ movie.backdropPath }}" (error)="handleImageError($event)"/>
+      <div class="image-overlay"></div>
+    </div>
+    <div class="carousel-caption">
+      <h3>{{movie.title.length > 27
+        ? movie.title.substring(0, 27) + "..."
+        : movie.title}}</h3>
+      <p>{{movie.overview.length > 100
+        ? movie.overview.substring(0, 100) + "..."
+        : movie.overview}}</p>
+    </div>
+  </ng-template>
+</ngb-carousel>
