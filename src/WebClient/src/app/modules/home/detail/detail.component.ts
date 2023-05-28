@@ -14,7 +14,6 @@ import {WatchlistService} from "../../../core/services/watchlist.service";
 })
 
 export class DetailComponent implements OnInit {
-    images = [1, 2, 3].map((n) => `https://picsum.photos/id/${n}/900/500`);
     movie: MovieDetails | undefined;
     loading: boolean = false;
     movieId: number = 0;
@@ -599,22 +598,12 @@ export class DetailComponent implements OnInit {
         this.movieService.getMovieDetails(this.movieId)
             .subscribe((response: MovieDetails) => {
                     console.log(response);
-                    this.movie = response;
-                    this.loading = false;
+                    this.movie = response
                 },
                 (error) => {
                     this.alertService.error(error);
-                    this.loading = false;
                 });
         this.loading = false;
-    }
-
-    getFlagEmoji(countryCode: string) {
-        const codePoints = countryCode
-            .toUpperCase()
-            .split('')
-            .map(char =>  127397 + char.charCodeAt(0));
-        return String.fromCodePoint(...codePoints);
     }
 
     handleImageError(event: any) {

@@ -1,1 +1,13 @@
-<div>movies works</div>
+<div *ngIf="loading">
+    <div class="d-flex justify-content-center"
+            style="height: 100vh;">
+        <div class="spinner-border text-secondary"
+                role="status"
+                style="margin: auto">
+        </div>
+    </div>
+</div>
+<div *ngIf="!loading">
+    <carousel [movies]="movies"/>
+</div>
+
