@@ -34,7 +34,7 @@
     <div *ngIf="!notFound">
       <div class="row">
         <div class="col-12 col-md-6 col-lg-4" *ngFor="let movie of movies">
-          <movie [movie]="movie"/>
+          <movie-card [movie]="movie"/>
           <div style="margin-bottom: 10%"></div>
         </div>
       </div>

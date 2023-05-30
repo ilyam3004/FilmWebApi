@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {Movie} from "../../../../core/models/movie";
 
 @Component({
-  selector: 'movie',
-  templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
+  selector: 'movie-card',
+  templateUrl: './movie-card.component.html',
+  styleUrls: ['./movie-card.component.scss']
 })
-export class MovieComponent {
+export class MovieCardComponent {
   @Input() movie: Movie = {
     adult: false,
     originalTitle: "",
