@@ -1,0 +1,31 @@
+.movie-slider {
+  width: 100%;
+  overflow: hidden;
+  padding: 3%;
+}
+
+.slider-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.slider {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform 0.3s;
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  width: 8%;
+}
+
+.slider-item img {
+  width: 100%;
+  height: auto;
+}
+
+.slider-item h3, .slider-item p {
+  margin: 5px 0;
+}

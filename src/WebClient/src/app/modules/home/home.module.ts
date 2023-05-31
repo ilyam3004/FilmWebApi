@@ -14,7 +14,8 @@ import {NgxYoutubePlayerModule} from "ngx-youtube-player";
 import {NgbCarouselModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {TableComponent} from './shared/table/table.component';
 import {MovieDataTableComponent} from './shared/movie-data-table/movie-data-table.component';
-import {CarouselComponent} from './shared/carousel/carousel.component'; 
+import {CarouselComponent} from './shared/carousel/carousel.component';
+import { SliderComponent } from './shared/slider/slider.component'; 
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import {CarouselComponent} from './shared/carousel/carousel.component';
         DetailComponent,
         TableComponent,
         MovieDataTableComponent,
-        CarouselComponent
+        CarouselComponent,
+        SliderComponent
     ],
     imports: [
         CommonModule,

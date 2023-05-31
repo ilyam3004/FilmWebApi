@@ -1,7 +1,7 @@
-ngb-carousel .picsum-img-wrapper {
+/*ngb-carousel .picsum-img-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 55%; /* Keep ratio for 900x500 images */
+  padding-top: 55%; /* Keep ratio for 900x500 images
 }
 
 ngb-carousel .picsum-img-wrapper > img {
@@ -11,7 +11,7 @@ ngb-carousel .picsum-img-wrapper > img {
   left: 0;
   bottom: 0;
   right: 0;
-}
+}*/
 
 ngb-carousel .picsum-img-wrapper .image-overlay {
   position: absolute;
@@ -20,4 +20,14 @@ ngb-carousel .picsum-img-wrapper .image-overlay {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha value for desired darkness */
+}
+
+ngb-carousel .picsum-img-wrapper {
+  max-height: 91vh; /* Adjust the desired height */
+  width: auto !important;
+  margin: auto;
+}
+
+ngb-carousel .picsum-img-wrapper img {
+  width: 100%;
 }

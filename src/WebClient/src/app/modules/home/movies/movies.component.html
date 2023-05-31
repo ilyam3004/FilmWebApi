@@ -8,16 +8,14 @@
     </div>
 </div>
 <div *ngIf="!loading">
-    <div class="popular-movies">
-        <carousel [movies]="popularMovies"/>
-    </div>
-    <div class="scrollable-container">
-        <div class="card-deck">
-            <div class="card col-12 col-md-6 col-lg-4" *ngFor="let movie of popularMovies">
-                <movie-card [movie]="movie"></movie-card>
-                <div style="margin-bottom: 10%"></div>
-            </div>
-        </div>
-    </div>
+    <carousel [movies]="popularMovies"/>
+    <slider [movies]="topRatedMovies" [title]="'Top rated movies'"/>
+    <slider [movies]="upcomingMovies" [title]="'Upcoming movies'"/>
 </div>
+
+
+
+
+
+
 

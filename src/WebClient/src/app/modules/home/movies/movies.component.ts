@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Movie } from '../../../core/models/movie';
 import { MovieService } from '../../../core/services/movie.service';
 import { AlertService } from '../../../shared/services/alert.service';
@@ -16,7 +16,7 @@ export class MoviesComponent implements OnInit {
   upcomingMovies: Movie[] = [];
 
   constructor(private movieService: MovieService,
-    private alertService: AlertService) { }
+              private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.initTestDataForMovies();

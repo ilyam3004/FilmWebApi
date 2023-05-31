@@ -10,7 +10,11 @@
         : movie.title}}</h3>
       <p>{{movie.overview.length > 100
         ? movie.overview.substring(0, 100) + "..."
-        : movie.overview}}</p>
+        : movie.overview}}
+        <a [routerLink]="['/details']"
+           [queryParams]="{ id: movie.id }" 
+           class="link-light">[Read more...]</a>
+      </p>
     </div>
   </ng-template>
 </ngb-carousel>
