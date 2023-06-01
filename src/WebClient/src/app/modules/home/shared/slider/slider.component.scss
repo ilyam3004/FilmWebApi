@@ -8,6 +8,13 @@
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.slider-container::-webkit-scrollbar {
+  display: none;
 }
 
 .slider {
@@ -17,12 +24,10 @@
 }
 
 .slider-item {
-  flex: 0 0 auto;
-  width: 8%;
+  width: 200px;
 }
 
 .slider-item img {
-  width: 100%;
   height: auto;
 }
 

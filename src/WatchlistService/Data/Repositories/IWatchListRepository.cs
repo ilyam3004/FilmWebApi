@@ -10,7 +10,7 @@ public interface IWatchListRepository
     Task<bool> WatchlistExistsByIdAsync(string watchlistId);
     Task<bool> WatchlistExistsByNameAsync(string userId, string watchlistName);
     Task<List<Watchlist>> GetWatchlistsAsync(string userId);
-    Task AddMovieToWatchlistAsync(string watchlistId, int movieId);
+    Task AddMovieToWatchlistAsync(string watchlistId, int movieId, DateTime dateTimeOfAdding);
     Task RemoveMovieFromWatchlistAsync(string watchlistId, int movieId);
     Task<bool> MovieExistsInWatchlistAsync(string watchlistId, int movieId);
 }

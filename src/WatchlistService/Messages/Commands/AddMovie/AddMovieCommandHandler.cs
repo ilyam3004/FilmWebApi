@@ -52,9 +52,11 @@ public class AddMovieCommandHandler :
         {
             return new Result<WatchlistResponse>(new DuplicateMovieInWatchlistException());
         }
+
+        DateTime dateTimeOfAdding = DateTime.UtcNow;
         
         await _watchListRepository.AddMovieToWatchlistAsync(
-            command.WatchlistId, command.MovieId);
+            command.WatchlistId, command.MovieId, dateTimeOfAdding);
         
         var updatedWatchlist = await _watchListRepository
             .GetWatchlistByIdAsync(command.WatchlistId);
