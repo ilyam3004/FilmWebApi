@@ -17,7 +17,7 @@ namespace WatchlistService.Models
         public string UserId { get; set; } = null!;
         
         [BsonElement("movies")]
-        public List<WatchlistMovie> MoviesId { get; set; } = null!;
+        public List<WatchlistMovie> Movies { get; set; } = null!;
 
         [BsonElement("date")]
         public DateTime DateTimeOfCreating { get; set; }

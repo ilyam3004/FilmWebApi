@@ -6,7 +6,6 @@ using LanguageExt.Common;
 using MongoDB.Bson;
 using AutoMapper;
 using MediatR;
-using WatchlistService.Dtos.Responses;
 
 namespace WatchlistService.Messages.Commands.CreateWatchlist;
 
@@ -45,7 +44,8 @@ public class CreateWatchlistCommandHandler :
             Id = ObjectId.GenerateNewId().ToString(),
             UserId = userId,
             Name = command.WatchlistName,
-            MoviesId = new List<int>()
+            Movies = new List<WatchlistMovie>(),
+            DateTimeOfCreating = DateTime.UtcNow,
         };
 
         await _watchListRepository.CreateWatchListAsync(watchlist);

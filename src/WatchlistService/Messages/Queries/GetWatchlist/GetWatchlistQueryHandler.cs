@@ -1,25 +1,28 @@
 ﻿using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Dtos.Responses;
+using WatchlistService.Models;
 using TMDbLib.Objects.Movies;
+using WatchlistService.Dtos;
+using WatchlistService.Bus;
 using LanguageExt.Common;
 using Shared.Messages;
 using Shared.Replies;
-using AutoMapper;
 using MassTransit;
+using System.Net;
+using AutoMapper;
 using MediatR;
-using WatchlistService.Bus;
 
 namespace WatchlistService.Messages.Queries.GetWatchlist;
 
-public class WatchlistQueryHandler
+public class GetWatchlistQueryHandler
     : IRequestHandler<GetWatchlistQuery, Result<WatchlistResponse>>
 {
     private readonly IWatchListRepository _watchListRepository;
-    private readonly IMapper _mapper;
     private readonly IWatchlistRequestClient _requestClient;
+    private readonly IMapper _mapper;
     
-    public WatchlistQueryHandler(
+    public GetWatchlistQueryHandler(
         IWatchListRepository watchListRepository, 
         IWatchlistRequestClient requestClient,
         IMapper mapper)
@@ -53,9 +56,31 @@ public class WatchlistQueryHandler
             return new Result<WatchlistResponse>(exception);
         }
 
-        var movieData = await _requestClient.GetMoviesData(
-            dbWatchlist.MoviesId);
-        
-        return _mapper.Map<WatchlistResponse>((dbWatchlist, movieData));
+        WatchlistResponse watchlistResponse = await GetWatchlistResponse(
+                dbWatchlist);
+
+        return watchlistResponse;
     }
+
+    public async Task<WatchlistResponse> GetWatchlistResponse(
+        Watchlist watchlist) 
+    {
+        List<int> movieIds = watchlist.Movies.Select(x => x.MovieId)
+            .ToList();
+
+        List<DateTime> dateTimes = watchlist.Movies
+            .Select(x => x.DateTimeOfAdding).ToList();
+
+        List<Movie> movies = await _requestClient.GetMoviesData(movieIds);
+
+        List<MovieResponse> movieResponses = movies.Zip(dateTimes, 
+            (movie, dateTime) => 
+            new MovieResponse 
+            { 
+                Movie = movie, 
+                DateTimeOfAdding = dateTime
+            }).ToList();
+
+        return _mapper.Map<WatchlistResponse>((watchlist, movieResponses));
+    } 
 }

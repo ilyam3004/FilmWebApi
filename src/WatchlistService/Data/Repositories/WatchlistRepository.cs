@@ -28,12 +28,19 @@ public class WatchlistRepository : IWatchListRepository
                 .ToListAsync();
     }
 
-    public Task AddMovieToWatchlistAsync(string watchlistId, int movieId)
+    public Task AddMovieToWatchlistAsync(string watchlistId, 
+        int movieId, DateTime dateTimeOfAdding)
     {
+        var watchlistMovie = new WatchlistMovie
+        {
+            MovieId = movieId,
+            DateTimeOfAdding = DateTime.Now
+        };
+
         return _context.Watchlists
             .UpdateOneAsync(
                 w => w.Id == watchlistId,
-                Builders<Watchlist>.Update.AddToSet(w => w.MoviesId, movieId)
+                Builders<Watchlist>.Update.AddToSet(w => w.Movies, watchlistMovie)
             );
     }
 
@@ -68,7 +75,8 @@ public class WatchlistRepository : IWatchListRepository
     public Task<bool> MovieExistsInWatchlistAsync(string watchlistId, int movieId)
     {
         return _context.Watchlists
-            .Find(w => w.Id == watchlistId && w.MoviesId.Contains(movieId))
+            .Find(w => w.Id == watchlistId && 
+                    w.Movies.Any(m => m.MovieId == movieId))
             .AnyAsync();
     }
 
@@ -78,7 +86,7 @@ public class WatchlistRepository : IWatchListRepository
             .UpdateOneAsync(
                 w => w.Id == watchlistId,
                 Builders<Watchlist>.Update.Pull(
-                    w => w.MoviesId,
+                    w => w.Movies.Select(m => m.MovieId),
                     movieId)
             );
     }

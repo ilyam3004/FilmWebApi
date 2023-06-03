@@ -2,6 +2,7 @@
 using TMDbLib.Objects.Movies;
 using WatchlistService.Models;
 using WatchlistService.Dtos.Responses;
+using WatchlistService.Dtos;
 
 namespace WatchlistService.Common.Profiles;
 
@@ -17,7 +18,7 @@ public class WatchlistProfile : Profile
             .ForMember(dest => dest.Name, opt =>
                 opt.MapFrom(src => src.Name));
 
-        CreateMap<(Watchlist, List<Movie>), WatchlistResponse>()
+        CreateMap<(Watchlist, List<MovieResponse>), WatchlistResponse>()
             .ForMember(dest => dest.Id, opt =>
                 opt.MapFrom(src => src.Item1.Id))
             .ForMember(dest => dest.Name, opt =>
@@ -25,6 +26,8 @@ public class WatchlistProfile : Profile
             .ForMember(dest => dest.Movies, opt =>
                 opt.MapFrom(src => src.Item2))
             .ForMember(dest => dest.MoviesCount, opt =>
-                opt.MapFrom(src => src.Item2.Count));
+                opt.MapFrom(src => src.Item2.Count))
+            .ForMember(dest => dest.DateTimeOfCreating, opt =>
+                opt.MapFrom(src => src.Item1.DateTimeOfCreating));
     }
 }

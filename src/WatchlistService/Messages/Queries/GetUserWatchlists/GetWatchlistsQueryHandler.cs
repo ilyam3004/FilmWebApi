@@ -38,9 +38,13 @@ public class GetWatchlistsQueryHandler :
 
         foreach (var watchlist in dbWatchlists)
         {
+            var movieIds = watchlist.Movies
+                .Select(movie => movie.MovieId).ToList();
+
             var moviesData = await _requestClient
-                .GetMoviesData(watchlist.MoviesId);
-        
+                .GetMoviesData(movieIds);
+
+
             watchlists.Add(_mapper
                 .Map<WatchlistResponse>((watchlist, moviesData)));
         }

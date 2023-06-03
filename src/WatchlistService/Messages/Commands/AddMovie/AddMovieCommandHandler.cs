@@ -62,7 +62,7 @@ public class AddMovieCommandHandler :
             .GetWatchlistByIdAsync(command.WatchlistId);
         
         var moviesData = await _requestClient.
-            GetMoviesData(updatedWatchlist.MoviesId);
+            GetMoviesData(updatedWatchlist.Movies);
 
         return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData));
     }
