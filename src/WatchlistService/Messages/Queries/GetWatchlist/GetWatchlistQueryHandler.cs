@@ -6,10 +6,6 @@ using TMDbLib.Objects.Movies;
 using WatchlistService.Dtos;
 using WatchlistService.Bus;
 using LanguageExt.Common;
-using Shared.Messages;
-using Shared.Replies;
-using MassTransit;
-using System.Net;
 using AutoMapper;
 using MediatR;
 

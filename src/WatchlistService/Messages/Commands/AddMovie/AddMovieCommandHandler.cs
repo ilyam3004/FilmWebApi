@@ -7,6 +7,8 @@ using Shared.Messages;
 using MassTransit;
 using AutoMapper;
 using MediatR;
+using TMDbLib.Objects.Movies;
+using WatchlistService.Dtos;
 
 namespace WatchlistService.Messages.Commands.AddMovie;
 
@@ -18,14 +20,13 @@ public class AddMovieCommandHandler :
     private readonly IMapper _mapper;
 
     public AddMovieCommandHandler(
-        IWatchListRepository watchListRepository, 
-        IRequestClient<MoviesDataMessage> requestClient,
-        IWatchlistRequestClient requestClient1, 
+        IWatchListRepository watchListRepository,
+        IWatchlistRequestClient requestClient,
         IMapper mapper)
     {
         _watchListRepository = watchListRepository;
         _mapper = mapper;
-        _requestClient = requestClient1;
+        _requestClient = requestClient;
     }
     
     public async Task<Result<WatchlistResponse>> Handle(
@@ -58,13 +59,7 @@ public class AddMovieCommandHandler :
         await _watchListRepository.AddMovieToWatchlistAsync(
             command.WatchlistId, command.MovieId, dateTimeOfAdding);
         
-        var updatedWatchlist = await _watchListRepository
-            .GetWatchlistByIdAsync(command.WatchlistId);
-        
-        var moviesData = await _requestClient.
-            GetMoviesData(updatedWatchlist.Movies);
-
-        return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData));
+        return await GetWatchlistResponse(command);
     }
     
     private async Task<bool> IsWatchlistOwner(string Token, string watchlistId)
@@ -74,5 +69,31 @@ public class AddMovieCommandHandler :
             .GetWatchlistByIdAsync(watchlistId);
         
         return dbWatchlist.UserId == userId;
+    }
+
+    private async Task<WatchlistResponse> GetWatchlistResponse(AddMovieCommand command)
+    {
+        var updatedWatchlist = await _watchListRepository
+            .GetWatchlistByIdAsync(command.WatchlistId);
+        
+        List<int> movieIds = updatedWatchlist.Movies
+            .Select(x => x.MovieId)
+            .ToList();
+
+        List<DateTime> dateTimes = updatedWatchlist.Movies
+            .Select(x => x.DateTimeOfAdding)
+            .ToList();
+
+        List<Movie> movies = await _requestClient.GetMoviesData(movieIds);
+
+        List<MovieResponse> movieResponses = movies.Zip(dateTimes, 
+            (movie, dateTime) => 
+                new MovieResponse 
+                { 
+                    Movie = movie, 
+                    DateTimeOfAdding = dateTime
+                }).ToList();
+
+        return _mapper.Map<WatchlistResponse>((updatedWatchlist, movieResponses));
     }
 }

@@ -108,7 +108,8 @@ public class WatchlistController : ApiController
     [HttpDelete("{watchlistId}/movie/{movieId}")]
     public async Task<IActionResult> RemoveFromWatchlist(string watchlistId, int movieId)
     {
-        var command = new RemoveMovieCommand(watchlistId, movieId);
+        var token = HttpContext.Request.Headers["Authorization"]!;
+        var command = new RemoveMovieCommand(watchlistId, token, movieId);
         
         var result = await _sender.Send(command);
 

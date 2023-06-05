@@ -12,11 +12,11 @@ public class WatchlistProfile : Profile
     
     public WatchlistProfile()
     {
-        CreateMap<Watchlist, CreateWatchlistResponse>()
-            .ForMember(dest => dest.Id, opt =>
-                opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Name, opt =>
-                opt.MapFrom(src => src.Name));
+        //CreateMap<Watchlist, CreateWatchlistResponse>()
+        //    .ForMember(dest => dest.Id, opt =>
+        //        opt.MapFrom(src => src.Id))
+        //    .ForMember(dest => dest.Name, opt =>
+        //        opt.MapFrom(src => src.Name));
 
         CreateMap<(Watchlist, List<MovieResponse>), WatchlistResponse>()
             .ForMember(dest => dest.Id, opt =>

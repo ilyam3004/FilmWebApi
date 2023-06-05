@@ -5,6 +5,8 @@ using WatchlistService.Bus;
 using LanguageExt.Common;
 using AutoMapper;
 using MediatR;
+using TMDbLib.Objects.Movies;
+using WatchlistService.Dtos;
 
 namespace WatchlistService.Messages.Commands.RemoveMovie;
 
@@ -26,7 +28,7 @@ public class RemoveMovieCommandHandler :
     }
     
     public async Task<Result<WatchlistResponse>> Handle(
-        RemoveMovieCommand command, 
+        RemoveMovieCommand command,
         CancellationToken cancellationToken)
     {
         if (!await _watchListRepository
@@ -35,10 +37,17 @@ public class RemoveMovieCommandHandler :
             var notFoundException = new WatchlistNotFoundException();
             return new Result<WatchlistResponse>(notFoundException);
         }
-        
+
+        if (!await IsWatchlistOwner(command.Token, command.WatchlistId))
+        {
+            var exception = new UnauthorizedAccessException(
+                "You are not authorized to access this watchlist.");
+
+            return new Result<WatchlistResponse>(exception);
+        }
+
         if (!await _watchListRepository
-                .MovieExistsInWatchlistAsync(
-                    command.WatchlistId, command.MovieId)) 
+                .MovieExistsInWatchlistAsync(command.WatchlistId, command.MovieId)) 
         {
             var notFoundException = new MovieNotFoundException();
             return new Result<WatchlistResponse>(notFoundException);
@@ -46,20 +55,40 @@ public class RemoveMovieCommandHandler :
 
         await _watchListRepository.RemoveMovieFromWatchlistAsync(
             command.WatchlistId, command.MovieId);
-        
 
         return await GetUpdatedWatchlist(command.WatchlistId);
     }
+    
+    private async Task<bool> IsWatchlistOwner(string Token, string watchlistId)
+    {
+        var userId = await _requestClient.GetUserIdFromToken(Token);
+        var dbWatchlist =  await _watchListRepository
+            .GetWatchlistByIdAsync(watchlistId);
+        
+        return dbWatchlist.UserId == userId;
+    }
 
-    private async Task<Result<WatchlistResponse>> GetUpdatedWatchlist(
-        string watchlistId)
+    private async Task<Result<WatchlistResponse>> GetUpdatedWatchlist(string watchlistId)
     {
         var updatedWatchlist = await _watchListRepository
             .GetWatchlistByIdAsync(watchlistId);
-        
-        var moviesData = await _requestClient.
-            GetMoviesData(updatedWatchlist.MoviesId);
 
-        return _mapper.Map<WatchlistResponse>((updatedWatchlist, moviesData)); 
+        List<int> movieIds = updatedWatchlist.Movies.Select(x => x.MovieId)
+            .ToList();
+
+        List<DateTime> dateTimes = updatedWatchlist.Movies
+            .Select(x => x.DateTimeOfAdding).ToList();
+
+        List<Movie> movies = await _requestClient.GetMoviesData(movieIds);
+
+        List<MovieResponse> movieResponses = movies.Zip(dateTimes, 
+            (movie, dateTime) => 
+                new MovieResponse 
+                { 
+                    Movie = movie, 
+                    DateTimeOfAdding = dateTime
+                }).ToList();
+
+        return _mapper.Map<WatchlistResponse>((updatedWatchlist, movieResponses)); 
     }
 }

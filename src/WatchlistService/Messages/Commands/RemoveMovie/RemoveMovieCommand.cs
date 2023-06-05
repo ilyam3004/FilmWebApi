@@ -7,4 +7,5 @@ namespace WatchlistService.Messages.Commands.RemoveMovie;
 
 public record RemoveMovieCommand(
     string WatchlistId,
+    string Token,
     int MovieId) : IRequest<Result<WatchlistResponse>>;

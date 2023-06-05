@@ -1,8 +1,4 @@
-﻿using TMDbLib.Objects.Changes;
-using TMDbLib.Objects.General;
-using TMDbLib.Objects.Movies;
-using TMDbLib.Objects.Reviews;
-using TMDbLib.Objects.Search;
+﻿using TMDbLib.Objects.Movies;
 
 namespace WatchlistService.Dtos
 {

@@ -50,6 +50,6 @@ public class CreateWatchlistCommandHandler :
 
         await _watchListRepository.CreateWatchListAsync(watchlist);
 
-        return watchlist; 
+        return watchlist;
     }
 }
