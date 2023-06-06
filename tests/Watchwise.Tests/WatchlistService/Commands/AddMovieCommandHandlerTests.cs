@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using Moq;
-using NuGet.Frameworks;
 using TMDbLib.Objects.Movies;
 using WatchlistService.Bus;
 using WatchlistService.Common.Exceptions;
