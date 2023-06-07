@@ -58,7 +58,7 @@ public class GetWatchlistQueryHandler
         return watchlistResponse;
     }
 
-    public async Task<WatchlistResponse> GetWatchlistResponse(
+    private async Task<WatchlistResponse> GetWatchlistResponse(
         Watchlist watchlist) 
     {
         List<int> movieIds = watchlist.Movies.Select(x => x.MovieId)

@@ -31,8 +31,4 @@
       <ProjectReference Include="..\..\src\WatchlistService\WatchlistService.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="WatchlistService\Queries" />
-    </ItemGroup>
-
 </Project>

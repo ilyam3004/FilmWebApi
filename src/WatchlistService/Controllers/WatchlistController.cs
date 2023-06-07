@@ -77,7 +77,7 @@ public class WatchlistController : ApiController
     public async Task<IActionResult> GetWatchlists()
     {
         string token = HttpContext.Request.Headers["Authorization"]!;
-        var query = new GetWatchlistsQuery(token);
+        var query = new GetUserWatchlistsQuery(token);
 
         var result = await _sender.Send(query);
 

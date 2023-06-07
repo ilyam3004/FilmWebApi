@@ -4,5 +4,5 @@ using MediatR;
 
 namespace WatchlistService.Messages.Queries.GetUserWatchlists;
 
-public record GetWatchlistsQuery(string Token) 
+public record GetUserWatchlistsQuery(string Token) 
     : IRequest<Result<List<WatchlistResponse>>>;
