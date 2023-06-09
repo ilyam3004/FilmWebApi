@@ -29,5 +29,5 @@ export class WatchlistService {
     createWatchlist(name: string): Observable<Watchlist> {
         return this.httpClient
             .post<Watchlist>(`watchlists/${name}`, null)
-    }
+    } 
 }

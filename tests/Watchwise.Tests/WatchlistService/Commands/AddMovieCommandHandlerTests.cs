@@ -9,7 +9,7 @@ using WatchlistService.Messages.Commands.AddMovie;
 using WatchlistService.Models;
 using Watchwise.Tests.WatchlistService.Config;
 
-namespace Watchwise.Tests;
+namespace Watchwise.Tests.WatchlistService.Commands;
 
 public class AddMovieCommandHandlerTests
 {
