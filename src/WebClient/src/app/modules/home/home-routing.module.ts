@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import WatchlistsComponent from "./watchlists/watchlists.component";
+import { WatchlistsComponent } from "./watchlists/watchlists.component";
 import { SearchComponent } from "./search/search.component";
 import { LayoutComponent } from "./layout/layout.component";
 import { MoviesComponent } from "./movies/movies.component";

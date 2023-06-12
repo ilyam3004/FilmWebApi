@@ -47,15 +47,15 @@ export class TableComponent {
                 }
             });
     }
-    
+
     updateWatchlist(watchlist: Watchlist): void {
         const index = this.watchlists?.findIndex(w => w.id === watchlist.id);
         if (index !== undefined && index !== -1){
             this.watchlists?.splice(index, 1, watchlist);
         }
     }
-    
+
     isMovieExistsInWatchlist(watchlist: Watchlist): boolean {
-        return watchlist.movies.some(m => m.id === this.movieId);
+        return watchlist.movies.some(m => m.movie.id === this.movieId);
     }
 }

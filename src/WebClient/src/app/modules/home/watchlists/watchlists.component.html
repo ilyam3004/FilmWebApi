@@ -1,7 +1,76 @@
-<div class="container-fluid" style="width: 70%; margin-top: 3%; display: flex; justify-content: space-between">
+<div class="container-fluid" style="width: 70%; margin-top: 3%">
+  <div style="display: flex; justify-content: space-between; margin-bottom: 3%">
     <h3>Your watchlists</h3>
     <modal/>
-    <div *ngFor="let watchlist of watchlists">
-
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <ul class="list-group" *ngFor="let watchlist of watchlists;">
+        <li class="list-group-item list-group-item-action flex-column align-items-start"
+            [class.active]="activeWatchlist == watchlist"
+            (click)="activateWatchlist(watchlist)">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{watchlist.name}}</h5>
+            <small>{{watchlist.dateTimeOfCreating}}</small>
+          </div>
+          <p class="mb-1">Movies count: {{watchlist.moviesCount}}</p>
+        </li>
+      </ul>
     </div>
+    <div class="col-8">
+      <div class="tab-content" id="nav-tabContent">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th></th>
+            <th scope="col">Title</th>
+            <th scope="col">Popularity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngIf="activeWatchlist.movies.length === 0">
+            <td colspan="2">
+              You don't have any movies in this watchlist.
+              See the movie lists
+              <a routerLink="/movies"
+                 routerLinkActive="active">
+                there
+              </a>
+              or search
+              <a routerLink="/search"
+                 routerLinkActive="active">
+                there.
+              </a>
+            </td>
+          </tr>
+          <tr *ngFor="let movie of activeWatchlist.movies; index as i">
+            <td>#{{i + 1}}</td>
+            <td>
+              <img [src]="movie.movie.backdropPath" width="40%"
+                  (error)="handleImageError($event)"/>
+            </td>
+            <td>{{movie.movie.title}}</td>
+            <td>{{movie.movie.popularity}}</td>
+            <td>
+              <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                <button
+                  type="button" class="btn btn-outline-primary me-2"
+                  id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
+                  Actions
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                  <a ngbDropdownItem
+                     [routerLink]="['/details']"
+                     [queryParams]="{ id: movie.movie.id }">More</a>
+                  <button ngbDropdownItem>Remove</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

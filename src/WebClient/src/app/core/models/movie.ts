@@ -1,3 +1,8 @@
+export interface MovieResponse {
+  movie: Movie;
+  dateTimeOfAdding: string;
+}
+
 export interface Movie {
   adult: boolean;
   originalTitle: string;
@@ -45,7 +50,7 @@ export interface MovieDetails {
     voteAverage: number;
     voteCount: number;
   }
-  
+
   export interface SimilarMovies {
     page: number;
     results: Movie[];

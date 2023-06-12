@@ -1,8 +1,9 @@
-import {Movie} from './movie';
+import {Movie, MovieResponse} from './movie';
 
 export interface Watchlist{
     id: string;
     name: string;
     moviesCount: number;
-    movies: Movie[];
+    dateTimeOfCreating: string;
+    movies: MovieResponse[];
 }
