@@ -11,7 +11,7 @@ export class LayoutComponent {
               private accountService: AccountService
   ) {
     if (this.accountService.userValue){
-      this.router.navigate(['/']);
+      this.router.navigate(['/movies']);
     }
   }
 }

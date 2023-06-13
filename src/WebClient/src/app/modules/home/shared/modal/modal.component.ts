@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {WatchlistService} from "../../../../core/services/watchlist.service";
+
 
 @Component({
   selector: 'modal',
@@ -9,12 +9,13 @@ import {WatchlistService} from "../../../../core/services/watchlist.service";
 })
 export class ModalComponent {
   watchlistName: string = "";
-  
-  constructor(private modalService: NgbModal,
-              private watchlistService: WatchlistService){ }
+  @Output() valueChange = new EventEmitter<string>();
 
-  createWatchlist(): void{
-    console.log(this.watchlistName);
+  constructor(private modalService: NgbModal){ }
+
+  sendValueAndCloseModal(modal: any) {
+    this.valueChange.emit(this.watchlistName);
+    modal.close();
   }
 
   open(content: any) {

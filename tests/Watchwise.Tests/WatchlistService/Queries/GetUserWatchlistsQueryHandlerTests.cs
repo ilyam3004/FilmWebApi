@@ -4,11 +4,9 @@ using Moq;
 using TMDbLib.Objects.Movies;
 using WatchlistService.Bus;
 using WatchlistService.Data.Repositories;
-using WatchlistService.Dtos.Responses;
 using WatchlistService.Messages.Queries.GetUserWatchlists;
 using WatchlistService.Models;
 using Watchwise.Tests.WatchlistService.Config;
-using ZstdSharp.Unsafe;
 
 namespace Watchwise.Tests.WatchlistService.Queries;
 
@@ -18,16 +16,15 @@ public class GetUserWatchlistsQueryHandlerTests
     private readonly Mock<IWatchListRepository> _watchlistRepositoryMock = new();
     private readonly Mock<IWatchlistRequestClient> _requestClientMock = new();
     private readonly Fixture _fixture;
-    private readonly IMapper _mapper;
 
     public GetUserWatchlistsQueryHandlerTests()
     {
         _fixture = new Fixture();
-        _mapper = AutoMapperInitializer.ConfigureAutoMapper();
+        IMapper mapper = AutoMapperInitializer.ConfigureAutoMapper();
         _sut = new GetUserWatchlistsQueryHandler(
             _watchlistRepositoryMock.Object,
             _requestClientMock.Object,
-            _mapper);
+            mapper);
     }
 
     [Fact]
@@ -55,11 +52,7 @@ public class GetUserWatchlistsQueryHandlerTests
         var response = await _sut.Handle(query, CancellationToken.None);
 
         //Assert
-        response.IfSucc(w =>
-            Assert.Equal(w.Count, watchlists.Count));
-
-        response.IfFail(w =>
-            Assert.True(false, "Should not return an error"));
+        Assert.Equal(response.Count, watchlists.Count);
     }
     
     private List<Movie> GenerateMovieObjects(int count)

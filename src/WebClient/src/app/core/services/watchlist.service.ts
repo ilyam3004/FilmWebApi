@@ -8,8 +8,7 @@ import {Watchlist} from "../models/watchlist";
 })
 
 export class WatchlistService {
-    constructor(private httpClient: HttpClient) {
-    }
+    constructor(private httpClient: HttpClient) { }
 
     addMovieToWatchlist(watchlistId: string, movieId: number): Observable<Watchlist> {
         return this.httpClient
@@ -21,6 +20,10 @@ export class WatchlistService {
             .delete<Watchlist>(`watchlists/${watchlistId}/movies/${movieId}`);
     }
 
+    removeWatchlist(watchlistId: string){
+      return this.httpClient.delete(`watchlists/${watchlistId}`)
+    }
+
     getWatchlists(): Observable<Watchlist[]> {
         return this.httpClient
             .get<Watchlist[]>("watchlists")
@@ -29,5 +32,5 @@ export class WatchlistService {
     createWatchlist(name: string): Observable<Watchlist> {
         return this.httpClient
             .post<Watchlist>(`watchlists/${name}`, null)
-    } 
+    }
 }

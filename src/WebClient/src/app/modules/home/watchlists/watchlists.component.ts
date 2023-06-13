@@ -12,7 +12,7 @@ import {AlertService} from "../../../shared/services/alert.service";
 export class WatchlistsComponent implements OnInit {
   watchlists: Watchlist[] = [];
   notFound: boolean = false;
-  activeWatchlist: Watchlist = this.watchlists[0];
+  activeWatchlist: Watchlist = {'id': '', 'name': '', 'moviesCount': 0, 'dateTimeOfCreating': '', 'movies': []};
 
   constructor(private watchlistService: WatchlistService,
               private alertService: AlertService) {
@@ -98,8 +98,22 @@ export class WatchlistsComponent implements OnInit {
   activateWatchlist(watchlist: Watchlist) {
     this.activeWatchlist = watchlist;
   }
+  watchlistName: string | undefined;
 
-  handleImageError(event: any) {
-    event.target.src = "../../../../assets/img/placeholder.jpg";
+  removeWatchlist(): void {
+    this.watchlistService.removeWatchlist(this.activeWatchlist.id)
+      .subscribe(() => {
+          this.alertService
+              .success(`Watchlist ${this.activeWatchlist.name} was removed successfully`);
+          this.watchlists = this.watchlists.filter(w => w.id !== this.activeWatchlist.id);
+          this.activeWatchlist = this.watchlists[0];
+        },
+        (error) => {
+          this.alertService.error(error);
+        });
+  }
+
+  handleValueChange(watchlistName: string) {
+    console.log(watchlistName)
   }
 }

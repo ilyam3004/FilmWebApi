@@ -81,7 +81,7 @@ public class WatchlistController : ApiController
 
         var result = await _sender.Send(query);
 
-        return result.Match(Ok, Problem);  
+        return Ok(result);
     }
 
     [HttpPost("{watchlistId}/movie/{movieId}")]

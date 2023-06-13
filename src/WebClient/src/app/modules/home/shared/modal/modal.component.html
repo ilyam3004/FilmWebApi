@@ -5,16 +5,18 @@
     </div>
     <div class="modal-body">
         <div class="input-group mb-3">
-            <input type="text" 
-                   class="form-control" 
-                   placeholder="Watchlist name"
-                   [(ngModel)]="watchlistName"
-                   name="inputValue">
+          <input type="text"
+                 class="form-control"
+                 placeholder="Type movie title here"
+                 [(ngModel)]="watchlistName">
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" (click)="modal.close()">Create</button>
+        <button type="button" class="btn btn-outline-primary" (click)="sendValueAndCloseModal(modal)">
+          Create
+        </button>
     </div>
 </ng-template>
-
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Create new watchlist</button>
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+  Create new watchlist
+</button>

@@ -1,14 +1,14 @@
 <div class="container-fluid" style="width: 70%; margin-top: 3%">
   <div style="display: flex; justify-content: space-between; margin-bottom: 3%">
     <h3>Your watchlists</h3>
-    <modal/>
+    <modal (valueChange)="handleValueChange($event)"/>
   </div>
   <div class="row">
     <div class="col-4">
       <ul class="list-group" *ngFor="let watchlist of watchlists;">
         <li class="list-group-item list-group-item-action flex-column align-items-start"
             [class.active]="activeWatchlist == watchlist"
-            (click)="activateWatchlist(watchlist)">
+            (click)="activateWatchlist(watchlist)" style="border-radius: 0">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{watchlist.name}}</h5>
             <small>{{watchlist.dateTimeOfCreating}}</small>
@@ -17,15 +17,16 @@
         </li>
       </ul>
     </div>
-    <div class="col-8">
+    <div class="col-8" *ngIf="activeWatchlist">
       <div class="tab-content" id="nav-tabContent">
         <table class="table table-striped">
           <thead>
           <tr>
             <th scope="col">#</th>
-            <th></th>
             <th scope="col">Title</th>
             <th scope="col">Popularity</th>
+            <th scope="col">Added</th>
+            <th scope="col"></th>
           </tr>
           </thead>
           <tbody>
@@ -46,12 +47,9 @@
           </tr>
           <tr *ngFor="let movie of activeWatchlist.movies; index as i">
             <td>#{{i + 1}}</td>
-            <td>
-              <img [src]="movie.movie.backdropPath" width="40%"
-                  (error)="handleImageError($event)"/>
-            </td>
             <td>{{movie.movie.title}}</td>
             <td>{{movie.movie.popularity}}</td>
+            <td>{{movie.dateTimeOfAdding}}</td>
             <td>
               <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
                 <button
@@ -70,6 +68,11 @@
           </tr>
           </tbody>
         </table>
+        <div class="d-flex w-100 justify-content-end">
+          <button class="btn btn-outline-danger" (click)="removeWatchlist()">
+            Remove Watchlist
+          </button>
+        </div>
       </div>
     </div>
   </div>

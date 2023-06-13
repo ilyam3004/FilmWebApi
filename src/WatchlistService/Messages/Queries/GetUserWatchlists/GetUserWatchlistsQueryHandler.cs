@@ -11,7 +11,7 @@ using WatchlistService.Models;
 namespace WatchlistService.Messages.Queries.GetUserWatchlists;
 
 public class GetUserWatchlistsQueryHandler :
-    IRequestHandler<GetUserWatchlistsQuery, Result<List<WatchlistResponse>>>
+    IRequestHandler<GetUserWatchlistsQuery, List<WatchlistResponse>>
 {
     private readonly IWatchListRepository _watchListRepository;
     private readonly IWatchlistRequestClient _requestClient;
@@ -27,7 +27,7 @@ public class GetUserWatchlistsQueryHandler :
         _mapper = mapper;
     }
 
-    public async Task<Result<List<WatchlistResponse>>> Handle(
+    public async Task<List<WatchlistResponse>> Handle(
         GetUserWatchlistsQuery query, 
         CancellationToken cancellationToken)
     {

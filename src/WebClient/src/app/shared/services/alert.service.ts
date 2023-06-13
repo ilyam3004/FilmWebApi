@@ -14,7 +14,7 @@ export class AlertService {
   }
 
   success(message: string, options?: AlertOptions) {
-    this.alert(new Alert({ ...options, type: AlertType.Success, message }));
+    this.alert(new Alert({ ...options, type: AlertType.Success, message, autoClose: true }));
   }
 
   error(message: string, options?: AlertOptions) {
