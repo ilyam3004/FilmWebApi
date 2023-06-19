@@ -1,13 +1,13 @@
-<div *ngIf="loading">
+<div *ngIf="isLoading">
     <div class="d-flex justify-content-center"
-         style="height: 100vh;">
+         style="height: 80vh;">
         <div class="spinner-border text-secondary"
              role="status"
              style="margin: auto">
         </div>
     </div>
 </div>
-<div *ngIf="!loading">
+<div *ngIf="!isLoading">
     <carousel [movies]="popularMovies"/>
     <slider [movies]="topRatedMovies" [title]="'Top rated movies'"/>
     <slider [movies]="upcomingMovies" [title]="'Upcoming movies'"/>

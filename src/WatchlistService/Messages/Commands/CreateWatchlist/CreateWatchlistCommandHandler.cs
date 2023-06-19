@@ -14,7 +14,6 @@ public class CreateWatchlistCommandHandler :
 {
     private readonly IWatchListRepository _watchListRepository;
     private readonly IWatchlistRequestClient _requestClient;
-    private readonly IMapper _mapper;
 
     public CreateWatchlistCommandHandler(
         IWatchListRepository watchListRepository, 
@@ -23,7 +22,6 @@ public class CreateWatchlistCommandHandler :
     {
         _watchListRepository = watchListRepository;
         _requestClient = requestClient;
-        _mapper = mapper;
     }
     
     public async Task<Result<Watchlist>> Handle(

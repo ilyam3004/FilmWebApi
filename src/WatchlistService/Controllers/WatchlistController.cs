@@ -7,7 +7,7 @@ using WatchlistService.Messages.Commands.AddMovie;
 using Microsoft.AspNetCore.Authorization;
 using WatchlistService.Dtos.Responses;
 using Microsoft.AspNetCore.Mvc;
-using TMDbLib.Objects.Movies;
+using WatchlistService.Dtos;
 using AutoMapper;
 using MediatR;
 
@@ -41,7 +41,7 @@ public class WatchlistController : ApiController
         return result.Match(
             value => CreatedAtRoute("GetWatchlist", 
                 new {watchlistId = value.Id}, 
-                _mapper.Map<WatchlistResponse>((value, new List<Movie>()))), 
+                _mapper.Map<WatchlistResponse>((value, new List<MovieResponse>()))), 
             Problem); 
     }
 
@@ -106,7 +106,7 @@ public class WatchlistController : ApiController
     }
 
     [HttpDelete("{watchlistId}/movie/{movieId}")]
-    public async Task<IActionResult> RemoveFromWatchlist(string watchlistId, int movieId)
+    public async Task<IActionResult> RemoveMovieFromWatchlist(string watchlistId, int movieId)
     {
         var token = HttpContext.Request.Headers["Authorization"]!;
         var command = new RemoveMovieCommand(watchlistId, token, movieId);
@@ -114,7 +114,7 @@ public class WatchlistController : ApiController
         var result = await _sender.Send(command);
 
         return result.Match(
-            value => NoContent(),
+            value => Ok(value),
             Problem);
     }
 }

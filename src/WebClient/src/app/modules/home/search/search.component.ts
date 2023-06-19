@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit {
       this.movies = [];
       return;
     }
-    
+
     this.loading = true;
     this.notFound = false;
 
@@ -38,6 +38,7 @@ export class SearchComponent implements OnInit {
           if(this.movies.length == 0)
             this.notFound = true;
         },
+
         (error) => {
           this.alertService.error(error);
         });

@@ -3,75 +3,95 @@
     <h3>Your watchlists</h3>
     <modal (valueChange)="handleValueChange($event)"/>
   </div>
-  <div class="row">
-    <div class="col-4">
-      <ul class="list-group" *ngFor="let watchlist of watchlists;">
-        <li class="list-group-item list-group-item-action flex-column align-items-start"
-            [class.active]="activeWatchlist == watchlist"
-            (click)="activateWatchlist(watchlist)" style="border-radius: 0">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{watchlist.name}}</h5>
-            <small>{{watchlist.dateTimeOfCreating}}</small>
-          </div>
-          <p class="mb-1">Movies count: {{watchlist.moviesCount}}</p>
-        </li>
-      </ul>
+  <div *ngIf="isLoading">
+    <div class="d-flex justify-content-center"
+         style="height: 50vh;">
+      <div class="spinner-border text-secondary"
+           role="status"
+           style="margin: auto">
+      </div>
     </div>
-    <div class="col-8" *ngIf="activeWatchlist">
-      <div class="tab-content" id="nav-tabContent">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Popularity</th>
-            <th scope="col">Added</th>
-            <th scope="col"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngIf="activeWatchlist.movies.length === 0">
-            <td colspan="2">
-              You don't have any movies in this watchlist.
-              See the movie lists
-              <a routerLink="/movies"
-                 routerLinkActive="active">
-                there
-              </a>
-              or search
-              <a routerLink="/search"
-                 routerLinkActive="active">
-                there.
-              </a>
-            </td>
-          </tr>
-          <tr *ngFor="let movie of activeWatchlist.movies; index as i">
-            <td>#{{i + 1}}</td>
-            <td>{{movie.movie.title}}</td>
-            <td>{{movie.movie.popularity}}</td>
-            <td>{{movie.dateTimeOfAdding}}</td>
-            <td>
-              <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
-                <button
-                  type="button" class="btn btn-outline-primary me-2"
-                  id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
-                  Actions
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                  <a ngbDropdownItem
-                     [routerLink]="['/details']"
-                     [queryParams]="{ id: movie.movie.id }">More</a>
-                  <button ngbDropdownItem>Remove</button>
+  </div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="watchlistsNotFound" class="d-flex justify-content-center align-items-center"
+         style="height: 50vh; background-color: #f0f0f0; border: 2px solid #dce0e4; border-radius: 10px">
+      Watchlists not found😢
+    </div>
+    <div class="row" *ngIf="!watchlistsNotFound">
+      <div class="col-4">
+        <ul class="list-group" *ngFor="let watchlist of watchlists;">
+          <li class="list-group-item list-group-item-action flex-column align-items-start"
+              [class.active]="activeWatchlist == watchlist"
+              (click)="activateWatchlist(watchlist)" style="border-radius: 0">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{watchlist.name}}</h5>
+              <small>{{getFormattedDate(watchlist.dateTimeOfCreating)}}</small>
+            </div>
+            <p class="mb-1">Movies count: {{watchlist.moviesCount}}</p>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!activeWatchlist"
+           style="height: 50vh; background-color: #f0f0f0; border: 2px solid #dce0e4; border-radius: 10px"
+           class="col-8 d-flex justify-content-center align-items-center">
+        👈Select the watchlist from the list
+      </div>
+      <div class="col-8" *ngIf="activeWatchlist">
+        <div class="tab-content" id="nav-tabContent">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Popularity</th>
+              <th scope="col">Added</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="activeWatchlist.movies.length === 0">
+              <td colspan="5">
+                You don't have any movies in this watchlist.
+                See the movie lists
+                <a routerLink="/movies"
+                   routerLinkActive="active">
+                  there
+                </a>
+                or search
+                <a routerLink="/search"
+                   routerLinkActive="active">
+                  there.
+                </a>
+              </td>
+            </tr>
+            <tr *ngFor="let movie of activeWatchlist.movies; index as i">
+              <td>#{{i + 1}}</td>
+              <td>{{movie.movie.title}}</td>
+              <td>{{movie.movie.popularity}}</td>
+              <td>{{getFormattedDate(movie.dateTimeOfAdding)}}</td>
+              <td>
+                <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                  <button
+                    type="button" class="btn btn-outline-primary me-2"
+                    id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">
+                    Actions
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                    <a ngbDropdownItem
+                       [routerLink]="['/details']"
+                       [queryParams]="{ id: movie.movie.id }">More</a>
+                    <button ngbDropdownItem (click)="removeMovieFromWatchlist(movie.movie.id)">Remove</button>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="d-flex w-100 justify-content-end">
-          <button class="btn btn-outline-danger" (click)="removeWatchlist()">
-            Remove Watchlist
-          </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="d-flex w-100 justify-content-end">
+            <button class="btn btn-outline-danger" (click)="removeWatchlist()">
+              Remove Watchlist
+            </button>
+          </div>
         </div>
       </div>
     </div>

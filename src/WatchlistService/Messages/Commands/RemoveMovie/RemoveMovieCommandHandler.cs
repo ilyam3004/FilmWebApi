@@ -1,12 +1,12 @@
 ﻿using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Dtos.Responses;
+using TMDbLib.Objects.Movies;
+using WatchlistService.Dtos;
 using WatchlistService.Bus;
 using LanguageExt.Common;
 using AutoMapper;
 using MediatR;
-using TMDbLib.Objects.Movies;
-using WatchlistService.Dtos;
 
 namespace WatchlistService.Messages.Commands.RemoveMovie;
 

@@ -78,7 +78,22 @@ public class MovieServiceImp : IMovieService
     {
         var movies = await _movieClient
             .GetMoviePopularListAsync(page: PagesCount);
+        
+        if (movies is null)
+        {
+            var exception = new MovieNotFoundException();
+            return new Result<List<SearchMovie>>(exception);
+        }
 
+        GetMovieImagesLinks(ref movies);
+
+        return movies.Results.ToList();
+    }
+
+    public async Task<Result<List<SearchMovie>>> GetNowPlayingMovies()
+    {
+        var movies = await _movieClient.GetMovieNowPlayingListAsync(page: PagesCount);
+        
         if (movies is null)
         {
             var exception = new MovieNotFoundException();

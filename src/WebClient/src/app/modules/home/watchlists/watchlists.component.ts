@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Watchlist} from 'src/app/core/models/watchlist';
 import {WatchlistService} from 'src/app/core/services/watchlist.service';
 import {AlertService} from "../../../shared/services/alert.service";
+import {DatePipe} from "@angular/common";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-watchlists',
@@ -11,109 +13,93 @@ import {AlertService} from "../../../shared/services/alert.service";
 
 export class WatchlistsComponent implements OnInit {
   watchlists: Watchlist[] = [];
-  notFound: boolean = false;
-  activeWatchlist: Watchlist = {'id': '', 'name': '', 'moviesCount': 0, 'dateTimeOfCreating': '', 'movies': []};
+  watchlistsNotFound: boolean = false;
+  activeWatchlist: Watchlist | undefined;
+  isLoading: boolean = false;
 
   constructor(private watchlistService: WatchlistService,
-              private alertService: AlertService) {
-  }
+              private alertService: AlertService,
+              private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    // this.watchlistService.getWatchlists()
-    //   .subscribe((response: Watchlist[]) => {
-    //       this.watchlists = response;
-    //       if (this.watchlists.length == 0)
-    //         this.notFound = true;
-    //     },
-    //     (error) => {
-    //       this.alertService.error(error);
-    //     });
+    this.isLoading = true;
 
-    this.watchlists = [
-      {
-        id: "isldkjd",
-        name: "watchlist",
-        moviesCount: 2,
-        dateTimeOfCreating: "3 days ago",
-        movies: [
-          {
-            movie: {
-              "adult": false,
-              "originalTitle": "Spider-Man: The Venom Saga",
-              "releaseDate": "1994-06-07T00:00:00",
-              "title": "Spider-Man: The Venom Sagaghhgh",
-              "video": true,
-              "backdropPath": "https://image.tmdb.org/t/p/original",
-              "genreIds": [
-                16
-              ],
-              "originalLanguage": "en",
-              "overview": "A space-shuttle crash-landing puts the famous web-slinger Spider-Man in contact with a living alien substance that bonds to his suit and enhances his super-powers. Unfortunately, the alien substance begins to change him and he feels the pull of evil, so discards the suit. The evil attaches itself to another host leading to an epic confrontation between good and evil.",
-              "posterPath": "https://image.tmdb.org/t/p/original/ilmsQLtthtcD8EU1k25cp0xFQ9a.jpg",
-              "voteAverage": 6.7,
-              "voteCount": 73,
-              "id": 50410,
-              "mediaType": 1,
-              "popularity": 7.123
-            },
-            dateTimeOfAdding: "3 days ago"
+    this.watchlistService.getWatchlists()
+      .subscribe((response: Watchlist[]) => {
+          this.watchlists = response;
+          this.isLoading = false;
+          if (this.watchlists.length == 0) {
+            this.watchlistsNotFound = true;
           }
-        ]
-      },
-      {
-        id: "123",
-        name: "watchlist1",
-        moviesCount: 2,
-        dateTimeOfCreating: "2 days ago",
-        movies: [
-          {
-            movie: {
-              "adult": false,
-              "originalTitle": "Spider-Man: The Venom Saga",
-              "releaseDate": "1994-06-07T00:00:00",
-              "title": "Spider-Man: The Venom Saga",
-              "video": true,
-              "backdropPath": "https://image.tmdb.org/t/p/original",
-              "genreIds": [
-                16
-              ],
-              "originalLanguage": "en",
-              "overview": "A space-shuttle crash-landing puts the famous web-slinger Spider-Man in contact with a living alien substance that bonds to his suit and enhances his super-powers. Unfortunately, the alien substance begins to change him and he feels the pull of evil, so discards the suit. The evil attaches itself to another host leading to an epic confrontation between good and evil.",
-              "posterPath": "https://image.tmdb.org/t/p/original/ilmsQLtthtcD8EU1k25cp0xFQ9a.jpg",
-              "voteAverage": 6.7,
-              "voteCount": 73,
-              "id": 50410,
-              "mediaType": 1,
-              "popularity": 7.123
-            },
-            dateTimeOfAdding: "3 days ago"
-          }
-        ]
-      }
-    ]
-
-    this.activeWatchlist = this.watchlists[0]
-  }
-
-  activateWatchlist(watchlist: Watchlist) {
-    this.activeWatchlist = watchlist;
-  }
-  watchlistName: string | undefined;
-
-  removeWatchlist(): void {
-    this.watchlistService.removeWatchlist(this.activeWatchlist.id)
-      .subscribe(() => {
-          this.alertService
-              .success(`Watchlist ${this.activeWatchlist.name} was removed successfully`);
-          this.watchlists = this.watchlists.filter(w => w.id !== this.activeWatchlist.id);
-          this.activeWatchlist = this.watchlists[0];
         },
         (error) => {
           this.alertService.error(error);
         });
   }
 
+  activateWatchlist(watchlist: Watchlist) {
+    this.activeWatchlist = watchlist;
+  }
+
+  removeWatchlist(): void {
+    if(this.activeWatchlist){
+      this.watchlistService.removeWatchlist(this.activeWatchlist.id)
+        .subscribe(() => {
+            this.alertService
+              .success(`Watchlist ${this.activeWatchlist?.name} removed successfully`);
+            this.watchlists = this.watchlists.filter(w => w.id !== this.activeWatchlist?.id);
+            this.activeWatchlist = this.watchlists[0];
+            if(this.watchlists.length === 0){
+              this.watchlistsNotFound = true;
+            }
+          },
+          (error) => {
+            this.alertService.error(error);
+          });
+    }
+  }
+
   handleValueChange(watchlistName: string) {
-    console.log(watchlistName)
+    this.createWatchlist(watchlistName);
+  }
+
+  createWatchlist(watchlistName: string){
+    this.watchlistService.createWatchlist(watchlistName)
+      .subscribe((watchlist: Watchlist) => {
+        this.watchlists.push(watchlist)
+        this.alertService
+          .success(`Watchlist ${watchlist.name} added successfully`);
+        this.watchlistsNotFound = false;
+      },
+      (error) => {
+        this.alertService.error(error);
+      });;
+  }
+
+  getFormattedDate(date: string): string{
+    return this.datePipe
+      .transform(date, 'MMM d, y, h:mm a') || "";
+  }
+
+  removeMovieFromWatchlist(id: number){
+    this.watchlistService.removeMovieFromWatchlist(this.activeWatchlist!.id, id)
+      .pipe(first())
+      .subscribe({
+        next: (response: Watchlist) => {
+          this.updateWatchlist(response);
+          this.alertService
+            .success(`Successfully removed from watchlist ${this.activeWatchlist!.name}`);
+        },
+        error: error => {
+          this.alertService.error(error);
+        }
+      });
+  }
+
+  updateWatchlist(watchlist: Watchlist): void {
+    const index = this.watchlists?.findIndex(w => w.id === watchlist.id);
+    if (index !== undefined && index !== -1){
+      this.watchlists.splice(index, 1, watchlist);
+    }
   }
 }

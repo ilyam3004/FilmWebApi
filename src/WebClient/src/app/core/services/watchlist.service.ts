@@ -12,12 +12,12 @@ export class WatchlistService {
 
     addMovieToWatchlist(watchlistId: string, movieId: number): Observable<Watchlist> {
         return this.httpClient
-            .post<Watchlist>(`watchlists/${watchlistId}/movies/${movieId}`, null);
+            .post<Watchlist>(`watchlists/${watchlistId}/movie/${movieId}`, null);
     }
 
     removeMovieFromWatchlist(watchlistId: string, movieId: number): Observable<Watchlist> {
         return this.httpClient
-            .delete<Watchlist>(`watchlists/${watchlistId}/movies/${movieId}`);
+            .delete<Watchlist>(`watchlists/${watchlistId}/movie/${movieId}`);
     }
 
     removeWatchlist(watchlistId: string){

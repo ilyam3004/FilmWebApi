@@ -1,85 +1,94 @@
 <div class="container">
-    <div *ngIf="!loading && movie != null">
-        <h1 class="my-4" style="font-size: 35px;">
-            {{ movie.title }}
-        </h1>
-        <div class="row">
-            <div class="col-md-7">
-                <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
-            </div>
-            <div class="col-md-5 justify-content-center">
+  <div *ngIf="isLoading">
+    <div class="d-flex justify-content-center"
+         style="height: 70vh;">
+      <div class="spinner-border text-secondary"
+           role="status"
+           style="margin: auto">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isLoading && movie != null">
+    <h1 class="my-4" style="font-size: 35px;">
+      {{ movie.title }}
+    </h1>
+    <div class="row">
+      <div class="col-md-7">
+        <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
+      </div>
+      <div class="col-md-5 justify-content-center">
                 <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
                     {{ genre.name }}
                 </span>
-                <h3 class="my-3">Overview</h3>
-                <p>{{ movie.overview }}</p>
-                <div *ngIf="movie.homepage">
-                    <a href="{{movie.homepage}}" class="link-success">Homepage</a>
-                </div>
-                <hr style="margin-top: 3%" />
-                <watchlist-table [watchlists]="watchlists" [movieId]="movie.id" />
-            </div>
-            <hr style="margin-top: 3%" />
-            <movie-data-table [movie]="movie" />
+        <h3 class="my-3">Overview</h3>
+        <p>{{ movie.overview }}</p>
+        <div *ngIf="movie.homepage">
+          <a href="{{movie.homepage}}" class="link-success">Homepage</a>
         </div>
-        <div *ngIf="movie.video">
-            <h1 class="my-4" style="font-size: 25px;">
-                Videos | {{movie.title}}
-            </h1>
-            <div *ngFor="let video of movie.videos?.results">
-                <h5>{{video.name}}</h5>
-                <span class="badge rounded-pill bg-info">
+        <hr style="margin-top: 3%"/>
+        <watchlist-table [watchlists]="watchlists" [movieId]="movie.id"/>
+      </div>
+      <hr style="margin-top: 3%"/>
+      <movie-data-table [movie]="movie"/>
+    </div>
+    <div *ngIf="movie.video">
+      <h1 class="my-4" style="font-size: 25px;">
+        Videos | {{movie.title}}
+      </h1>
+      <div *ngFor="let video of movie.videos?.results">
+        <h5>{{video.name}}</h5>
+        <span class="badge rounded-pill bg-info">
                     {{video.type}}
                 </span>
-                <youtube-player style="display: flex; justify-content: center;" videoId="{{video.key}}"
-                    (ready)="savePlayer($event)" (change)="onStateChange($event)">
-                </youtube-player>
-            </div>
-            <hr style="margin-top: 3%" />
-        </div>
-        <div *ngIf="movie.productionCompanies">
-            <h1 class="my-4" style="font-size: 25px;">
-                Production Companies | {{movie.title}}
-            </h1>
-            <div style=" width: 100%; display: flex; justify-content: center">
-                <table class="table table-striped" style=" width: 40%;">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Country</th>
-                            <th scope="col">Logo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let company of movie.productionCompanies; index as i">
-                            <td>{{ i }}</td>
-                            <td>{{ company.name }}</td>
-                            <td>
-                                <div *ngIf="company.originCountry">
+        <youtube-player style="display: flex; justify-content: center;" videoId="{{video.key}}"
+                        (ready)="savePlayer($event)" (change)="onStateChange($event)">
+        </youtube-player>
+      </div>
+      <hr style="margin-top: 3%"/>
+    </div>
+    <div *ngIf="movie.productionCompanies">
+      <h1 class="my-4" style="font-size: 25px;">
+        Production Companies | {{movie.title}}
+      </h1>
+      <div style=" width: 100%; display: flex; justify-content: center">
+        <table class="table table-striped" style=" width: 40%;">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Country</th>
+            <th scope="col">Logo</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let company of movie.productionCompanies; index as i">
+            <td>{{ i }}</td>
+            <td>{{ company.name }}</td>
+            <td>
+              <div *ngIf="company.originCountry">
                                     <span>
                                         {{company.originCountry}}
                                     </span>
-                                </div>
-                            </td>
-                            <td>
-                                <img [src]="company.logoPath" width="40%" (error)="handleImageError($event)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr style="margin-top: 3%" />
-        </div>
-        <div *ngIf="movie.similar.results" style="width: 100%;">
-            <h1 class="my-4" style="font-size: 25px;">
-                More like that | {{movie.title}}
-            </h1>
-            <div style="width: 100%; display: flex; justify-content: center">
-                <div style="width: 70%;">
-                    <carousel [movies]="movie.similar.results" />
-                </div>
-            </div>
-        </div>
+              </div>
+            </td>
+            <td>
+              <img [src]="company.logoPath" width="40%" (error)="handleImageError($event)"/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr style="margin-top: 3%"/>
     </div>
+    <div *ngIf="movie.similar.results" style="width: 100%;">
+      <h1 class="my-4" style="font-size: 25px;">
+        More like that | {{movie.title}}
+      </h1>
+      <div style="width: 100%; display: flex; justify-content: center">
+        <div style="width: 70%;">
+          <carousel [movies]="movie.similar.results"/>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

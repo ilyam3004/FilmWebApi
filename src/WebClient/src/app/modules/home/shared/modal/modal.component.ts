@@ -15,6 +15,7 @@ export class ModalComponent {
 
   sendValueAndCloseModal(modal: any) {
     this.valueChange.emit(this.watchlistName);
+    this.watchlistName = "";
     modal.close();
   }
 

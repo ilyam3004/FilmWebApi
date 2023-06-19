@@ -34,8 +34,15 @@ public class MovieController : ApiController
     [HttpGet("popular")]
     public async Task<IActionResult> PopularMovies()
     {
-        var result = await _movieService
-            .GetPopularMovies();
+        var result = await _movieService.GetPopularMovies();
+
+        return result.Match(Ok, Problem);
+    }
+
+    [HttpGet("now-playing")]
+    public async Task<IActionResult> NowPlayingMovies()
+    {
+        var result = await _movieService.GetNowPlayingMovies();
 
         return result.Match(Ok, Problem);
     }

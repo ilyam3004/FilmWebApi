@@ -82,12 +82,12 @@ public class WatchlistRepository : IWatchListRepository
 
     public Task RemoveMovieFromWatchlistAsync(string watchlistId, int movieId)
     {
-        return _context.Watchlists
-            .UpdateOneAsync(
-                w => w.Id == watchlistId,
-                Builders<Watchlist>.Update.Pull(
-                    w => w.Movies.Select(m => m.MovieId),
-                    movieId)
-            );
+        return _context.Watchlists.UpdateOneAsync(
+            w => w.Id == watchlistId,
+            Builders<Watchlist>.Update.PullFilter(
+                w => w.Movies, 
+                Builders<WatchlistMovie>.Filter.Eq(m => m.MovieId, movieId)
+            )
+        );
     }
 }

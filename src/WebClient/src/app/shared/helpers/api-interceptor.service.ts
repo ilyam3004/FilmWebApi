@@ -13,20 +13,18 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const apiReq = request
       .clone({ url: `${environment.apiBaseUrl}/${request.url}`});
-    
+
     const user = this.accountService.userValue;
     const isLoggedIn = user && user.token;
-    
-    console.log(user);
-    
+
     if (isLoggedIn) {
       const authRequest = apiReq.clone({
         setHeaders: {Authorization: `Bearer ${user.token}`}
       });
-      
+
       return next.handle(authRequest);
     }
-    
+
     return next.handle(apiReq);
   }
 }
