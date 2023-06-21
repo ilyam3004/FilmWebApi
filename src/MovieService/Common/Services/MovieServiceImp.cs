@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using MovieService.Common.Exceptions;
+﻿using MovieService.Common.Exceptions;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
@@ -135,6 +134,13 @@ public class MovieServiceImp : IMovieService
         GetMovieImagesLinks(ref movies);
 
         return movies.Results.ToList();
+    }
+    
+    public async Task<Result<List<SearchMovie>>> GetRecommendations(string token)
+    {
+        var userId = _
+        
+        return new List<SearchMovie>();
     }
 
     private async Task<Movie> GetRecommendations(

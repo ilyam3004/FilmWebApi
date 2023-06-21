@@ -13,4 +13,5 @@ public interface IMovieService
     Task<Result<List<SearchMovie>>> GetTopRated();
     Task<Result<List<SearchMovie>>> GetUpcoming();
     Task<Result<List<SearchMovie>>> GetNowPlayingMovies();
+    Task<Result<List<SearchMovie>>> GetRecommendations(string token);
 }
