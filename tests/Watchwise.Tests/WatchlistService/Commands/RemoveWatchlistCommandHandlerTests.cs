@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using Moq;
 using WatchlistService.Bus;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Dtos.Responses;

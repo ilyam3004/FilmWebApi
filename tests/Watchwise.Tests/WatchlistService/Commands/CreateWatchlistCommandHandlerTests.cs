@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using Moq;
-using WatchlistService.Bus;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Messages.Commands.CreateWatchlist;
@@ -14,18 +14,15 @@ public class CreateWatchlistCommandHandlerTests
 {
     private readonly Mock<IWatchListRepository> _watchlistRepositoryMock = new();
     private readonly Mock<IWatchlistRequestClient> _watchlistRequestClientMock = new();
-    private readonly IMapper _mapper;
     private readonly CreateWatchlistCommandHandler _sut;
     private readonly Fixture _fixture;
 
     public CreateWatchlistCommandHandlerTests()
     {
         _fixture = new Fixture();
-        _mapper = AutoMapperInitializer.ConfigureAutoMapper();
         _sut = new CreateWatchlistCommandHandler(
             _watchlistRepositoryMock.Object,
-            _watchlistRequestClientMock.Object,
-            _mapper);
+            _watchlistRequestClientMock.Object);
     }
 
     [Fact]

@@ -1,9 +1,9 @@
-﻿using TMDbLib.Objects.Movies;
+﻿using MassTransit;
 using Shared.Messages;
 using Shared.Replies;
-using MassTransit;
+using TMDbLib.Objects.Movies;
 
-namespace WatchlistService.Bus;
+namespace WatchlistService.Bus.Clients;
 
 public class WatchlistRequestClient : IWatchlistRequestClient
 {
@@ -17,21 +17,21 @@ public class WatchlistRequestClient : IWatchlistRequestClient
         _decodeTokenRequestClient = decodeTokenRequestClient;
         _movieDataRequestClient = movieDataRequestClient;
     }
-    
+
     public async Task<string> GetUserIdFromToken(string jwt)
     {
         string[] token = jwt.Split();
-        
+
         var response = await _decodeTokenRequestClient
             .GetResponse<DecodeTokenReply>(
                 new DecodeTokenMessage
                 {
                     Token = token[1]
                 });
-        
+
         return response.Message.UserId;
     }
-    
+
     public async Task<List<Movie>> GetMoviesData(List<int> moviesId)
     {
         var response = await _movieDataRequestClient

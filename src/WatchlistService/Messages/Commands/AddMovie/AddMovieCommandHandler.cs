@@ -8,6 +8,7 @@ using MassTransit;
 using AutoMapper;
 using MediatR;
 using TMDbLib.Objects.Movies;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Dtos;
 
 namespace WatchlistService.Messages.Commands.AddMovie;

@@ -1,6 +1,6 @@
 ﻿using TMDbLib.Objects.Movies;
 
-namespace WatchlistService.Bus;
+namespace WatchlistService.Bus.Clients;
 
 public interface IWatchlistRequestClient
 {

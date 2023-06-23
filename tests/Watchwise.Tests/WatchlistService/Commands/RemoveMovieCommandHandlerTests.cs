@@ -3,6 +3,7 @@ using AutoMapper;
 using Moq;
 using TMDbLib.Objects.Movies;
 using WatchlistService.Bus;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 using WatchlistService.Messages.Commands.RemoveMovie;

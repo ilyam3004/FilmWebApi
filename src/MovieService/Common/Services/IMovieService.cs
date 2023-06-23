@@ -1,6 +1,7 @@
 ﻿using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 using LanguageExt.Common;
+using MovieService.Dtos;
 
 namespace MovieService.Common.Services;
 
@@ -13,5 +14,5 @@ public interface IMovieService
     Task<Result<List<SearchMovie>>> GetTopRated();
     Task<Result<List<SearchMovie>>> GetUpcoming();
     Task<Result<List<SearchMovie>>> GetNowPlayingMovies();
-    Task<Result<List<SearchMovie>>> GetRecommendations(string token);
+    Task<Result<List<RecommendationsResponse>>> GetRecommendations(string token);
 }

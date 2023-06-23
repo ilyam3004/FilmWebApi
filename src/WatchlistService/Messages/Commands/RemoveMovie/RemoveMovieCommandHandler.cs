@@ -7,6 +7,7 @@ using WatchlistService.Bus;
 using LanguageExt.Common;
 using AutoMapper;
 using MediatR;
+using WatchlistService.Bus.Clients;
 
 namespace WatchlistService.Messages.Commands.RemoveMovie;
 

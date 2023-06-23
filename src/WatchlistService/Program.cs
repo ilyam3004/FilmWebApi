@@ -4,6 +4,7 @@ using WatchlistService.Extensions;
 using WatchlistService.Bus;
 using System.Reflection;
 using FluentValidation;
+using WatchlistService.Bus.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
 {

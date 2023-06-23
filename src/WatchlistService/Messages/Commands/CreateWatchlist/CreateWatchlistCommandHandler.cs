@@ -1,10 +1,9 @@
 ﻿using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Models;
-using WatchlistService.Bus;
 using LanguageExt.Common;
 using MongoDB.Bson;
-using AutoMapper;
 using MediatR;
 
 namespace WatchlistService.Messages.Commands.CreateWatchlist;
@@ -17,8 +16,7 @@ public class CreateWatchlistCommandHandler :
 
     public CreateWatchlistCommandHandler(
         IWatchListRepository watchListRepository, 
-        IWatchlistRequestClient requestClient,
-        IMapper mapper) 
+        IWatchlistRequestClient requestClient) 
     {
         _watchListRepository = watchListRepository;
         _requestClient = requestClient;

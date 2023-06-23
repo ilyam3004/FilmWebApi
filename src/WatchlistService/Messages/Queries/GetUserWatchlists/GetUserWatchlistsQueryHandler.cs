@@ -5,6 +5,7 @@ using LanguageExt.Common;
 using AutoMapper;
 using MediatR;
 using TMDbLib.Objects.Movies;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Dtos;
 using WatchlistService.Models;
 

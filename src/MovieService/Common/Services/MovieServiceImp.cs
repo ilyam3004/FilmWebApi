@@ -1,20 +1,28 @@
-﻿using MovieService.Common.Exceptions;
+﻿using System.Linq.Expressions;
+using MovieService.Common.Exceptions;
+using MovieService.Bus.Clients;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 using LanguageExt.Common;
+using MovieService.Dtos;
+using Shared.Models;
 using TMDbLib.Client;
 
 namespace MovieService.Common.Services;
 
 public class MovieServiceImp : IMovieService
 {
+    private readonly IMovieRequestClient _movieRequestClient;
     private readonly TMDbClient _movieClient;
+    private const int MaxCountOfMoviesInWatchlist = 20;
     private const int PagesCount = 1;
 
-    public MovieServiceImp(TMDbClient movieClient)
+    public MovieServiceImp(TMDbClient movieClient,
+        IMovieRequestClient movieRequestClient)
     {
         _movieClient = movieClient;
+        _movieRequestClient = movieRequestClient;
     }
 
     public async Task<Result<Movie>> GetMovieData(int movieId)
@@ -47,7 +55,7 @@ public class MovieServiceImp : IMovieService
             {
                 movies.Add(movie);
             }
-        }   
+        }
 
         GetMovieImagesLinks(ref movies);
 
@@ -77,7 +85,7 @@ public class MovieServiceImp : IMovieService
     {
         var movies = await _movieClient
             .GetMoviePopularListAsync(page: PagesCount);
-        
+
         if (movies is null)
         {
             var exception = new MovieNotFoundException();
@@ -92,7 +100,7 @@ public class MovieServiceImp : IMovieService
     public async Task<Result<List<SearchMovie>>> GetNowPlayingMovies()
     {
         var movies = await _movieClient.GetMovieNowPlayingListAsync(page: PagesCount);
-        
+
         if (movies is null)
         {
             var exception = new MovieNotFoundException();
@@ -135,16 +143,51 @@ public class MovieServiceImp : IMovieService
 
         return movies.Results.ToList();
     }
-    
-    public async Task<Result<List<SearchMovie>>> GetRecommendations(string token)
+
+    public async Task<Result<List<RecommendationsResponse>>> GetRecommendations(string token)
     {
-        var userId = _
+        var userId = await _movieRequestClient.GetUserIdFromToken(token);
+
+        var watchlists = await _movieRequestClient.GetWatchlists(userId);
         
-        return new List<SearchMovie>();
+        if (watchlists.Count == 0)
+        {
+            var exception = new WatchlistsNotFoundException();
+            return new Result<List<RecommendationsResponse>>(exception);
+        }
+        
+        var recommendationsResponse = new List<RecommendationsResponse>();
+        foreach (var watchlist in watchlists)
+        {
+            int countOfMovies = MaxCountOfMoviesInWatchlist / watchlist.Movies.Count;
+            var recommendations = new List<SearchMovie>();
+            
+            foreach (var movie in watchlist.Movies)
+            {
+                var movieRecommendations = await _movieClient
+                    .GetMovieRecommendationsAsync(movie.MovieId, PagesCount);
+                
+                recommendations.AddRange(
+                    movieRecommendations.Results.Take(countOfMovies).ToList());
+            }
+            
+            recommendationsResponse.Add(
+                new RecommendationsResponse
+                {
+                    WatchlistName = watchlist.Name,
+                    Movies = recommendations
+                });
+        }
+
+        return recommendationsResponse;
     }
 
-    private async Task<Movie> GetRecommendations(
-        Movie movie)
+    private async Task<> GetMovieRecommendations(List<Watchlist watchlists) 
+    {
+        
+    }
+
+    private async Task<Movie> GetRecommendations(Movie movie)
     {
         var recommendations = await _movieClient
             .GetMovieRecommendationsAsync(movie.Id, PagesCount);
@@ -178,7 +221,7 @@ public class MovieServiceImp : IMovieService
                 videos.Results.Remove(video);
             }
         }
-        
+
         movie.Videos = videos;
         movie.Video = videos.Results.Count != 0;
 
@@ -208,7 +251,7 @@ public class MovieServiceImp : IMovieService
     {
         movie.BackdropPath = "https://image.tmdb.org/t/p/original" + movie.BackdropPath;
         movie.PosterPath = "https://image.tmdb.org/t/p/original" + movie.PosterPath;
-        movie.ProductionCompanies.ForEach(c => c.LogoPath = 
+        movie.ProductionCompanies.ForEach(c => c.LogoPath =
             "https://image.tmdb.org/t/p/original" + c.LogoPath);
     }
 

@@ -2,6 +2,7 @@
 using LanguageExt.Common;
 using MediatR;
 using WatchlistService.Bus;
+using WatchlistService.Bus.Clients;
 using WatchlistService.Common.Exceptions;
 using WatchlistService.Data.Repositories;
 
