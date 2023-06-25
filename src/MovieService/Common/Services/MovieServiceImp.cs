@@ -1,12 +1,10 @@
-﻿using System.Linq.Expressions;
-using MovieService.Common.Exceptions;
+﻿using MovieService.Common.Exceptions;
 using MovieService.Bus.Clients;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 using LanguageExt.Common;
 using MovieService.Dtos;
-using Shared.Models;
 using TMDbLib.Client;
 
 namespace MovieService.Common.Services;
@@ -180,11 +178,6 @@ public class MovieServiceImp : IMovieService
         }
 
         return recommendationsResponse;
-    }
-
-    private async Task<> GetMovieRecommendations(List<Watchlist watchlists) 
-    {
-        
     }
 
     private async Task<Movie> GetRecommendations(Movie movie)
