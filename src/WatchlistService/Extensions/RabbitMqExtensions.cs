@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using Shared.Messages;
 
 namespace WatchlistService.Extensions;
 

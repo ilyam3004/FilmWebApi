@@ -10,8 +10,6 @@ public class ApiController : ControllerBase
     {
         return ex switch
         {
-            WatchlistsNotFoundException => Problem(ex.Message,
-                statusCode: StatusCodes.Status404NotFound),
             MovieNotFoundException => Problem(ex.Message, 
                 statusCode: StatusCodes.Status404NotFound),
             _ => StatusCode(500, "Internal Server Error")

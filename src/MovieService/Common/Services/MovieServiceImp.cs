@@ -1,26 +1,20 @@
 ﻿using MovieService.Common.Exceptions;
-using MovieService.Bus.Clients;
 using TMDbLib.Objects.General;
 using TMDbLib.Objects.Movies;
 using TMDbLib.Objects.Search;
 using LanguageExt.Common;
-using MovieService.Dtos;
 using TMDbLib.Client;
 
 namespace MovieService.Common.Services;
 
 public class MovieServiceImp : IMovieService
 {
-    private readonly IMovieRequestClient _movieRequestClient;
     private readonly TMDbClient _movieClient;
-    private const int MaxCountOfMoviesInWatchlist = 20;
     private const int PagesCount = 1;
 
-    public MovieServiceImp(TMDbClient movieClient,
-        IMovieRequestClient movieRequestClient)
+    public MovieServiceImp(TMDbClient movieClient)
     {
         _movieClient = movieClient;
-        _movieRequestClient = movieRequestClient;
     }
 
     public async Task<Result<Movie>> GetMovieData(int movieId)
@@ -141,43 +135,21 @@ public class MovieServiceImp : IMovieService
 
         return movies.Results.ToList();
     }
-
-    public async Task<Result<List<RecommendationsResponse>>> GetRecommendations(string token)
+    
+    public async Task<List<SearchMovie>> GetWatchlistRecommendations(
+        List<int> movieIds, int moviesCount)
     {
-        var userId = await _movieRequestClient.GetUserIdFromToken(token);
-
-        var watchlists = await _movieRequestClient.GetWatchlists(userId);
-        
-        if (watchlists.Count == 0)
+        List<SearchMovie> recommendedMovies = new();
+        foreach (var movieId in movieIds)
         {
-            var exception = new WatchlistsNotFoundException();
-            return new Result<List<RecommendationsResponse>>(exception);
-        }
-        
-        var recommendationsResponse = new List<RecommendationsResponse>();
-        foreach (var watchlist in watchlists)
-        {
-            int countOfMovies = MaxCountOfMoviesInWatchlist / watchlist.Movies.Count;
-            var recommendations = new List<SearchMovie>();
-            
-            foreach (var movie in watchlist.Movies)
-            {
-                var movieRecommendations = await _movieClient
-                    .GetMovieRecommendationsAsync(movie.MovieId, PagesCount);
+            var movieRecommendations = await _movieClient
+                .GetMovieRecommendationsAsync(movieId, PagesCount);
                 
-                recommendations.AddRange(
-                    movieRecommendations.Results.Take(countOfMovies).ToList());
-            }
-            
-            recommendationsResponse.Add(
-                new RecommendationsResponse
-                {
-                    WatchlistName = watchlist.Name,
-                    Movies = recommendations
-                });
+            recommendedMovies.AddRange(
+                movieRecommendations.Results.Take(moviesCount).ToList());
         }
 
-        return recommendationsResponse;
+        return recommendedMovies;
     }
 
     private async Task<Movie> GetRecommendations(Movie movie)

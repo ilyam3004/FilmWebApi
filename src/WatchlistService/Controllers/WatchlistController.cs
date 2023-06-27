@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using WatchlistService.Dtos;
 using AutoMapper;
 using MediatR;
+using WatchlistService.Messages.Queries.GetRecommendations;
 
 namespace WatchlistService.Controllers;
 
@@ -116,5 +117,16 @@ public class WatchlistController : ApiController
         return result.Match(
             value => Ok(value),
             Problem);
+    }
+
+    [HttpGet("recommendations")]
+    public async Task<IActionResult> GetRecommendationsForUser()
+    {
+        var token = HttpContext.Request.Headers["Authorization"]!;
+        var query = new GetRecommendationsQuery(token);
+
+        var result = await _sender.Send(query);
+
+        return result.Match(Ok, Problem);
     }
 }

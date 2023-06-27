@@ -4,5 +4,5 @@ namespace Shared.Replies;
 
 public class UserWatchlistsReply
 {
-    public List<Watchlist> Watchlists { get; set; }
+    public List<SharedWatchlist> Watchlists { get; set; }
 }

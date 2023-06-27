@@ -64,13 +64,4 @@ public class MovieController : ApiController
 
         return result.Match(Ok, Problem);
     }
-
-    [HttpGet("recommendations")]
-    public async Task<IActionResult> Recommendations()
-    {
-        string token = Request.Headers["Authorization"]!;
-        var result = await _movieService.GetRecommendations(token);
-        
-        return result.Match(Ok, Problem);
-    }
 }

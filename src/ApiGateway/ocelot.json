@@ -78,6 +78,19 @@
       "DownstreamPathTemplate": "/watchlists/{watchlistId}/movie/{movieId}"
     },
     {
+      "UpstreamPathTemplate": "/watchlists/recommendations",
+      "UpstreamHttpMethod": [ "Get" ],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "watchlist-service",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/watchlists/recommendations"
+    },
+    {
       "UpstreamPathTemplate": "/movies/search/{query}",
       "UpstreamHttpMethod": [ "Get" ],
 
