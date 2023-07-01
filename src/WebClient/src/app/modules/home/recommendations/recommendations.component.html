@@ -1,0 +1,65 @@
+<div class="container-fluid" style="width: 70%; margin-top: 3%">
+  <div style="display: flex; justify-content: space-between;">
+    <h3>Top movies for you</h3>
+  </div>
+  <div *ngIf="isLoading">
+    <div class="d-flex justify-content-center"
+         style="height: 50vh;">
+      <div class="spinner-border text-secondary"
+           role="status"
+           style="margin: auto">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="recommendationsNotFound" class="d-flex justify-content-center align-items-center"
+         style="height: 65vh; background-color: #f0f0f0; border: 2px solid #dce0e4; border-radius: 10px">
+      Recommendations not found😢 Create watchlists and add<br> movies to them to help us find movies for your taste😉
+    </div>
+  </div>
+  <div *ngIf="!recommendationsNotFound">
+    <p>
+      We've handpicked a collection of movies just for you based on your watchlists. Get ready to explore a variety of films across different genres, from action-packed adventures to romantic tales, thought-provoking dramas to hilarious comedies. Discover the latest blockbusters and timeless classics, tailored specifically to your unique tastes.
+    </p>
+    <hr style="margin-bottom: 4%">
+    <div *ngFor="let recommendation of recommendations">
+      <h1 class="my-4" style="font-size: 25px;">
+        {{recommendation.watchlistName}}
+      </h1>
+        <div class="tab-content" id="nav-tabContent">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Popularity</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="recommendation.movies.length === 0">
+              <td colspan="4">
+                You don't have any movies in this watchlist. We can't determine you taste😢
+                <a routerLink="/movies"
+                   routerLinkActive="active">
+                  there
+                </a>
+                or search
+                <a routerLink="/search"
+                   routerLinkActive="active">
+                  there.
+                </a>
+              </td>
+            </tr>
+            <tr *ngFor="let movie of recommendation.movies; index as i">
+              <td>#{{i + 1}}</td>
+              <td>{{movie.title}}</td>
+              <td>{{movie.popularity}}</td>
+              <td>{{movie.releaseDate}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>

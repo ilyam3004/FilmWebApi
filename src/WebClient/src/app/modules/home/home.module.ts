@@ -6,7 +6,7 @@ import {WatchlistsComponent} from "./watchlists/watchlists.component";
 import { SearchComponent } from './search/search.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LayoutComponent } from './layout/layout.component';
-import { SuggestionsComponent } from './suggestions/suggestions.component';
+import { RecommendationsComponent } from './recommendations/recommendations.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MovieCardComponent } from './shared/movie/movie-card.component';
 import { DetailComponent } from './detail/detail.component';
@@ -26,7 +26,7 @@ import { WatchlistContainerComponent } from './shared/watchlist/watchlist-contai
         SearchComponent,
         NavbarComponent,
         LayoutComponent,
-        SuggestionsComponent,
+        RecommendationsComponent,
         MovieCardComponent,
         DetailComponent,
         TableComponent,

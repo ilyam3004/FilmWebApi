@@ -4,7 +4,7 @@ import { WatchlistsComponent } from "./watchlists/watchlists.component";
 import { SearchComponent } from "./search/search.component";
 import { LayoutComponent } from "./layout/layout.component";
 import { MoviesComponent } from "./movies/movies.component";
-import { SuggestionsComponent } from "./suggestions/suggestions.component";
+import { RecommendationsComponent } from "./recommendations/recommendations.component";
 import { DetailComponent } from "./detail/detail.component";
 
 const routes: Routes = [
@@ -14,7 +14,7 @@ const routes: Routes = [
       { path: 'movies', component: MoviesComponent },
       { path: 'watchlists', component: WatchlistsComponent },
       { path: 'search', component: SearchComponent },
-      { path: 'suggestions', component: SuggestionsComponent },
+      { path: 'suggestions', component: RecommendationsComponent },
       { path: 'details', component: DetailComponent }
     ]
   }

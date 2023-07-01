@@ -23,7 +23,10 @@ export class WatchlistsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.loadWatchlists();
+  }
 
+  loadWatchlists(): void{
     this.watchlistService.getWatchlists()
       .subscribe((response: Watchlist[]) => {
           this.watchlists = response;
@@ -36,7 +39,6 @@ export class WatchlistsComponent implements OnInit {
           this.alertService.error(error);
         });
   }
-
   activateWatchlist(watchlist: Watchlist) {
     this.activeWatchlist = watchlist;
   }

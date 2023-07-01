@@ -17,9 +17,9 @@
         <img class="img-fluid" src="{{movie.backdropPath}}" (error)="handleImageError($event)">
       </div>
       <div class="col-md-5 justify-content-center">
-                <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
-                    {{ genre.name }}
-                </span>
+        <span class="badge rounded-pill bg-success" *ngFor="let genre of movie.genres">
+            {{ genre.name }}
+        </span>
         <h3 class="my-3">Overview</h3>
         <p>{{ movie.overview }}</p>
         <div *ngIf="movie.homepage">

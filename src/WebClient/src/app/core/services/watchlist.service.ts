@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from 'rxjs';
 import {Watchlist} from "../models/watchlist";
+import {Recommendation} from "../models/recommendation";
 
 @Injectable({
     providedIn: 'root'
@@ -32,5 +33,10 @@ export class WatchlistService {
     createWatchlist(name: string): Observable<Watchlist> {
         return this.httpClient
             .post<Watchlist>(`watchlists/${name}`, null)
+    }
+
+    getRecommendations(): Observable<Recommendation[]> {
+      return this.httpClient
+        .get<Recommendation[]>("watchlists/recommendations");
     }
 }
