@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Recommendation} from "../../../core/models/recommendation";
 import {WatchlistService} from "../../../core/services/watchlist.service";
 import {AlertService} from "../../../shared/services/alert.service";
+import {DatePipe} from "@angular/common";
 
 
 @Component({
@@ -15,7 +16,8 @@ export class RecommendationsComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(private watchlistService: WatchlistService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private datePipe: DatePipe) {
   }
 
   ngOnInit() {
@@ -119,5 +121,10 @@ export class RecommendationsComponent implements OnInit {
         (error) => {
           this.alertService.error(error);
         });
+  }
+
+  getFormattedDate(date: string | null): string{
+      return this.datePipe
+        .transform(date, 'MMM d, y') || "-";
   }
 }

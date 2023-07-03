@@ -5,6 +5,7 @@ import {AlertService} from "../../../shared/services/alert.service";
 import {DatePipe} from "@angular/common";
 import {first} from "rxjs";
 
+
 @Component({
   selector: 'app-watchlists',
   templateUrl: './watchlists.component.html',
