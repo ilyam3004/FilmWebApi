@@ -23,9 +23,9 @@ export class SearchComponent implements OnInit {
   ngOnInit() { }
 
   onSubmit() {
+    this.movies = [];
     if (!this.inputValue) {
       this.alertService.error("The movie title is empty.");
-      this.movies = [];
       return;
     }
 

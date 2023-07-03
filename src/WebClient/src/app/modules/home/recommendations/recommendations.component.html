@@ -13,19 +13,21 @@
   </div>
   <div *ngIf="!isLoading">
     <div *ngIf="recommendationsNotFound" class="d-flex justify-content-center align-items-center"
-         style="height: 65vh; background-color: #f0f0f0; border: 2px solid #dce0e4; border-radius: 10px">
+         style="height: 65vh; background-color: #f0f0f0; border: 2px solid #dce0e4; border-radius: 10px;  margin-top: 3%">
       Recommendations not found😢 Create watchlists and add<br> movies to them to help us find movies for your taste😉
     </div>
-  </div>
-  <div *ngIf="!recommendationsNotFound">
-    <p>
-      We've handpicked a collection of movies just for you based on your watchlists. Get ready to explore a variety of films across different genres, from action-packed adventures to romantic tales, thought-provoking dramas to hilarious comedies. Discover the latest blockbusters and timeless classics, tailored specifically to your unique tastes.
-    </p>
-    <hr style="margin-bottom: 4%">
-    <div *ngFor="let recommendation of recommendations">
-      <h1 class="my-4" style="font-size: 25px;">
-        {{recommendation.watchlistName}}
-      </h1>
+    <div *ngIf="!recommendationsNotFound">
+      <p>
+        We've handpicked a collection of movies just for you based on your watchlists. Get ready to explore a variety of
+        films across different genres, from action-packed adventures to romantic tales, thought-provoking dramas to
+        hilarious comedies. Discover the latest blockbusters and timeless classics, tailored specifically to your unique
+        tastes.
+      </p>
+      <hr style="margin-bottom: 4%">
+      <div *ngFor="let recommendation of recommendations">
+        <h1 class="my-4" style="font-size: 25px;">
+          {{recommendation.watchlistName}}
+        </h1>
         <div class="tab-content" id="nav-tabContent">
           <table class="table table-striped">
             <thead>
@@ -58,5 +60,6 @@
           </table>
         </div>
       </div>
+    </div>
   </div>
 </div>
