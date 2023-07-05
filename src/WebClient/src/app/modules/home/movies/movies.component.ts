@@ -15,6 +15,25 @@ export class MoviesComponent implements OnInit {
   topRatedMovies: Movie[] = [];
   upcomingMovies: Movie[] = [];
 
+  slideConfig = { slidesToShow: 3, slidesToScroll: 3 };
+  addSlide() {
+
+  }
+  removeSlide() {
+  }
+  slickInit(e: any) {
+    console.log('slick initialized');
+  }
+  breakpoint(e: any) {
+    console.log('breakpoint');
+  }
+  afterChange(e: any) {
+    console.log('afterChange');
+  }
+  beforeChange(e: any) {
+    console.log('beforeChange');
+  }
+
   constructor(private movieService: MovieService,
               private alertService: AlertService) {
   }

@@ -71,7 +71,7 @@ export class WatchlistsComponent implements OnInit {
       .subscribe((watchlist: Watchlist) => {
         this.watchlists.push(watchlist)
         this.alertService
-          .success(`Watchlist ${watchlist.name} added successfully`);
+          .success(`Watchlist "${watchlist.name}" added successfully`);
         this.watchlistsNotFound = false;
       },
       (error) => {
@@ -91,7 +91,7 @@ export class WatchlistsComponent implements OnInit {
         next: (response: Watchlist) => {
           this.updateWatchlist(response);
           this.alertService
-            .success(`Successfully removed from watchlist ${this.activeWatchlist!.name}`);
+            .success(`Successfully removed from watchlist "${this.activeWatchlist!.name}"`);
         },
         error: error => {
           this.alertService.error(error);
@@ -103,6 +103,7 @@ export class WatchlistsComponent implements OnInit {
     const index = this.watchlists?.findIndex(w => w.id === watchlist.id);
     if (index !== undefined && index !== -1){
       this.watchlists.splice(index, 1, watchlist);
+      this.activeWatchlist = watchlist;
     }
   }
 }

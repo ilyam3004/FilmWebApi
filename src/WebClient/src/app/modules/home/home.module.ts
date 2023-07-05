@@ -18,6 +18,7 @@ import { CarouselComponent } from './shared/carousel/carousel.component';
 import { SliderComponent } from './shared/slider/slider.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { WatchlistContainerComponent } from './shared/watchlist/watchlist-container.component';
+import {SlickCarouselModule} from "ngx-slick-carousel";
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import { WatchlistContainerComponent } from './shared/watchlist/watchlist-contai
         ReactiveFormsModule,
         NgbCarouselModule,
         NgxYoutubePlayerModule.forRoot(),
+        SlickCarouselModule,
     ]
 })
 export class HomeModule {
