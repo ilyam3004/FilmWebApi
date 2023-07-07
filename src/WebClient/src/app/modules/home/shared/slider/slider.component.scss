@@ -1,36 +1,15 @@
-.movie-slider {
+$slick-arrow-color: black !default;
+
+.slick-next:before, .slick-prev:before{
+  color: $slick-arrow-color;
+}
+.img-style{
   width: 100%;
-  overflow: hidden;
-  padding: 3%;
 }
 
-.slider-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-
-.slider-container::-webkit-scrollbar {
-  display: none;
-}
-
-.slider {
-  display: flex;
-  flex-wrap: nowrap;
-  transition: transform 0.3s;
-}
-
-.slider-item {
-  width: 200px;
-}
-
-.slider-item img {
-  height: auto;
-}
-
-.slider-item h3, .slider-item p {
-  margin: 5px 0;
+@media (max-width: 992px) {
+  .img-style{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
 }

@@ -3,3 +3,7 @@
   text-align: center;
   box-sizing: content-box;
 }
+
+.slick-prev:before .slick-next:before{
+  color: black !important;
+}

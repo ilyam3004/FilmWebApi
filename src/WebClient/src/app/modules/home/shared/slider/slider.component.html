@@ -1,12 +1,16 @@
-<div class="movie-slider">
-  <h1 class="my-4" style="font-size: 25px;">
+<div style="margin-top: 3%; margin-right: 3%; margin-left: 3%">
+  <h1 class="my-4" style="font-size: 30px;">
     {{title}}
   </h1>
-  <div class="slider-container">
-    <div class="slider">
-      <div class="slider-item" *ngFor="let movie of movies">
-        <movie-card [movie]="movie"></movie-card>
-      </div>
+  <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+    <div ngxSlickItem *ngFor="let movie of movies" style="margin: 0 10px 0 10px">
+      <a [routerLink]="['/details']"
+         [queryParams]="{ id: movie.id }">
+        <img src="{{movie.posterPath}}" class="img-style"/>
+      </a>
+      <h2 style="font-size: 20px; display: flex; justify-content: center" >
+        {{movie.title}}
+      </h2>
     </div>
-  </div>
+  </ngx-slick-carousel>
 </div>

@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ApiInterceptor} from "./shared/helpers/api-interceptor.service";
 import {ErrorInterceptor} from "./shared/helpers/error.interceptor";
 import {DatePipe} from "@angular/common";
+import {SlickCarouselModule} from "ngx-slick-carousel";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {DatePipe} from "@angular/common";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
