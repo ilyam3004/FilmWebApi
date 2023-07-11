@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Movie} from "../../../../core/models/movie";
-import {SlickCarouselComponent, SlickCarouselModule} from "ngx-slick-carousel";
 
 @Component({
   selector: 'slider',
@@ -14,27 +13,27 @@ export class SliderComponent {
     slidesToShow: 6,
     slidesToScroll: 6,
     autoplay: true,
-    autoplaySpeed: 5000,
+    infinite: false,
+    autoplaySpeed: 7000,
     pauseOnHover: true,
-    infinite: true,
     dots: true,
     responsive: [
       {
         breakpoint: 992,
         settings: {
           arrows: true,
-          infinite: true,
-          slidesToShow: 4,
-          slidesToScroll: 4
+          infinite: false,
+          slidesToShow: 3,
+          slidesToScroll: 3
         }
       },
       {
         breakpoint: 768,
         settings: {
           arrows: true,
-          infinite: true,
-          slidesToShow: 3,
-          slidesToScroll: 3
+          infinite: false,
+          slidesToShow: 2,
+          slidesToScroll: 2
         }
       },
     ]

@@ -25,10 +25,8 @@ export class MovieCardComponent {
     popularity: 0
   };
 
-  imageError = false;
-
   handleImageError(event: any) {
-    this.imageError = true;
+    event.target.src = "../../../../../assets/img/placeholder.jpg";
   }
 
   ngOnInit() {

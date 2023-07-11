@@ -4,6 +4,9 @@
   box-sizing: content-box;
 }
 
-.slick-prev:before .slick-next:before{
-  color: black !important;
+.slick-prev:before,
+.slick-next:before {
+  z-index: 100;
+  color: #7d7a7a;
+  font-size: 30px;
 }

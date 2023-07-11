@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
+import {AccountService} from "../../../core/services/account.service";
 
 @Component({
   selector: 'navbar',
@@ -9,7 +10,8 @@ import {NavigationEnd, Router} from "@angular/router";
 export class NavbarComponent {
   public currentRoute: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private userService: AccountService) {
     this.currentRoute = "";
   }
 
@@ -19,5 +21,9 @@ export class NavbarComponent {
         this.currentRoute = event.urlAfterRedirects;
       }
     })
+  }
+
+  logOut():void{
+    this.userService.logout();
   }
 }

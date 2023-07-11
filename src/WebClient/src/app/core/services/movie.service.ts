@@ -21,9 +21,13 @@ export class MovieService {
   getTopRatedMovies(): Observable<Movie[]>{
     return this.httpClient.get<Movie[]>('movies/top-rated')
   }
-  
+
   getUpcomingMovies(): Observable<Movie[]>{
     return this.httpClient.get<Movie[]>('movies/upcoming')
+  }
+
+  getNowPlayingMovies(): Observable<Movie[]>{
+    return this.httpClient.get<Movie[]>('movies/now-playing')
   }
 
   getMovieDetails(id: number): Observable<MovieDetails>{

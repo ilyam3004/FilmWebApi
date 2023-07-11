@@ -28,17 +28,12 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setLoadingAndGetMovieId();
-    this.getWatchlistsData();
-    this.getMovieData();
-  }
-
-  private setLoadingAndGetMovieId() {
     this.isLoading = true;
-    this.route.queryParams
-      .subscribe(params => {
-        this.movieId = params.id
-      });
+    this.route.queryParams.subscribe(params => {
+      this.movieId = params.id;
+      this.getWatchlistsData();
+      this.getMovieData();
+    });
   }
 
   getWatchlistsData() {
