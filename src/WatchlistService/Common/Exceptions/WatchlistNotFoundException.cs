@@ -3,6 +3,6 @@
 public class WatchlistNotFoundException : Exception
 {
     public WatchlistNotFoundException(
-        string message = "Watchlist not found") 
+        string message = "Watchlist not found")
         : base(message) { }
 }

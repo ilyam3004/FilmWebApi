@@ -66,6 +66,7 @@ export class MoviesComponent implements OnInit {
           this.isLoading = false;
         },
         (error) => {
+          this.isLoading = true;
           this.alertService.error(error);
         })
   }

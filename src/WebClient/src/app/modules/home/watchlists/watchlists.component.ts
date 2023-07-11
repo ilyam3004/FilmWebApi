@@ -49,7 +49,7 @@ export class WatchlistsComponent implements OnInit {
       this.watchlistService.removeWatchlist(this.activeWatchlist.id)
         .subscribe(() => {
             this.alertService
-              .success(`Watchlist ${this.activeWatchlist?.name} removed successfully`);
+              .success(`Watchlist "${this.activeWatchlist?.name}" removed successfully`);
             this.watchlists = this.watchlists.filter(w => w.id !== this.activeWatchlist?.id);
             this.activeWatchlist = this.watchlists[0];
             if(this.watchlists.length === 0){

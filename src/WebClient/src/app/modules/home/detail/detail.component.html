@@ -46,7 +46,7 @@
       </div>
       <hr style="margin-top: 3%"/>
     </div>
-    <div *ngIf="movie.productionCompanies">
+    <div *ngIf="movie.productionCompanies && movie.productionCompanies.length !== 0">
       <h1 class="my-4" style="font-size: 25px;">
         Production Companies | {{movie.title}}
       </h1>
@@ -80,7 +80,7 @@
       </div>
       <hr style="margin-top: 3%"/>
     </div>
-    <div *ngIf="movie.similar.results" style="width: 100%;">
+    <div *ngIf="movie.similar.results && movie.similar.results.length !== 0" style="width: 100%;">
       <h1 class="my-4" style="font-size: 25px;">
         More like that | {{movie.title}}
       </h1>
