@@ -12,6 +12,7 @@ import {AlertService} from '../../../shared/services/alert.service';
 
 export class MoviesComponent implements OnInit {
   isLoading: boolean = false;
+  isError: boolean = false;
   popularMovies: Movie[] = [];
   topRatedMovies: Movie[] = [];
   upcomingMovies: Movie[] = [];
@@ -66,7 +67,8 @@ export class MoviesComponent implements OnInit {
           this.isLoading = false;
         },
         (error) => {
-          this.isLoading = true;
+          this.isError = true;
+          this.isLoading = false;
           this.alertService.error(error);
         })
   }
