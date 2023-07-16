@@ -10,7 +10,7 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MovieCardComponent } from './shared/movie/movie-card.component';
 import { DetailComponent } from './detail/detail.component';
-import { NgxYoutubePlayerModule } from "ngx-youtube-player";
+import { YouTubePlayerModule } from '@angular/youtube-player';
 import { NgbCarouselModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from './shared/table/table.component';
 import { MovieDataTableComponent } from './shared/movie-data-table/movie-data-table.component';
@@ -44,7 +44,7 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
         FormsModule,
         ReactiveFormsModule,
         NgbCarouselModule,
-        NgxYoutubePlayerModule.forRoot(),
+        YouTubePlayerModule,
         SlickCarouselModule,
     ]
 })

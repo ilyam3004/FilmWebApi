@@ -29,11 +29,18 @@ export class DetailComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
+    this.configureYoutubePlayer();
     this.route.queryParams.subscribe(params => {
       this.movieId = params.id;
       this.getWatchlistsData();
       this.getMovieData();
     });
+  }
+
+  configureYoutubePlayer() {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.body.appendChild(tag);
   }
 
   getWatchlistsData() {
@@ -62,10 +69,6 @@ export class DetailComponent implements OnInit {
 
   handleImageError(event: any) {
     event.target.src = "./assets/img/placeholder.jpg"
-  }
-
-  savePlayer(player: YT.Player) {
-    this.player = player;
   }
 
   onStateChange(event: any) {

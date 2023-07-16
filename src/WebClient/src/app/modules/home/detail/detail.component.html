@@ -40,8 +40,10 @@
         <span class="badge rounded-pill bg-info">
                     {{video.type}}
                 </span>
-        <youtube-player style="display: flex; justify-content: center;" videoId="{{video.key}}"
-                        (ready)="savePlayer($event)" (change)="onStateChange($event)">
+        <youtube-player
+          style="display: flex; justify-content: center;"
+          [videoId]="video.id"
+          suggestedQuality="highres">
         </youtube-player>
       </div>
       <hr style="margin-top: 3%"/>
