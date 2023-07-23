@@ -2,7 +2,6 @@
 
 This application is built using a microservices architecture following **Clean Architecture**, **CQRS** and **Mediator** patterns with communicating over **Event Driven Communication**.
 
----
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Features](#features)
@@ -13,19 +12,19 @@ This application is built using a microservices architecture following **Clean A
 7. [API Documentation](#api-documentation)
 8. [Contributing](#contributing)
 9. [License](#license)
----
+
 ## Introduction
 
 The Watchwise is designed to provide users with a seamless experience to search information about movies, manage personalized watchlists, and receive recommendations based on their preferences. The application is structured using a microservices architecture to ensure scalability, maintainability, and flexibility in the development process. The application consists of 4 main components: **UserService**, **WatchlistService**, **MovieService**, and **WebClient**. The backend microservices (UserService, WatchlistService, and MovieService) are developed using **.NET** and the frontend (WebClient) is built using **Angular 16**.
 
----
+
 ## Features
 
 - **Movie Search**: Users can search for movies and view detailed information about each movie.
 - **Watchlists**: Users can create and manage personalized watchlists, adding or removing movies as they desire.
 - **Watchlist Recommendations**: The application offers movie recommendations based on user preferences.
 - **User Authentication**: Users can sign up and log in to access personalized features.
----
+
 ## Technologies
 
 - [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet)
@@ -42,7 +41,7 @@ The Watchwise is designed to provide users with a seamless experience to search 
 - [AutoFixture](https://github.com/AutoFixture/AutoFixture) - for generating test data in unit tests.
 - [Docker](https://www.docker.com/) - for containerization
 - [Docker Compose](https://docs.docker.com/compose/) - for managing containers
----
+
 ## Architecture
 
 So, let's talk more about architecture of **Watchwise**. Here is a final architecture of the system:
@@ -89,5 +88,5 @@ So, let's talk more about architecture of **Watchwise**. Here is a final archite
 
 The combination of the API Gateway and WebUI allows for a seamless user experience, decoupling the frontend from the microservices complexity, and providing a scalable and maintainable architecture for the entire application.
 
----
+
 ## Installation
