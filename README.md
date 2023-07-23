@@ -90,3 +90,33 @@ The combination of the API Gateway and WebUI allows for a seamless user experien
 
 
 ## Installation
+
+## Contributing
+
+To start contributing, follow these steps:
+
+1. **Fork the Repository**: Click the "Fork" button on the top right corner of this repository to create your copy.
+
+2. **Clone the Repository**: Clone the repository to your local machine using `git clone`.
+
+```bash
+git clone https://github.com/your-username/your-forked-repo.git
+cd your-forked-repo
+```
+
+3. **Create a New Branch**: Before making any changes, create a new branch for your work.
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+4. **Make Changes**: Implement your changes or additions to the codebase or documentation.
+
+5. **Commit and Push**: Commit your changes and push them to your forked repository.
+
+```bash
+git add .
+git commit -m "Brief description of your changes"
+git push origin feature/your-feature-name
+```
+6. Submit a Pull Request: Go to the original repository and click on "New Pull Request." Provide a clear description of your changes and submit the pull request.
