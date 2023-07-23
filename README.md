@@ -47,7 +47,7 @@ The Watchwise is designed to provide users with a seamless experience to search 
 
 So, let's talk more about architecture of **Watchwise**. Here is a final architecture of the system:
 
-![Watchwise Architecture](./WatchwiseArchitecture.png)
+![Watchwise Architecture](./docs/img/WatchwiseArchitecture.png)
 
 - **UserService**: This microservice handles user authentication and user-related functionalities. It includes:
     - **ASP.NET Core Web API** application
