@@ -124,7 +124,7 @@ docker-compose up
 
 5. Access the application at http://localhost:4200/
 
-6. Stop and remove containers
+6. To stop the application and remove containers run this:
 ```bash
    docker-compose down
 ```
