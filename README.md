@@ -31,7 +31,7 @@ The Watchwise is designed to provide users with a seamless experience to search 
 - [MediatR](https://github.com/jbogard/MediatR) - for implementing Mediator pattern.
 - [Dapper](https://github.com/DapperLib/Dapper) - Object-relational mapping (ORM) for database access.
 - [AutoMapper](https://automapper.org/) - for mapping between entities and DTOs
-  - [RabbitMQ](https://www.rabbitmq.com/) - for asynchronous communication between microservices
+- [RabbitMQ](https://www.rabbitmq.com/) - for asynchronous communication between microservices
 - [MassTransit](https://masstransit.io/) - for implementing Request-Response pattern in asynchronous communication
 - [FluentValidation](https://github.com/FluentValidation/FluentValidation) - for validating requests.
 - [Language-ext](https://github.com/louthy/language-ext) - for handling errors
@@ -100,11 +100,37 @@ Install Docker Desktop: Follow the [official documentation](https://docs.docker.
 ### Steps to Install and Run Watchwise
 
 1. Clone the Repository:
-
 ```bash
    git clone https://github.com/ilyam3004/Watchwise.git
    cd Watchwise
 ```
+
+2. Set TMDB API key in [docker-compose.yml](https://github.com/ilyam3004/Watchwise/blob/484b9a3faf7f1522a07a66fb34cca20faa6dca82/docker-compose.yml#L115C11-L115C11) file:
+```yml
+   movie-service:
+    environment:
+      - TMDB_API_KEY=YOUR_API_KEY
+```
+
+3. Then run docker-desktop and build docker images:
+```bash
+docker-compose build
+```
+
+4. Run docker containers:
+```bash
+docker-compose up
+```
+
+5. Access the application at http://localhost:4200/
+
+6. Stop and remove containers
+```bash
+   docker-compose down
+```
+
+## Support
+If you are having problems, please let me know by raising a new [issue](https://github.com/ilyam3004/Roomify-Server/issues).
 
 ## Contributing
 
@@ -115,8 +141,8 @@ To start contributing, follow these steps:
 2. **Clone the Repository**: Clone the repository to your local machine using `git clone`.
 
 ```bash
-git clone https://github.com/your-username/your-forked-repo.git
-cd your-forked-repo
+git clone https://github.com/ilyam3004/Watchwise.git
+cd Watchwise
 ```
 
 3. **Create a New Branch**: Before making any changes, create a new branch for your work.

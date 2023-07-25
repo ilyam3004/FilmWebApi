@@ -112,7 +112,7 @@ services:
       context: .
       dockerfile: src/MovieService/Dockerfile
     environment:
-      - TmdbApiKey=<your_tmdb_api_key>
+      - TmdbApiKey=YOUR_API_KEY
       - RabbitMqConnectionString=amqp://guest:guest@rabbitmq:5672/
       - ASPNETCORE_URLS=http://+:80
     networks:
