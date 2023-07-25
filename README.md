@@ -27,17 +27,17 @@ The Watchwise is designed to provide users with a seamless experience to search 
 
 ## Technologies
 
-- [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet)
+- [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet) - 
 - [MediatR](https://github.com/jbogard/MediatR) - for implementing Mediator pattern.
-- [Dapper](https://github.com/DapperLib/Dapper) - ORM
-- [AutoMapper](https://automapper.org/) - for mapping between entities and DTOs.
-- [RabbitMQ](https://www.rabbitmq.com/)
-- [MassTransit](https://masstransit.io/)
+- [Dapper](https://github.com/DapperLib/Dapper) - Object-relational mapping (ORM) for database access.
+- [AutoMapper](https://automapper.org/) - for mapping between entities and DTOs
+  - [RabbitMQ](https://www.rabbitmq.com/) - for asynchronous communication between microservices
+- [MassTransit](https://masstransit.io/) - for implementing Request-Response pattern in asynchronous communication
 - [FluentValidation](https://github.com/FluentValidation/FluentValidation) - for validating requests.
-- [Language-ext](https://github.com/louthy/language-ext) - for handling errors.
-- [Bcrypt]()
+- [Language-ext](https://github.com/louthy/language-ext) - for handling errors
+- [Bcrypt](https://github.com/BcryptNet/bcrypt.net/tree/main/src) - for password-hashing
 - [xUnit](https://github.com/xunit/xunit) - for unit testing.
-- [Moq](https://github.com/moq/moq4) - for isolating dependencies in unit tests.
+- [Moq](https://github.com/moq/moq4) - for isolating dependencies in unit tests
 - [AutoFixture](https://github.com/AutoFixture/AutoFixture) - for generating test data in unit tests.
 - [Docker](https://www.docker.com/) - for containerization
 - [Docker Compose](https://docs.docker.com/compose/) - for managing containers
@@ -91,6 +91,21 @@ The combination of the API Gateway and WebUI allows for a seamless user experien
 
 ## Installation
 
+This section provides step-by-step instructions for launching **Watchwise** using Docker Compose for managing containers.
+
+### Prerequisites
+
+Install Docker Desktop: Follow the [official documentation](https://docs.docker.com/get-docker/) to install Docker and Docker-Compose for your operating system. 
+
+### Steps to Install and Run Watchwise
+
+1. Clone the Repository:
+
+```bash
+   git clone https://github.com/ilyam3004/Watchwise.git
+   cd Watchwise
+```
+
 ## Contributing
 
 To start contributing, follow these steps:
@@ -119,4 +134,8 @@ git add .
 git commit -m "Brief description of your changes"
 git push origin feature/your-feature-name
 ```
-6. Submit a Pull Request: Go to the original repository and click on "New Pull Request." Provide a clear description of your changes and submit the pull request.
+6. **Submit a Pull Request**: Go to the original repository and click on "New Pull Request." Provide a clear description of your changes and submit the pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
