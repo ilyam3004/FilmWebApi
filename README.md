@@ -29,7 +29,7 @@ The Watchwise is designed to provide users with a seamless experience to search 
 
 - [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet) - 
 - [MediatR](https://github.com/jbogard/MediatR) - for implementing Mediator pattern.
-- [Dapper](https://github.com/DapperLib/Dapper) - Object-relational mapping (ORM) for database access.
+- [EntityFramework](https://learn.microsoft.com/en-us/ef/) - Object-relational mapping (ORM) for database access.
 - [AutoMapper](https://automapper.org/) - for mapping between entities and DTOs
 - [RabbitMQ](https://www.rabbitmq.com/) - for asynchronous communication between microservices
 - [MassTransit](https://masstransit.io/) - for implementing Request-Response pattern in asynchronous communication
