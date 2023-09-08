@@ -27,7 +27,7 @@ The Watchwise is designed to provide users with a seamless experience to search 
 
 ## Technologies
 
-- [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet) - 
+- [ASP.NET 7](https://dotnet.microsoft.com/en-us/apps/aspnet) 
 - [MediatR](https://github.com/jbogard/MediatR) - for implementing Mediator pattern.
 - [EntityFramework](https://learn.microsoft.com/en-us/ef/) - Object-relational mapping (ORM) for database access.
 - [AutoMapper](https://automapper.org/) - for mapping between entities and DTOs
